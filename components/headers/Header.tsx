@@ -13,7 +13,7 @@ const Header = ({ title, isDisplayUserInfo, isDisplayPrevious }: Props) => {
   return (
     <>
       <SafeAreaView edges={['top']} className="px-4 bg-white">
-        <View className="flex-row items-center justify-between w-full pb-3">
+        <View className="flex-row items-center justify-between w-full pb-2">
           <Feather
             name="chevron-left"
             size={24}

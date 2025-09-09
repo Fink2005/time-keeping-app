@@ -13,9 +13,15 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="(screens)/Map"
+        name="(screens)/MapScreen"
         options={{
           header: () => <Header title="Thêm địa điểm mới" />,
+        }}
+      />
+      <Stack.Screen
+        name="(screens)/LocationDetailScreen/[locationId]"
+        options={{
+          header: () => <Header isDisplayPrevious title="Chi tiết địa điểm" />,
         }}
       />
     </Stack>

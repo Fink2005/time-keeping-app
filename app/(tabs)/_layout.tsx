@@ -27,7 +27,7 @@ const _Layout = () => {
         name="Location"
         options={{
           title: 'Địa điểm',
-          headerShown: false,
+          header: () => <Header title="Địa điểm đã lưu" />,
           tabBarIcon: ({ focused }) => (
             <Feather name="map-pin" size={20} color={focused ? 'black' : 'gray'} />
           ),
@@ -51,6 +51,14 @@ const _Layout = () => {
           tabBarIcon: ({ focused }) => (
             <Feather name="settings" size={20} color={focused ? 'black' : 'gray'} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="Map"
+        options={{
+          headerShown: false,
+          tabBarButton: () => null,
+          tabBarStyle: { display: 'none' },
         }}
       />
     </Tabs>
