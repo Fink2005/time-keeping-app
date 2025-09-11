@@ -22,7 +22,7 @@ const CardInfo = ({
   longitude: number;
 }) => {
   return (
-    <View className="gap-2 p-4 border border-gray-700 rounded-xl">
+    <View className="gap-2 p-4 border border-gray-300 rounded-xl">
       <View className="flex-row items-center gap-2">
         <MaterialCommunityIcons name="calendar-clock-outline" size={18} />
         {time && <Text className="font-semibold">{time}</Text>}

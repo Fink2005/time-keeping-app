@@ -1,4 +1,4 @@
-import { Locations } from '@/types/locations';
+import { AttendanceBase } from '@/types/Attendance';
 import { getData, storeData } from '@/utils/asyncStorage';
 import { showAlert } from '@/utils/global';
 import Feather from '@expo/vector-icons/Feather';
@@ -17,7 +17,7 @@ const DetailRow = ({ label, value }: { label: string; value?: string | number | 
 
 const LocationDetailScreen = () => {
   const { locationId } = useLocalSearchParams<{ locationId: string }>();
-  const [detailLocation, setDetailLocation] = useState<Locations | null>(null);
+  const [detailLocation, setDetailLocation] = useState<AttendanceBase | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const removeLocation = () => {
@@ -51,7 +51,7 @@ const LocationDetailScreen = () => {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const data = (await getData('myLocation')) as Locations[];
+        const data = (await getData('myLocation')) as AttendanceBase[];
         const location = data?.find((item) => item.id === locationId) || null;
         setDetailLocation(location);
       } catch (error) {

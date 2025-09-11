@@ -1,6 +1,6 @@
 import { DEFAULT_DELTA } from '@/constants/global';
 import useDebounce from '@/hooks/useDebounce';
-import useMap from '@/hooks/useMap';
+import useLocation from '@/hooks/useLocation';
 import { getData, storeData } from '@/utils/asyncStorage';
 import { showAlert } from '@/utils/global';
 import log from '@/utils/logger';
@@ -8,7 +8,15 @@ import Feather from '@expo/vector-icons/Feather';
 import { reverseGeocodeAsync } from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, FlatList, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import 'react-native-get-random-values';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,7 +27,7 @@ type Props = {
   onSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const Map = ({ isSearching, onSearch, location, radius }: Props) => {
-  const { isSuccess, latitude, longitude } = useMap();
+  const { isSuccess, latitude, longitude } = useLocation();
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -47,7 +55,6 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
         )}&format=json&addressdetails=1&limit=15&countrycodes=vn`,
       );
       const data = await res.json();
-      console.log('data', data);
       if (!data.length) {
         setSuggestions([]);
         return;
@@ -194,13 +201,11 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
         {/* Search bar overlay */}
         <View pointerEvents="box-none" className="absolute top-0 left-0 right-0 p-2">
           {isSearching ? (
-            <Feather
-              name="chevron-left"
-              size={24}
-              color="black"
-              onPress={() => handleReset()}
-              className="absolute z-10 left-6 top-[16px]"
-            />
+            <TouchableWithoutFeedback onPress={() => handleReset()}>
+              <View className="absolute z-10 left-6 top-[16px]">
+                <Feather name="chevron-left" size={24} color="black" />
+              </View>
+            </TouchableWithoutFeedback>
           ) : (
             <Feather
               name="map-pin"
@@ -227,13 +232,11 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
             className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
           />
           {isSearching && (
-            <Feather
-              name="x-circle"
-              size={24}
-              color="black"
-              onPress={() => handleReset(true)}
-              className="absolute z-10 right-6 top-[16px]"
-            />
+            <TouchableWithoutFeedback onPress={() => handleReset(true)}>
+              <View className="absolute z-10 right-6 top-[16px]">
+                <Feather name="x-circle" size={24} color="black" />
+              </View>
+            </TouchableWithoutFeedback>
           )}
         </View>
       </MapView>

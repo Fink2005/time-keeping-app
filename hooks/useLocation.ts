@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 
-const useMap = () => {
+const useLocation = () => {
   const [isRefresh, setIsRefresh] = useState(false);
 
   const isAllowed = useRef(false);
@@ -34,7 +34,6 @@ const useMap = () => {
           distanceInterval: 10,
         },
         async (loc) => {
-          console.log(loc);
           setlocationInfo((prev) => ({
             ...prev,
             isSuccess: true,
@@ -72,4 +71,4 @@ const useMap = () => {
   };
 };
 
-export default useMap;
+export default useLocation;

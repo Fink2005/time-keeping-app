@@ -1,5 +1,5 @@
 import CircleRotation from '@/components/CircleRotation';
-import { Locations } from '@/types/locations';
+import { AttendanceBase } from '@/types/Attendance';
 import { getData } from '@/utils/asyncStorage';
 import Feather from '@expo/vector-icons/Feather';
 import { useIsFocused } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, Text, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
 
 const Location = () => {
-  const [locationData, setLocationData] = useState<Locations[]>([]);
+  const [locationData, setLocationData] = useState<AttendanceBase[]>([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const router = useRouter();
   const isFocused = useIsFocused();

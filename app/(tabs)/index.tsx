@@ -1,11 +1,13 @@
+import AttendanceBottomSheet from '@/components/home/AttendanceBottomSheet';
 import CardInfo from '@/components/home/CardInfo';
-import useMap from '@/hooks/useMap';
+import HistoryAttendance from '@/components/home/HistoryAttendance';
+import useLocation from '@/hooks/useLocation';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 export default function Index() {
   const [time, setTime] = useState<string>('');
-  const { latitude, longitude, address, isRefresh, setIsRefresh } = useMap();
+  const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,6 +28,13 @@ export default function Index() {
         longitude={longitude}
         time={time}
       />
+      <AttendanceBottomSheet
+        setIsRefresh={setIsRefresh}
+        latitude={latitude}
+        longitude={longitude}
+        address={address}
+      />
+      <HistoryAttendance key={Number(isRefresh)} />
     </View>
   );
 }
