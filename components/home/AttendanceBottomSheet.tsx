@@ -4,7 +4,8 @@ import { getData } from '@/utils/asyncStorage';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Switch, Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
+import Switch from 'react-native-switch-toggles';
 type Props = {
   latitude: number;
   longitude: number;
@@ -32,10 +33,16 @@ const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Pro
 
   return (
     <View className="flex-row items-center justify-between p-4 mt-4 border border-gray-300 rounded-xl">
-      <Switch onValueChange={() => setIsEnabled((prev) => !prev)} value={isEnabled} />
+      <Switch
+        size={41}
+        value={isEnabled}
+        onChange={(value) => setIsEnabled(value)}
+        activeTrackColor="#22c55e"
+        renderOffIndicator={() => <Text style={{ fontSize: 13, color: 'white' }}>auto</Text>}
+      />
 
       <TouchableHighlight
-        className="bg-[#363C44] rounded-lg flex-1 ms-4"
+        className={`${attendanceType === 'check-in' ? 'bg-blue-500' : 'bg-orange-500'} flex-1  rounded-lg ms-4`}
         underlayColor="#4b5563"
         onPress={() => bottomSheetRef.current?.present()}
       >

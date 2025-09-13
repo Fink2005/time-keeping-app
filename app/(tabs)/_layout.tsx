@@ -53,14 +53,6 @@ const _Layout = () => {
           ),
         }}
       />
-      <Tabs.Screen
-        name="Map"
-        options={{
-          headerShown: false,
-          tabBarButton: () => null,
-          tabBarStyle: { display: 'none' },
-        }}
-      />
     </Tabs>
   );
 };

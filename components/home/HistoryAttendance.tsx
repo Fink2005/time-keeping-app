@@ -1,9 +1,8 @@
 import { AttendanceRecord } from '@/types/Attendance';
 import { getData } from '@/utils/asyncStorage';
 import { useIsFocused } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { useEffect, useState } from 'react';
+import { FlatList, Image, Text, View } from 'react-native';
 
 const HistoryAttendance = () => {
   console.log('hi');
@@ -11,10 +10,10 @@ const HistoryAttendance = () => {
   const isFocused = useIsFocused();
   useEffect(() => {
     getData('attendanceRecords').then((data: AttendanceRecord[]) => {
-      setAttendanceRecords(data.reverse());
+      setAttendanceRecords(data?.reverse());
     });
   }, [isFocused]);
-  if (!attendanceRecords) {
+  if (!attendanceRecords?.length) {
     return;
   }
   return (
@@ -33,9 +32,9 @@ const HistoryAttendance = () => {
               <Text numberOfLines={2}>Địa chỉ: {item.address}</Text>
               <Text>Loại: {item.type}</Text>
             </View>
-            <View>
+            <View className="items-end flex-1">
               {item.imageUri && (
-                <Image source={{ uri: item.imageUri }} className="rounded-lg size-28" />
+                <Image source={{ uri: item.imageUri }} className="rounded-lg size-10" />
               )}
             </View>
           </View>

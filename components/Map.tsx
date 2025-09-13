@@ -9,13 +9,13 @@ import { reverseGeocodeAsync } from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Dimensions,
-  FlatList,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  View,
+    Dimensions,
+    FlatList,
+    Text,
+    TextInput,
+    TouchableHighlight,
+    TouchableWithoutFeedback,
+    View,
 } from 'react-native';
 import 'react-native-get-random-values';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
@@ -124,10 +124,10 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       showAlert('Error', 'Vui lòng nhập tên địa điểm, bán kính và vị trí');
       return;
     }
-    const myLocationData = await getData('myLocation');
+    const myDestinationData = await getData('myDestination');
 
     const data = [
-      ...(myLocationData || []),
+      ...(myDestinationData || []),
       {
         id: uuidv4(),
         latitude: selectedLocation?.latitude,
@@ -140,7 +140,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
     ];
 
     try {
-      await storeData('myLocation', data);
+      await storeData('myDestination', data);
       showAlert('Success', 'Lưu địa điểm thành công');
       router.push('/(tabs)/Location');
     } catch (error) {

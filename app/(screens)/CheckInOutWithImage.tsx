@@ -10,7 +10,9 @@ import { Camera, CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
+import { Image, Pressable, Text, TouchableHighlight, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 export default function CheckInOutWithImage() {
   const cameraRef = useRef<CameraView>(null);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);

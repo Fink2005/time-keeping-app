@@ -1,3 +1,7 @@
+import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
+import { AttendanceBase } from '@/types/Attendance';
+import { getData } from '@/utils/asyncStorage';
+import log from '@/utils/logger';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 
@@ -19,6 +23,7 @@ const useLocation = () => {
     (async () => {
       if (!isAllowed.current) {
         let { status } = await Location.requestForegroundPermissionsAsync();
+        await Location.requestBackgroundPermissionsAsync();
         if (status !== 'granted') {
           console.log('Permission to access location was denied');
           return;
@@ -60,6 +65,28 @@ const useLocation = () => {
       }
     };
   }, [isRefresh]);
+
+  useEffect(() => {
+    (async () => {
+      const myDestination: AttendanceBase[] | null = (await getData('myDestination')) || null;
+      console.log('myDestination for geofencing:', myDestination);
+      if (!myDestination || myDestination.length === 0) return;
+      const regions = myDestination.map(({ destination, latitude, longitude, radius }) => {
+        return {
+          identifier: destination,
+          latitude,
+          longitude,
+          radius: +radius,
+          notifyOnEnter: true,
+          notifyOnExit: true,
+        };
+      });
+
+      log('Regions for geofencing:', regions);
+
+      await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
+    })();
+  }, []);
 
   return {
     latitude: locationInfo.latitude,

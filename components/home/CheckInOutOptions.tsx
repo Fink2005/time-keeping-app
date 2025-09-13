@@ -56,7 +56,7 @@ const CheckInOutOptions = ({
         },
       ]);
       setAttendanceType && setAttendanceType(type === 'check-in' ? 'check-out' : 'check-in');
-      showAlert('Thành công', `Chấm công ${type === 'check-in' ? 'ra' : 'vào'} thành công`);
+      showAlert('Thành công', `Chấm công ${type === 'check-in' ? 'vào' : 'ra'} thành công`);
       setReMount && setReMount((prev) => prev + 1);
     } catch (error) {
       showAlert('Lỗi', 'Chấm công thất bại, vui lòng thử lại');

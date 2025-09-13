@@ -14,7 +14,7 @@ const Location = () => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getData('myLocation').then((data) => {
+    getData('myDestination').then((data) => {
       setLocationData(data || []);
     });
   }, [isRefresh, isFocused]);

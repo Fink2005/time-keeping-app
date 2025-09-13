@@ -21,7 +21,7 @@ const LocationDetailScreen = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const removeLocation = () => {
-    getData('myLocation').then((data) => {
+    getData('myDestination').then((data) => {
       Alert.alert(
         'Xóa mục này?',
         'Bạn có chắc chắn muốn xóa không? Hành động này không thể hoàn tác.',
@@ -34,7 +34,7 @@ const LocationDetailScreen = () => {
               const filteredData = (data || []).filter((item: Locations) => item.id !== locationId);
 
               try {
-                await storeData('myLocation', filteredData);
+                await storeData('myDestination', filteredData);
                 showAlert('Success', 'Xóa địa điểm thành công');
                 router.back();
               } catch (error) {
@@ -51,7 +51,7 @@ const LocationDetailScreen = () => {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const data = (await getData('myLocation')) as AttendanceBase[];
+        const data = (await getData('myDestination')) as AttendanceBase[];
         const location = data?.find((item) => item.id === locationId) || null;
         setDetailLocation(location);
       } catch (error) {
