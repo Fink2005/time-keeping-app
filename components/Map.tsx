@@ -22,11 +22,11 @@ import MapView, { Marker, UrlTile } from 'react-native-maps';
 import { v4 as uuidv4 } from 'uuid';
 type Props = {
   isSearching: boolean;
-  location: string;
+  destination: string;
   radius: string;
   onSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const Map = ({ isSearching, onSearch, location, radius }: Props) => {
+const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const { isSuccess, latitude, longitude } = useLocation();
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
@@ -133,7 +133,7 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
         latitude: selectedLocation?.latitude,
         longitude: selectedLocation?.longitude,
         address: query,
-        location,
+        destination,
         radius,
         createdAt: new Date().toLocaleString(),
       },

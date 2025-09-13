@@ -3,11 +3,12 @@ export type AttendanceBase = {
   latitude: number;
   longitude: number;
   address: string;
-  location: string;
+  destination: string;
   radius: number;
   createdAt: string;
+  type?: 'check-in' | 'check-out';
 };
 
 export type AttendanceRecord = Omit<AttendanceBase, 'location' | 'radius'> & {
-  type: 'check-in' | 'check-out';
+  imageUri?: string;
 };

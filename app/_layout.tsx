@@ -28,6 +28,12 @@ export default function RootLayout() {
               header: () => <Header isDisplayPrevious title="Chi tiết địa điểm" />,
             }}
           />
+          <Stack.Screen
+            name="(screens)/CheckInOutWithImage"
+            options={{
+              header: () => <Header isDisplayPrevious title="Chấm công với camera" />,
+            }}
+          />
         </Stack>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>

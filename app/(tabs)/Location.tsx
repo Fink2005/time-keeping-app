@@ -45,7 +45,7 @@ const Location = () => {
               <Feather name="map-pin" size={20} className="p-2 bg-gray-200 rounded-full me-1" />
               <View className="justify-center flex-1 gap-1">
                 <Text className="text-lg font-bold" numberOfLines={1} ellipsizeMode="tail">
-                  {item.location}
+                  {item.destination}
                 </Text>
                 <Text>Bán kính {item.radius}m</Text>
                 <Text numberOfLines={1} ellipsizeMode="tail">

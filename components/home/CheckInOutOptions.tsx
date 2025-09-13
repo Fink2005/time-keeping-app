@@ -1,6 +1,7 @@
 import { getData, storeData } from '@/utils/asyncStorage';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import 'react-native-get-random-values';
@@ -11,17 +12,22 @@ const CheckInOutOptions = ({
   iconName,
   description,
   locationData,
-  setIsRefresh,
+  type,
+  setReMount,
+  setAttendanceType,
 }: {
   title: string;
   iconName: keyof typeof Entypo.glyphMap;
   description: string;
+  type: 'check-in' | 'check-out';
   locationData?: { latitude: number; longitude: number; address: string | null };
-  setIsRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+  setReMount?: React.Dispatch<React.SetStateAction<number>>;
+  setAttendanceType?: React.Dispatch<React.SetStateAction<'check-in' | 'check-out'>>;
 }) => {
+  const router = useRouter();
   const handleCheckInOut = async () => {
     if (iconName === 'camera') {
-      showAlert('Thông báo', 'Chức năng chấm công kèm ảnh đang được phát triển');
+      router.push('/(screens)/CheckInOutWithImage');
       return;
     }
     if (!locationData || !locationData.address) {
@@ -29,19 +35,29 @@ const CheckInOutOptions = ({
       return;
     }
     try {
-      const oldAttendanceData = await getData('attendanceRecords');
-      const locationStorage = oldAttendanceData || [];
+      const [getAttendanceStorage, getAttendanceType] = await Promise.allSettled([
+        getData('attendanceRecords'),
+        getData('attendanceType'),
+      ]);
+
+      if (getAttendanceType.status === 'fulfilled' && getAttendanceType.value === type) {
+        await storeData('attendanceType', type === 'check-in' ? 'check-out' : 'check-in');
+      }
+
+      const locationStorage =
+        getAttendanceStorage.status === 'fulfilled' ? getAttendanceStorage.value || [] : [];
       await storeData('attendanceRecords', [
         ...locationStorage,
         {
           id: uuidv4(),
           ...locationData,
-          type: title.includes('vào') ? 'check-in' : 'check-out',
+          type,
           createdAt: new Date().toLocaleString(),
         },
       ]);
-      showAlert('Thành công', `Chấm công ${title.includes('vào') ? 'vào' : 'ra'} thành công`);
-      setIsRefresh && setIsRefresh((prev) => !prev);
+      setAttendanceType && setAttendanceType(type === 'check-in' ? 'check-out' : 'check-in');
+      showAlert('Thành công', `Chấm công ${type === 'check-in' ? 'ra' : 'vào'} thành công`);
+      setReMount && setReMount((prev) => prev + 1);
     } catch (error) {
       showAlert('Lỗi', 'Chấm công thất bại, vui lòng thử lại');
       console.log('Error saving attendance record:', error);

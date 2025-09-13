@@ -43,7 +43,7 @@ const MapScreen = () => {
       <Map
         onSearch={setIsSearching}
         isSearching={isSearching}
-        location={location}
+        destination={location}
         radius={radius}
       />
     </View>

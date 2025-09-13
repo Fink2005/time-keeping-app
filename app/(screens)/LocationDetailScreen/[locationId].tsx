@@ -83,7 +83,7 @@ const LocationDetailScreen = () => {
   return (
     <View className="flex-1 p-5 bg-white">
       <View className="px-10 py-6 border border-gray-200 rounded-lg">
-        <DetailRow label="Tên" value={detailLocation.location} />
+        <DetailRow label="Tên" value={detailLocation.destination} />
 
         <View className="flex-row items-center mb-4">
           <Text className="w-1/3 text-gray-600">Tọa độ</Text>

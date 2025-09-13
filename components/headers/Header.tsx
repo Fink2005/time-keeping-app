@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 type Props = {
   title?: string;
@@ -14,13 +14,14 @@ const Header = ({ title, isDisplayUserInfo, isDisplayPrevious }: Props) => {
     <>
       <SafeAreaView edges={['top']} className="px-4 bg-white">
         <View className="flex-row items-center justify-between w-full pb-2">
-          <Feather
-            name="chevron-left"
-            size={24}
-            color="black"
-            onPress={router.back}
-            className={`${isDisplayPrevious ? '' : 'opacity-0'}`}
-          />
+          <Pressable onPress={router.back}>
+            <Feather
+              name="chevron-left"
+              size={24}
+              color="black"
+              className={`${isDisplayPrevious ? '' : 'opacity-0'}`}
+            />
+          </Pressable>
           <Text className="absolute text-lg font-bold text-black -translate-x-1/2 left-1/2 top-1">
             {title}
           </Text>

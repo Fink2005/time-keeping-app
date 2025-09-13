@@ -1,20 +1,18 @@
 import CircleRotation from '@/components/CircleRotation';
+import Time from '@/components/Time';
 import { copy } from '@/utils/global';
 import Feather from '@expo/vector-icons/Feather';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from 'expo-router';
 import { Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 const CardInfo = ({
-  time,
   address,
   latitude,
   longitude,
   isRefresh,
   setIsRefresh,
 }: {
-  time: string;
   address: string | null;
   isRefresh: boolean;
   setIsRefresh: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,10 +21,7 @@ const CardInfo = ({
 }) => {
   return (
     <View className="gap-2 p-4 border border-gray-300 rounded-xl">
-      <View className="flex-row items-center gap-2">
-        <MaterialCommunityIcons name="calendar-clock-outline" size={18} />
-        {time && <Text className="font-semibold">{time}</Text>}
-      </View>
+      <Time />
       <TouchableWithoutFeedback
         onPress={() =>
           copy(`
