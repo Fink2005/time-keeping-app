@@ -9,14 +9,23 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "prepare": "husky"
   },
   "resolutions": {
     "expo-file-system": "19.0.14"
   },
-    "lint-staged": {
-      "*.{js,ts,tsx,jsx}": ["eslint --fix", "prettier --write"]
-    },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.2",
@@ -77,7 +86,8 @@
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
     "commitizen": "^4.3.1",
-    "eslint": "^9.34.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.35.0",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

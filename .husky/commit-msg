@@ -1,4 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-npx --no -- commitlint --edit "$1"
+npx cz --hook "$1" || { echo "Commitizen failed with exit code $?"; exit 1; }

@@ -1,5 +1,8 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
-# VD: nếu bạn muốn tự động thêm prefix vào commit message
-# exec <your-command-here>
+# Nếu commit từ merge/rebase/ci thì bỏ qua
+case "$1" in
+  .git/COMMIT_EDITMSG) exit 0 ;;
+esac
+
+# Gọi Commitizen prompt
+exec npx git-cz --hook || true

@@ -43,12 +43,11 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const { height: screenHeight } = Dimensions.get('window');
   const router = useRouter();
 
+  let a = 0;
+
   const fetchSuggestions = async (text: string) => {
     if (text.length < 3) {
       setSuggestions([]);
-
-      console.log(123);
-
       return;
     }
 
