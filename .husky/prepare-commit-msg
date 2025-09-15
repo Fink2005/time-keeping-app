@@ -1,8 +1,8 @@
 
-# Nếu commit từ merge/rebase/ci thì bỏ qua
-case "$1" in
-  .git/COMMIT_EDITMSG) exit 0 ;;
-esac
 
-# Gọi Commitizen prompt
-exec npx git-cz --hook || true
+# $1 là file commit message, $2 là commit type (commit, merge, squash, etc)
+# commitizen sẽ ghi message vào $1
+if [ -t 1 ]; then
+  exec < /dev/tty
+  npx cz --hook "$1" || true
+fi

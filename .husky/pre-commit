@@ -1,1 +1,1 @@
-npx lint-staged
+cd "$(dirname "$0")/.." && npx --no lint-staged --concurrent false
