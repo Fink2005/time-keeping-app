@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
 import { AttendanceBase } from '@/types/Attendance';
 import { getData } from '@/utils/asyncStorage';
-import log from '@/utils/logger';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 
@@ -23,7 +23,6 @@ const useLocation = () => {
     (async () => {
       if (!isAllowed.current) {
         let { status } = await Location.requestForegroundPermissionsAsync();
-        await Location.requestBackgroundPermissionsAsync();
         if (status !== 'granted') {
           console.log('Permission to access location was denied');
           return;
@@ -68,6 +67,7 @@ const useLocation = () => {
 
   useEffect(() => {
     (async () => {
+      await Location.requestBackgroundPermissionsAsync();
       const myDestination: AttendanceBase[] | null = (await getData('myDestination')) || null;
       console.log('myDestination for geofencing:', myDestination);
       if (!myDestination || myDestination.length === 0) return;
@@ -82,11 +82,9 @@ const useLocation = () => {
         };
       });
 
-      log('Regions for geofencing:', regions);
-
       await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
     })();
-  }, []);
+  }, [isRefresh]);
 
   return {
     latitude: locationInfo.latitude,

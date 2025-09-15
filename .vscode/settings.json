@@ -1,8 +1,8 @@
 {
-  // Editor settings
+  // Editor
   "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "editor.formatOnSave": false,
+  "editor.detectIndentation": true,
+  "editor.formatOnSave": true,
   "editor.autoIndent": "full",
 
   // Search
@@ -17,8 +17,12 @@
     "next/router",
     "chai"
   ],
+  
 
   // ESLint
+  "eslint.trace.server": "messages",
+  "eslint.run": "onSave",
+  "eslint.useFlatConfig": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -45,19 +49,16 @@
   ],
   "editor.codeActionsOnSave": {
     "source.addMissingImports": "always",
-    "source.addMissingImports.ts": "always",
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.ts": "explicit",
-    "source.organizeImports": "explicit",
-    "source.sortImports": "explicit",
-    "source.removeUnusedImports": "explicit"
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always",
+    "source.sortImports": "always",
+    "source.removeUnusedImports": "always"
   },
 
-  // Prettier (disabled in favor of ESLint)
+  // Prettier (chạy qua ESLint plugin-prettier)
   "prettier.enable": false,
 
   // I18n Ally
   "i18n-ally.localesPaths": ["src/locales"],
   "i18n-ally.keystyle": "nested"
 }
-

@@ -2,15 +2,22 @@
 const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const reactPlugin = require('eslint-plugin-react');
+const hooksPlugin = require('eslint-plugin-react-hooks');
+const rnPlugin = require('eslint-plugin-react-native');
+const prettierPlugin = require('eslint-plugin-prettier');
+
 module.exports = defineConfig([
   expoConfig,
   {
     ignores: ['dist/*', 'node_modules/*'],
     plugins: {
-      react: require('eslint-plugin-react'),
-      'react-hooks': require('eslint-plugin-react-hooks'),
-      'react-native': require('eslint-plugin-react-native'),
-      prettier: require('eslint-plugin-prettier'),
+      react: reactPlugin,
+      'react-hooks': hooksPlugin,
+      'react-native': rnPlugin,
+      prettier: prettierPlugin,
+      '@typescript-eslint': tsPlugin,
     },
     rules: {
       // React best practices
@@ -26,12 +33,16 @@ module.exports = defineConfig([
       'react-native/no-unused-styles': 'warn',
       'react-native/no-color-literals': 'warn',
 
-      // Prettier (quan trọng để format code)
+      // Prettier
       'prettier/prettier': 'error',
 
+      // TypeScript
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
+
       // Misc
-      'no-unused-vars': 'warn',
-      'no-console': 'off',
+      'no-console': 'error',
     },
     languageOptions: {
       parser: require('@typescript-eslint/parser'),

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { DEFAULT_DELTA } from '@/constants/global';
 import useDebounce from '@/hooks/useDebounce';
 import useLocation from '@/hooks/useLocation';
@@ -9,13 +10,13 @@ import { reverseGeocodeAsync } from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Dimensions,
-    FlatList,
-    Text,
-    TextInput,
-    TouchableHighlight,
-    TouchableWithoutFeedback,
-    View,
+  Dimensions,
+  FlatList,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import 'react-native-get-random-values';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
@@ -45,6 +46,9 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const fetchSuggestions = async (text: string) => {
     if (text.length < 3) {
       setSuggestions([]);
+
+      console.log(123);
+
       return;
     }
 

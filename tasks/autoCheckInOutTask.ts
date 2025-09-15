@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
@@ -12,16 +13,19 @@ TaskManager.defineTask(CHECK_IN_OUT_TASK, async ({ data, error }) => {
     region: Location.LocationRegion;
   };
 
-  if (eventType === Location.GeofencingEventType.Enter) {
+  if (true) {
     await Notifications.scheduleNotificationAsync({
       content: { title: 'Chấm công', body: `Bạn đã chấm công vào! ${region.identifier}` },
       trigger: null,
     });
-  } else if (eventType === Location.GeofencingEventType.Exit) {
+    console.log(`Bạn đã chấm công vào! ${region.identifier} - ${new Date().toLocaleString()}`);
+  }
+  if (eventType === Location.GeofencingEventType.Exit) {
     await Notifications.scheduleNotificationAsync({
       content: { title: 'Chấm công', body: `Bạn đã chấm công ra! ${region.identifier}` },
       trigger: null,
     });
+    console.log(`Bạn đã chấm công ra! ${region.identifier} - ${new Date().toLocaleString()}`);
   }
 });
 export { CHECK_IN_OUT_TASK };

@@ -13,9 +13,10 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí để chấm công.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí trong nền để tự động chấm công khi bạn ra/vào khu vực."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí trong nền để tự động chấm công khi bạn ra/vào khu vực.",
+        "ITSAppUsesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.chanhuy.Timekeepingmobile"
+      "bundleIdentifier": "com.fink.Timekeepingmobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,7 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.chanhuy.Timekeepingmobile"
+      "package": "com.fink.Timekeepingmobile"
     },
     "web": {
       "bundler": "metro",
@@ -55,6 +56,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "12115797-f0c7-41f5-b96d-a10b363f181a"
+      }
     }
   }
 }

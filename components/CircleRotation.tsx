@@ -13,7 +13,6 @@ const CircleRotation = memo(({ isRefresh, setIsRefresh }: Props) => {
     transform: [{ rotate: `${rotation.value}deg` }],
   }));
   const handleRefreshLocation = () => {
-    console.log('vao map');
     setIsRefresh(true);
     rotation.value = withTiming(rotation.value + 360, { duration: 1000 });
     setTimeout(() => {
