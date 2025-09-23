@@ -1,6 +1,6 @@
 import Header from '@/components/headers/Header';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import * as Notifications from 'expo-notifications';
+import Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '../global.css';
@@ -38,7 +38,15 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="(screens)/CheckInOutWithImage"
+            name="(screens)/CheckAttendanceDetail/[attendanceDetailId]"
+            options={{
+              header: () => (
+                <Header isDisplayPrevious isDisplayUserInfo title="Chi tiết chấm công" />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="(screens)/CheckInOutWithCamera"
             options={{
               header: () => <Header isDisplayPrevious title="Chấm công với camera" />,
             }}

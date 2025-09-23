@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import { DEFAULT_DELTA } from '@/constants/global';
 import useDebounce from '@/hooks/useDebounce';
@@ -42,8 +43,6 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
 
   const { height: screenHeight } = Dimensions.get('window');
   const router = useRouter();
-
-  let a = 0;
 
   const fetchSuggestions = async (text: string) => {
     if (text.length < 3) {

@@ -1,3 +1,4 @@
+import { format, parse } from 'date-fns';
 import * as Clipboard from 'expo-clipboard';
 import { Alert, Platform, ToastAndroid } from 'react-native';
 
@@ -14,4 +15,10 @@ export const copy = async (data: string) => {
     await Clipboard.setStringAsync(data);
     showAlert('Success', 'Lưu thành công!');
   }
+};
+
+export const dateFormatted = (date: string) => {
+  const parsedDate = parse(date, 'd/M/yyyy, HH:mm:ss', new Date());
+
+  return format(parsedDate, 'yyyy-MM-dd');
 };

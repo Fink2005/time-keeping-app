@@ -7,8 +7,7 @@ export type AttendanceBase = {
   radius: number;
   createdAt: string;
   type?: 'check-in' | 'check-out';
-};
-
-export type AttendanceRecord = Omit<AttendanceBase, 'location' | 'radius'> & {
   imageUri?: string;
 };
+
+export type AttendanceRecord = Omit<AttendanceBase, 'location' | 'radius'>;

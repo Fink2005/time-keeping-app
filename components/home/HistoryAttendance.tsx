@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 
 const HistoryAttendance = () => {
-  console.log('hi');
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([]);
   const isFocused = useIsFocused();
   useEffect(() => {

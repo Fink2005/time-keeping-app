@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { AttendanceBase } from '@/types/Attendance';
 import { getData, storeData } from '@/utils/asyncStorage';
 import { showAlert } from '@/utils/global';
@@ -31,7 +32,9 @@ const LocationDetailScreen = () => {
             text: 'Xóa',
             style: 'destructive',
             onPress: async () => {
-              const filteredData = (data || []).filter((item: Locations) => item.id !== locationId);
+              const filteredData = (data || []).filter(
+                (item: AttendanceBase) => item.id !== locationId,
+              );
 
               try {
                 await storeData('myDestination', filteredData);

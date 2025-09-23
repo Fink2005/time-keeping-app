@@ -27,7 +27,7 @@ const CheckInOutOptions = ({
   const router = useRouter();
   const handleCheckInOut = async () => {
     if (iconName === 'camera') {
-      router.push('/(screens)/CheckInOutWithImage');
+      router.push('/(screens)/CheckInOutWithCamera');
       return;
     }
     if (!locationData || !locationData.address) {
@@ -58,9 +58,8 @@ const CheckInOutOptions = ({
       setAttendanceType && setAttendanceType(type === 'check-in' ? 'check-out' : 'check-in');
       showAlert('Thành công', `Chấm công ${type === 'check-in' ? 'vào' : 'ra'} thành công`);
       setReMount && setReMount((prev) => prev + 1);
-    } catch (error) {
+    } catch {
       showAlert('Lỗi', 'Chấm công thất bại, vui lòng thử lại');
-      console.log('Error saving attendance record:', error);
     }
   };
 

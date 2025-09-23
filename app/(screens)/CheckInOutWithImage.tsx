@@ -13,7 +13,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, Text, TouchableHighlight, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function CheckInOutWithImage() {
+export default function CheckInOutWithCamera() {
   const cameraRef = useRef<CameraView>(null);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);

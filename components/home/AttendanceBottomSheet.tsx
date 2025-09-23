@@ -34,10 +34,12 @@ const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Pro
   return (
     <View className="flex-row items-center justify-between p-4 mt-4 border border-gray-300 rounded-xl">
       <Switch
-        size={41}
+        size={40}
         value={isEnabled}
         onChange={(value) => setIsEnabled(value)}
         activeTrackColor="#22c55e"
+        renderActiveThumbIcon={() => <Text className="text-xs font-medium">on</Text>}
+        renderInactiveThumbIcon={() => <Text className="text-xs font-medium">off</Text>}
         renderOffIndicator={() => <Text style={{ fontSize: 13, color: 'white' }}>auto</Text>}
       />
 
