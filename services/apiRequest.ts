@@ -1,4 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+/* eslint-disable no-console */
+import { secureStorage } from '@/utils/secureStorage';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -16,42 +17,6 @@ export class ApiException extends Error {
   }
 }
 
-// Storage utilities for React Native
-const storage = {
-  async getItem(key: string): Promise<string | null> {
-    try {
-      return await AsyncStorage.getItem(key);
-    } catch (error) {
-      console.error(`Error getting ${key} from storage:`, error);
-      return null;
-    }
-  },
-
-  async setItem(key: string, value: string): Promise<void> {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.error(`Error setting ${key} to storage:`, error);
-    }
-  },
-
-  async removeItem(key: string): Promise<void> {
-    try {
-      await AsyncStorage.removeItem(key);
-    } catch (error) {
-      console.error(`Error removing ${key} from storage:`, error);
-    }
-  },
-
-  async multiRemove(keys: string[]): Promise<void> {
-    try {
-      await AsyncStorage.multiRemove(keys);
-    } catch (error) {
-      console.error('Error removing multiple items from storage:', error);
-    }
-  },
-};
-
 // Create axios instance
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
@@ -66,7 +31,7 @@ const createApiClient = (): AxiosInstance => {
   client.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
       try {
-        const accessToken = await storage.getItem('accessTokenTK');
+        const accessToken = secureStorage.getItem('accessToken');
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -86,7 +51,7 @@ const createApiClient = (): AxiosInstance => {
       return response;
     },
     async (error: AxiosError) => {
-      const originalRequest = error.config;
+      // const originalRequest = error.config;
 
       if (error.response?.status === 401) {
         // Handle unauthorized - logout user
@@ -105,7 +70,7 @@ const createApiClient = (): AxiosInstance => {
           console.error('Logout request failed:', logoutError);
         } finally {
           // Clear all auth data
-          await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
+          // await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
 
           // You might want to dispatch a logout action or navigate to login screen
           // This depends on your navigation/state management setup
@@ -180,16 +145,6 @@ export const http = {
       return response.data;
     } catch (error) {
       console.error('DELETE request failed:', error);
-      throw error;
-    }
-  },
-
-  put: async <T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T | null> => {
-    try {
-      const response = await apiClient.put<T>(endpoint, data, config);
-      return response.data;
-    } catch (error) {
-      console.error('PUT request failed:', error);
       throw error;
     }
   },

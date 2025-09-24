@@ -1,100 +1,153 @@
+/* eslint-disable no-console */
 import { getData, storeData } from '@/utils/asyncStorage';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import {
+  Alert,
+  Button,
+  Image,
+  Linking,
+  Pressable,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 import useLocation from '@/hooks/useLocation';
-import { Camera, CameraView } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, TouchableHighlight, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function CheckInOutWithCamera() {
+export default function CheckInOutWithImage() {
   const cameraRef = useRef<CameraView>(null);
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+
+  const [permission, requestPermission] = useCameraPermissions();
+  const [hasMediaPermission, setHasMediaPermission] = useState<boolean | null>(null);
+
   const [photo, setPhoto] = useState<string | null>(null);
   const [facing, setFacing] = useState<'front' | 'back'>('back');
 
   const router = useRouter();
   const { latitude, longitude, address } = useLocation();
 
+  // Ask MediaLibrary permission
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert(
+            'Yêu cầu quyền',
+            'Ứng dụng cần quyền Ảnh để hoạt động. Vui lòng bật trong Cài đặt.',
+            [
+              { text: 'Hủy', style: 'cancel', onPress: () => router.back() },
+              { text: 'Mở Cài đặt', onPress: () => Linking.openSettings() },
+            ],
+          );
+          setHasMediaPermission(false);
+          return;
+        }
+        setHasMediaPermission(true);
+      } catch (err) {
+        console.error('Media permission error:', err);
+        setHasMediaPermission(false);
+        router.back();
+      }
+    })();
+  }, []);
+
   const takePhoto = async () => {
-    if (cameraRef.current) {
-      const result = await cameraRef.current.takePictureAsync();
+    if (!cameraRef.current) return;
+    const result = await cameraRef.current.takePictureAsync();
+    if (result?.uri) {
       setPhoto(result.uri);
     }
   };
 
   const confirmToSavePhoto = async () => {
-    const asset = await MediaLibrary.createAssetAsync(photo!);
-    let album = await MediaLibrary.getAlbumAsync('Tira');
-    if (!album) {
-      await MediaLibrary.createAlbumAsync('Tira', asset, false);
-    } else {
-      await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-    }
+    if (!photo) return; // prevent crash
 
-    const [getAttendanceStorage, getAttendanceType] = await Promise.allSettled([
-      getData('attendanceRecords'),
-      getData('attendanceType'),
-    ]);
-    if (getAttendanceType.status === 'fulfilled') {
-      await storeData(
-        'attendanceType',
-        getAttendanceType.value === 'check-in' ? 'check-out' : 'check-in',
-      );
+    try {
+      // Save to gallery
+      const asset = await MediaLibrary.createAssetAsync(photo);
+      let album = await MediaLibrary.getAlbumAsync('Tira');
+      if (!album) {
+        await MediaLibrary.createAlbumAsync('Tira', asset, false);
+      } else {
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+      }
 
-      const locationStorage =
-        getAttendanceStorage.status === 'fulfilled' ? getAttendanceStorage.value || [] : [];
-      await storeData('attendanceRecords', [
-        ...locationStorage,
-        {
-          id: uuidv4(),
-          latitude,
-          longitude,
-          address: address || '',
-          imageUri: photo!,
-          type: getAttendanceType.value === 'check-in' ? 'check-out' : 'check-in',
-          createdAt: new Date().toLocaleString(),
-        },
+      // Attendance logic
+      const [getAttendanceStorage, getAttendanceType] = await Promise.allSettled([
+        getData('attendanceRecords'),
+        getData('attendanceType'),
       ]);
-      showAlert(
-        'Thành công',
-        `Chấm công ${getAttendanceType.value === 'check-in' ? 'ra' : 'vào'} thành công`,
-      );
-    }
 
-    setPhoto(null);
-    router.back();
+      if (getAttendanceType.status === 'fulfilled') {
+        const nextType = getAttendanceType.value === 'check-in' ? 'check-out' : 'check-in';
+        await storeData('attendanceType', nextType);
+
+        const locationStorage =
+          getAttendanceStorage.status === 'fulfilled' ? getAttendanceStorage.value || [] : [];
+
+        await storeData('attendanceRecords', [
+          ...locationStorage,
+          {
+            id: uuidv4(),
+            latitude,
+            longitude,
+            address: address || '',
+            imageUri: photo,
+            type: nextType,
+            createdAt: new Date().toLocaleString(),
+          },
+        ]);
+
+        showAlert(
+          'Thành công',
+          `Chấm công ${getAttendanceType.value === 'check-in' ? 'ra' : 'vào'} thành công`,
+        );
+      }
+
+      setPhoto(null);
+      router.back();
+    } catch (err) {
+      console.error('confirmToSavePhoto error:', err);
+      showAlert('Lỗi', 'Không thể lưu ảnh hoặc ghi dữ liệu');
+    }
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
-      setHasPermission(status === 'granted' && mediaStatus === 'granted');
-    })();
-  }, []);
+  // Handle permissions
+  if (!permission || hasMediaPermission === null) {
+    return (
+      <View className="items-center justify-center flex-1">
+        <Text>Đang kiểm tra quyền...</Text>
+      </View>
+    );
+  }
 
-  if (!hasPermission) {
+  if (!permission.granted || !hasMediaPermission) {
     return (
       <View className="items-center justify-center flex-1">
         <Text>Không có quyền camera hoặc media library</Text>
+        <Button title="Cấp quyền camera" onPress={requestPermission} />
       </View>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={['left', 'right']}>
       {photo ? (
         <Image source={{ uri: photo }} style={{ flex: 1 }} />
       ) : (
         <CameraView ref={cameraRef} style={{ flex: 1 }} facing={facing} />
       )}
+
       <View className="flex-row items-center justify-center h-24 px-4">
         {photo ? (
           <Pressable onPress={confirmToSavePhoto}>

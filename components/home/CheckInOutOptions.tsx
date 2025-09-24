@@ -27,7 +27,7 @@ const CheckInOutOptions = ({
   const router = useRouter();
   const handleCheckInOut = async () => {
     if (iconName === 'camera') {
-      router.push('/(screens)/CheckInOutWithCamera');
+      router.push('/(screens)/CheckInOutWithImage');
       return;
     }
     if (!locationData || !locationData.address) {

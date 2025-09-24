@@ -22,12 +22,27 @@ import {
 import 'react-native-get-random-values';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
 import { v4 as uuidv4 } from 'uuid';
+
+// Define type for API response
+type Suggestion = {
+  place_id: number;
+  lat: string;
+  lon: string;
+  display_name: string;
+  address: {
+    city?: string;
+    town?: string;
+    village?: string;
+  };
+};
+
 type Props = {
   isSearching: boolean;
   destination: string;
   radius: string;
   onSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const { isSuccess, latitude, longitude } = useLocation();
   const [selectedLocation, setSelectedLocation] = useState<{
@@ -40,7 +55,6 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
 
   const mapRef = useRef<MapView>(null);
-
   const { height: screenHeight } = Dimensions.get('window');
   const router = useRouter();
 
@@ -56,13 +70,8 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
           text,
         )}&format=json&addressdetails=1&limit=15&countrycodes=vn`,
       );
-      const data = await res.json();
-      if (!data.length) {
-        setSuggestions([]);
-        return;
-      }
-      log(data);
-      setSuggestions(data);
+      const data: Suggestion[] = await res.json();
+      setSuggestions(data || []);
     } catch {
       showAlert('Error', 'Không thể tìm địa điểm. Vui lòng thử lại.');
     }
@@ -72,18 +81,20 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
     try {
       const viewbox = `${centerLon - 0.05},${centerLat - 0.05},${centerLon + 0.05},${centerLat + 0.05}`;
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(text)}&format=json&addressdetails=1&limit=15&viewbox=${viewbox}&bounded=1`,
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          text,
+        )}&format=json&addressdetails=1&limit=15&viewbox=${viewbox}&bounded=1`,
       );
-      const data = await res.json();
+      const data: Suggestion[] = await res.json();
       if (!data.length) {
         showAlert('Error', 'Không tìm thấy địa điểm , vui lòng sử dụng marker để chọn vị trí');
         return;
       }
-      setSuggestions(data[0]);
+      setSuggestions(data);
       mapRef.current?.animateToRegion(
         {
-          latitude: data[0].lat,
-          longitude: data[0].lon,
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon),
           latitudeDelta: DEFAULT_DELTA,
           longitudeDelta: DEFAULT_DELTA,
         },
@@ -100,7 +111,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
     setQuery('');
   };
 
-  const handleSelectLocation = (item: any) => {
+  const handleSelectLocation = (item: Suggestion) => {
     const latitude = parseFloat(item.lat);
     const longitude = parseFloat(item.lon);
 
@@ -113,16 +124,17 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       500,
     );
   };
+
   const handleDragMarker = async (coordinate: { latitude: number; longitude: number }) => {
     const address = await reverseGeocodeAsync({
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
     });
-    setQuery(address ? address[0].name || '' : '');
+    setQuery(address?.[0]?.name || '');
   };
 
   const handleConfirm = async () => {
-    if (!location || !radius || !query || !selectedLocation) {
+    if (!selectedLocation || !radius || !query) {
       showAlert('Error', 'Vui lòng nhập tên địa điểm, bán kính và vị trí');
       return;
     }
@@ -132,8 +144,8 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       ...(myDestinationData || []),
       {
         id: uuidv4(),
-        latitude: selectedLocation?.latitude,
-        longitude: selectedLocation?.longitude,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
         address: query,
         destination,
         radius,
@@ -153,10 +165,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setSelectedLocation({
-        latitude,
-        longitude,
-      });
+      setSelectedLocation({ latitude, longitude });
     }
   }, [isSuccess]);
 
@@ -173,6 +182,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       </View>
     );
   }
+
   return (
     <>
       <MapView
@@ -199,54 +209,53 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
             handleDragMarker(e.nativeEvent.coordinate);
           }}
         />
-
-        {/* Search bar overlay */}
-        <View pointerEvents="box-none" className="absolute top-0 left-0 right-0 p-2">
-          {isSearching ? (
-            <TouchableWithoutFeedback onPress={() => handleReset()}>
-              <View className="absolute z-10 left-6 top-[16px]">
-                <Feather name="chevron-left" size={24} color="black" />
-              </View>
-            </TouchableWithoutFeedback>
-          ) : (
-            <Feather
-              name="map-pin"
-              size={24}
-              color="#22c55e"
-              className="absolute z-10 left-6 top-[16px]"
-            />
-          )}
-          <TextInput
-            onChangeText={(text) => setQuery(text)}
-            onPress={() => onSearch(true)}
-            placeholderTextColor="#54585f"
-            placeholder="Tìm kiếm"
-            onSubmitEditing={() => {
-              if (suggestions?.length > 0) {
-                handleSelectLocation(suggestions[0]);
-              } else {
-                // không có suggestion → fetch nearby
-                fetchNearbySuggestions(query, latitude, longitude);
-              }
-            }}
-            readOnly={!isSearching}
-            value={query}
-            className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
-          />
-          {isSearching && (
-            <TouchableWithoutFeedback onPress={() => handleReset(true)}>
-              <View className="absolute z-10 right-6 top-[16px]">
-                <Feather name="x-circle" size={24} color="black" />
-              </View>
-            </TouchableWithoutFeedback>
-          )}
-        </View>
       </MapView>
+
+      {/* Search bar overlay */}
+      <View pointerEvents="box-none" className="absolute top-0 left-0 right-0 p-2">
+        {isSearching ? (
+          <TouchableWithoutFeedback onPress={() => handleReset()}>
+            <View className="absolute z-10 left-6 top-[16px]">
+              <Feather name="chevron-left" size={24} color="black" />
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <Feather
+            name="map-pin"
+            size={24}
+            color="#22c55e"
+            style={{ position: 'absolute', left: 24, top: 16, zIndex: 10 }}
+          />
+        )}
+        <TextInput
+          onChangeText={(text) => setQuery(text)}
+          onPressIn={() => onSearch(true)}
+          placeholderTextColor="#54585f"
+          placeholder="Tìm kiếm"
+          onSubmitEditing={() => {
+            if (suggestions.length > 0) {
+              handleSelectLocation(suggestions[0]);
+            } else {
+              fetchNearbySuggestions(query, latitude, longitude);
+            }
+          }}
+          editable={isSearching}
+          value={query}
+          className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
+        />
+        {isSearching && (
+          <TouchableWithoutFeedback onPress={() => handleReset(true)}>
+            <View className="absolute z-10 right-6 top-[16px]">
+              <Feather name="x-circle" size={24} color="black" />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </View>
 
       {/* Suggestions list */}
       {isSearching && (
         <View
-          className="absolute left-0 right-0 z-50 pb-52 top-16 "
+          className="absolute left-0 right-0 z-50 bg-white pb-52 top-16"
           style={{ maxHeight: screenHeight }}
         >
           <FlatList
@@ -254,10 +263,12 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
             keyExtractor={(item) => item.place_id.toString()}
             renderItem={({ item }) => (
               <TouchableHighlight onPress={() => handleSelectLocation(item)}>
-                <View className="p-4 bg-white border-b border-gray-200">
+                <View className="p-4 border-b border-gray-200">
                   <Text className="font-medium">{item.display_name}</Text>
-                  {item.address.city && (
-                    <Text className="text-sm text-gray-500">{item.address.city}</Text>
+                  {(item.address.city || item.address.town || item.address.village) && (
+                    <Text className="text-sm text-gray-500">
+                      {item.address.city || item.address.town || item.address.village}
+                    </Text>
                   )}
                 </View>
               </TouchableHighlight>
@@ -267,25 +278,25 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       )}
 
       {/* Buttons */}
-      <View
-        className={`absolute left-0 right-0 z-50 flex-row items-center justify-between h-20 gap-2 p-4 -translate-x-1 border-gray-200 bottom-6 ${isSearching ? 'hidden' : ''}`}
-      >
-        <TouchableHighlight
-          underlayColor="#f0f0f0"
-          className="items-center justify-center w-1/2 h-full bg-white rounded-lg"
-          onPress={() => router.back()}
-        >
-          <Text className="font-medium text-black">Hủy</Text>
-        </TouchableHighlight>
+      {!isSearching && (
+        <View className="absolute left-0 right-0 z-50 flex-row items-center justify-between h-20 gap-2 p-4 bottom-6">
+          <TouchableHighlight
+            underlayColor="#f0f0f0"
+            className="items-center justify-center w-1/2 h-full bg-white rounded-lg"
+            onPress={() => router.back()}
+          >
+            <Text className="font-medium text-black">Hủy</Text>
+          </TouchableHighlight>
 
-        <TouchableHighlight
-          underlayColor="#86efac"
-          className="items-center justify-center w-1/2 h-full bg-green-500 rounded-lg"
-          onPress={handleConfirm}
-        >
-          <Text className="font-medium text-white">Xác nhận</Text>
-        </TouchableHighlight>
-      </View>
+          <TouchableHighlight
+            underlayColor="#86efac"
+            className="items-center justify-center w-1/2 h-full bg-green-500 rounded-lg"
+            onPress={handleConfirm}
+          >
+            <Text className="font-medium text-white">Xác nhận</Text>
+          </TouchableHighlight>
+        </View>
+      )}
     </>
   );
 };

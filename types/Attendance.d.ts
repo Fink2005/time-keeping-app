@@ -1,7 +1,7 @@
 export type AttendanceBase = {
   id: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   address: string;
   destination: string;
   radius: number;
