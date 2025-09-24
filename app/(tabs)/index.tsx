@@ -3,6 +3,7 @@ import CardInfo from '@/components/home/CardInfo';
 import HistoryAttendance from '@/components/home/HistoryAttendance';
 import useLocation from '@/hooks/useLocation';
 import * as Notifications from 'expo-notifications';
+import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 
@@ -44,6 +45,7 @@ export default function Index() {
       />
       <HistoryAttendance key={reMount} />
       <Button title="Send Test Notification" onPress={sendLocalNotification} />
+      <Link href="/(screens)/(authScreen)/LoginScreen">login page</Link>
     </View>
   );
 }

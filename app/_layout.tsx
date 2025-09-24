@@ -26,6 +26,15 @@ export default function RootLayout() {
         >
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+            <Stack.Screen
+              name="(screens)/(authScreen)/LoginScreen"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="(screens)/(authScreen)/RegisterScreen"
+              options={{ header: () => <Header isDisplayPrevious /> }}
+            />
             <Stack.Screen
               name="(screens)/MapScreen"
               options={{

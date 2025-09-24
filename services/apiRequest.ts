@@ -20,7 +20,7 @@ export class ApiException extends Error {
 // Create axios instance
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
-    baseURL: process.env.REACT_NATIVE_API_BASE_URL || 'https://your-api-base-url.com',
+    baseURL: process.env.API_BASE_URL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',

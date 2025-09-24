@@ -1,14 +1,14 @@
 PODS:
   - EXApplication (7.0.7):
     - ExpoModulesCore
-  - EXConstants (18.0.8):
+  - EXConstants (18.0.9):
     - ExpoModulesCore
   - EXJSONUtils (0.15.0)
   - EXManifests (1.0.8):
     - ExpoModulesCore
   - EXNotifications (0.32.11):
     - ExpoModulesCore
-  - Expo (54.0.7):
+  - Expo (54.0.10):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -204,23 +204,23 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - ExpoAsset (12.0.8):
+  - ExpoAsset (12.0.9):
     - ExpoModulesCore
   - ExpoBlur (15.0.7):
     - ExpoModulesCore
-  - ExpoCamera (17.0.7):
+  - ExpoCamera (17.0.8):
     - ExpoModulesCore
     - ZXingObjC/OneD
     - ZXingObjC/PDF417
   - ExpoClipboard (8.0.7):
     - ExpoModulesCore
-  - ExpoFileSystem (19.0.14):
+  - ExpoFileSystem (19.0.15):
     - ExpoModulesCore
   - ExpoFont (14.0.8):
     - ExpoModulesCore
   - ExpoHaptics (15.0.7):
     - ExpoModulesCore
-  - ExpoHead (6.0.4):
+  - ExpoHead (6.0.8):
     - ExpoModulesCore
     - RNScreens
   - ExpoImage (3.0.8):
@@ -236,10 +236,10 @@ PODS:
     - ExpoModulesCore
   - ExpoLocation (19.0.7):
     - ExpoModulesCore
-  - ExpoMediaLibrary (18.1.1):
+  - ExpoMediaLibrary (18.2.0):
     - ExpoModulesCore
     - React-Core
-  - ExpoModulesCore (3.0.15):
+  - ExpoModulesCore (3.0.18):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -262,6 +262,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - ExpoSecureStore (15.0.7):
+    - ExpoModulesCore
   - ExpoSplashScreen (31.0.10):
     - ExpoModulesCore
   - ExpoSymbols (1.0.7):
@@ -2322,6 +2324,7 @@ DEPENDENCIES:
   - ExpoLocation (from `../node_modules/expo-location/ios`)
   - ExpoMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - ExpoSecureStore (from `../node_modules/expo-secure-store/ios`)
   - ExpoSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - ExpoSymbols (from `../node_modules/expo-symbols/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
@@ -2468,6 +2471,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-media-library/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
+  ExpoSecureStore:
+    :path: "../node_modules/expo-secure-store/ios"
   ExpoSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   ExpoSymbols:
@@ -2640,29 +2645,30 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   EXApplication: 296622817d459f46b6c5fe8691f4aac44d2b79e7
-  EXConstants: 7e4654405af367ff908c863fe77a8a22d60bd37d
+  EXConstants: a95804601ee4a6aa7800645f9b070d753b1142b3
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: 224345a575fca389073c416297b6348163f28d1a
   EXNotifications: 7a2975f4e282b827a0bc78bb1d232650cb569bbd
-  Expo: 170291b86adbf5fe95d36bc7a90288203cec739e
+  Expo: c839a13691635386c0134f204dbbaed3cebff0a8
   expo-dev-client: f3434d6ca09ecb14ae48c2a3912bdbb07464cc85
   expo-dev-launcher: b9538b1e0dc3fd2ddad75017b6ee9c8dfb206925
   expo-dev-menu: 8f868d1bab6d673d59e5a08ca610056b290dd555
   expo-dev-menu-interface: 600df12ea01efecdd822daaf13cc0ac091775533
-  ExpoAsset: 84810d6fed8179f04d4a7a4a6b37028bbd726e26
+  ExpoAsset: 9ba6fbd677fb8e241a3899ac00fa735bc911eadf
   ExpoBlur: 2dd8f64aa31f5d405652c21d3deb2d2588b1852f
-  ExpoCamera: ae1d6691b05b753261a845536d2b19a9788a8750
+  ExpoCamera: e75f6807a2c047f3338bbadd101af4c71a1d13a5
   ExpoClipboard: af650d14765f19c60ce2a1eaf9dfe6445eff7365
-  ExpoFileSystem: 4fb06865906e781329eb67166bd64fc4749c3019
+  ExpoFileSystem: 5fb091ea11198e109ceef2bdef2e6e66523e62c4
   ExpoFont: 86ceec09ffed1c99cfee36ceb79ba149074901b5
   ExpoHaptics: 807476b0c39e9d82b7270349d6487928ce32df84
-  ExpoHead: 2aad68c730f967d2533599dabb64d1d2cd9f765a
+  ExpoHead: 5570e5edbe54fd8f88e51e8b94bf2931caaa7363
   ExpoImage: e88f500585913969b930e13a4be47277eb7c6de8
   ExpoKeepAwake: 1a2e820692e933c94a565ec3fbbe38ac31658ffe
   ExpoLinking: f051f28e50ea9269ff539317c166adec81d9342d
   ExpoLocation: 93d7faa0c2adbd5a04686af0c1a61bc6ed3ee2f7
-  ExpoMediaLibrary: a8108501b40045b096d0a46bef6b5179aec93345
-  ExpoModulesCore: 9281d8f1cda9d0c37dbce34c26014212b22eb8c0
+  ExpoMediaLibrary: 641a6952299b395159ccd459bd8f5f6764bf55fe
+  ExpoModulesCore: c03ac4bc5a83469ca1222c3954a0499cd059addf
+  ExpoSecureStore: 9c6571fe3fcb045a671c4011c451546eaaab98fd
   ExpoSplashScreen: cbb839de72110dea1851dd3e85080b7923af2540
   ExpoSymbols: 1ae04ce686de719b9720453b988d8bc5bf776c68
   ExpoSystemUI: 6cd74248a2282adf6dec488a75fa532d69dee314

@@ -19,7 +19,7 @@ const Header = ({ title, isDisplayUserInfo, isDisplayYear, isDisplayPrevious }: 
           <Pressable onPress={router.back}>
             <Feather
               name="chevron-left"
-              size={24}
+              size={26}
               color="black"
               className={`${isDisplayPrevious ? '' : 'opacity-0'}`}
             />
