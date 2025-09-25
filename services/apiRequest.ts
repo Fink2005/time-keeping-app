@@ -107,7 +107,9 @@ export const http = {
       const response = await apiClient.get<T>(endpoint, config);
       return response.data;
     } catch (error) {
-      console.error('GET request failed:', error);
+      if (error instanceof ApiException) {
+        showAlert('Error', error.message);
+      }
       throw error;
     }
   },

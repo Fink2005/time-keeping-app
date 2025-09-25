@@ -46,9 +46,9 @@ const CardInfo = ({
         </Text>
       </View>
       <Link href="/MapScreen" asChild>
-        <TouchableOpacity className="flex-row justify-center gap-2 p-3 mt-4 bg-gray-200 rounded-lg">
-          <Feather name="plus" size={24} color="black" />
-          <Text className="text-xl font-semibold">Tạo địa điểm</Text>
+        <TouchableOpacity className="flex-row justify-center gap-2 p-3 mt-4 bg-green-500 rounded-lg">
+          <Feather name="plus" size={24} color="white" />
+          <Text className="text-xl font-semibold text-white">Tạo địa điểm</Text>
         </TouchableOpacity>
       </Link>
       <View className="absolute right-3 top-3">

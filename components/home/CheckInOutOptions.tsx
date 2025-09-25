@@ -1,6 +1,8 @@
+import { AttendanceType } from '@/enum/Attendance';
 import attendanceRequest from '@/services/request/attendance';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
@@ -12,17 +14,17 @@ const CheckInOutOptions = ({
   description,
   locationData,
   type,
-  setReMount,
   setAttendanceType,
 }: {
   title: string;
   iconName: keyof typeof Entypo.glyphMap;
   description: string;
-  type: 'CHECK_IN' | 'CHECK_OUT';
+  type: AttendanceType | undefined;
   locationData?: { latitude: number; longitude: number; address: string | null };
-  setReMount?: React.Dispatch<React.SetStateAction<number>>;
-  setAttendanceType?: React.Dispatch<React.SetStateAction<'CHECK_IN' | 'CHECK_OUT'>>;
+  setAttendanceType?: (type: AttendanceType | undefined) => void;
 }) => {
+  const queryClient = useQueryClient();
+
   const handleCheckInOut = async () => {
     if (iconName === 'camera' || !setAttendanceType) {
       router.push('/(screens)/CheckInOutWithImage');
@@ -39,9 +41,15 @@ const CheckInOutOptions = ({
         lng: locationData.longitude.toString(),
         type,
       });
-      setAttendanceType(type === 'CHECK_IN' ? 'CHECK_OUT' : 'CHECK_IN');
-      setReMount && setReMount((prev) => prev + 1);
-      showAlert('Success', `Chấm công ${type === 'CHECK_IN' ? 'vào' : 'ra'} thành công`);
+      setAttendanceType(
+        type === AttendanceType.CHECK_IN ? AttendanceType.CHECK_OUT : AttendanceType.CHECK_IN,
+      );
+      queryClient.invalidateQueries({ queryKey: ['attendance-history'] });
+
+      showAlert(
+        'Success',
+        `Chấm công ${type === AttendanceType.CHECK_IN ? 'vào' : 'ra'} thành công`,
+      );
     } catch {
       showAlert('Error', 'Chấm công thất bại, vui lòng thử lại');
     }

@@ -185,77 +185,79 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
 
   return (
     <>
-      <MapView
-        mapType="hybrid"
-        showsCompass={false}
-        ref={mapRef}
-        style={{ flex: 1, borderRadius: 15 }}
-        region={{
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
-          latitudeDelta: DEFAULT_DELTA,
-          longitudeDelta: DEFAULT_DELTA,
-        }}
-      >
-        <UrlTile
-          urlTemplate="https://{s}.basemaps.cartocdn.com/rastertiles/positron/{z}/{x}/{y}{r}.png"
-          maximumZ={19}
-        />
-        <Marker
-          draggable
-          coordinate={selectedLocation}
-          pointerEvents="box-none"
-          onDragEnd={(e) => {
-            handleDragMarker(e.nativeEvent.coordinate);
+      <View className="flex-1 overflow-hidden rounded-xl">
+        <MapView
+          mapType="hybrid"
+          showsCompass={false}
+          ref={mapRef}
+          style={{ flex: 1, borderRadius: 15 }}
+          region={{
+            latitude: selectedLocation.latitude,
+            longitude: selectedLocation.longitude,
+            latitudeDelta: DEFAULT_DELTA,
+            longitudeDelta: DEFAULT_DELTA,
           }}
-        />
-      </MapView>
-
-      {/* Search bar overlay */}
-      <View pointerEvents="box-none" className="absolute top-0 left-0 right-0 p-2">
-        {isSearching ? (
-          <TouchableWithoutFeedback onPress={() => handleReset()}>
-            <View className="absolute z-10 left-6 top-[16px]">
-              <Feather name="chevron-left" size={24} color="black" />
-            </View>
-          </TouchableWithoutFeedback>
-        ) : (
-          <Feather
-            name="map-pin"
-            size={24}
-            color="#22c55e"
-            style={{ position: 'absolute', left: 24, top: 16, zIndex: 10 }}
+        >
+          <UrlTile
+            urlTemplate="https://{s}.basemaps.cartocdn.com/rastertiles/positron/{z}/{x}/{y}{r}.png"
+            maximumZ={19}
           />
-        )}
-        <TextInput
-          onChangeText={(text) => setQuery(text)}
-          onPressIn={() => onSearch(true)}
-          placeholderTextColor="#54585f"
-          placeholder="Tìm kiếm"
-          onSubmitEditing={() => {
-            if (suggestions.length > 0) {
-              handleSelectLocation(suggestions[0]);
-            } else {
-              fetchNearbySuggestions(query, latitude, longitude);
-            }
-          }}
-          editable={isSearching}
-          value={query}
-          className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
-        />
-        {isSearching && (
-          <TouchableWithoutFeedback onPress={() => handleReset(true)}>
-            <View className="absolute z-10 right-6 top-[16px]">
-              <Feather name="x-circle" size={24} color="black" />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+          <Marker
+            draggable
+            coordinate={selectedLocation}
+            pointerEvents="box-none"
+            onDragEnd={(e) => {
+              handleDragMarker(e.nativeEvent.coordinate);
+            }}
+          />
+        </MapView>
+
+        {/* Search bar overlay */}
+        <View pointerEvents="box-none" className="absolute left-0 right-0 p-2">
+          {isSearching ? (
+            <TouchableWithoutFeedback onPress={() => handleReset()}>
+              <View className="absolute z-10 left-6 top-[16px]">
+                <Feather name="chevron-left" size={24} color="black" />
+              </View>
+            </TouchableWithoutFeedback>
+          ) : (
+            <Feather
+              name="map-pin"
+              size={24}
+              color="#22c55e"
+              style={{ position: 'absolute', left: 24, top: 16, zIndex: 10 }}
+            />
+          )}
+          <TextInput
+            onChangeText={(text) => setQuery(text)}
+            onPressIn={() => onSearch(true)}
+            placeholderTextColor="#54585f"
+            placeholder="Tìm kiếm"
+            onSubmitEditing={() => {
+              if (suggestions.length > 0) {
+                handleSelectLocation(suggestions[0]);
+              } else {
+                fetchNearbySuggestions(query, latitude, longitude);
+              }
+            }}
+            editable={isSearching}
+            value={query}
+            className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
+          />
+          {isSearching && (
+            <TouchableWithoutFeedback onPress={() => handleReset(true)}>
+              <View className="absolute z-10 right-6 top-[16px]">
+                <Feather name="x-circle" size={24} color="black" />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
       </View>
 
       {/* Suggestions list */}
       {isSearching && (
         <View
-          className="absolute left-0 right-0 z-50 bg-white pb-52 top-16"
+          className="absolute left-0 right-0 z-30 pb-52 top-16"
           style={{ maxHeight: screenHeight }}
         >
           <FlatList
@@ -263,7 +265,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
             keyExtractor={(item) => item.place_id.toString()}
             renderItem={({ item }) => (
               <TouchableHighlight onPress={() => handleSelectLocation(item)}>
-                <View className="p-4 border-b border-gray-200">
+                <View className="p-4 bg-white border-b border-gray-200">
                   <Text className="font-medium">{item.display_name}</Text>
                   {(item.address.city || item.address.town || item.address.village) && (
                     <Text className="text-sm text-gray-500">

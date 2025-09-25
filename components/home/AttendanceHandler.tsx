@@ -1,21 +1,24 @@
 /* eslint-disable react-native/no-color-literals */
 import CheckInOutOptions from '@/components/home/CheckInOutOptions';
-import { getData } from '@/utils/asyncStorage';
+import { AttendanceType } from '@/enum/Attendance';
+import { useCommonStore } from '@/store/useCommonStore';
+
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useIsFocused } from '@react-navigation/native';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import Switch from 'react-native-switch-toggles';
 type Props = {
   latitude: number;
   longitude: number;
   address: string | null;
-  setReMount: React.Dispatch<React.SetStateAction<number>>;
 };
-const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) => {
+const AttendanceHandler = ({ latitude, longitude, address }: Props) => {
   const isFocused = useIsFocused();
   const [isEnabled, setIsEnabled] = useState(false);
-  const [attendanceType, setAttendanceType] = useState<'CHECK_IN' | 'CHECK_OUT'>('CHECK_IN');
+
+  const attendanceType = useCommonStore((state) => state.attendanceType);
+  const setAttendanceType = useCommonStore((state) => state.setAttendanceType);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -25,11 +28,6 @@ const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) 
       bottomSheetRef.current?.dismiss();
     }
   }, [isFocused]);
-  useEffect(() => {
-    getData('attendanceType').then((data) => {
-      setAttendanceType(data || 'CHECK_IN');
-    });
-  }, []);
 
   return (
     <View className="flex-row items-center justify-between p-4 mt-4 border border-gray-300 rounded-xl">
@@ -44,12 +42,12 @@ const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) 
       />
 
       <TouchableHighlight
-        className={`${attendanceType === 'CHECK_IN' ? 'bg-blue-500' : 'bg-orange-500'} flex-1  rounded-lg ms-4`}
+        className={`${attendanceType === AttendanceType.CHECK_IN ? 'bg-blue-500' : 'bg-orange-500'} flex-1  rounded-lg ms-4`}
         underlayColor="#4b5563"
         onPress={() => bottomSheetRef.current?.present()}
       >
         <Text className="p-3 font-semibold text-center text-white">
-          {attendanceType === 'CHECK_IN' ? 'Chấm công vào' : 'Chấm công ra'}
+          {attendanceType === AttendanceType.CHECK_IN ? 'Chấm công vào' : 'Chấm công ra'}
         </Text>
       </TouchableHighlight>
 
@@ -83,7 +81,6 @@ const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) 
             title="Chấm công nhanh"
             description="Chấm công nhanh không cần ảnh"
             locationData={{ latitude, longitude, address }}
-            setReMount={setReMount}
             setAttendanceType={setAttendanceType}
           />
         </BottomSheetView>
@@ -92,4 +89,4 @@ const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) 
   );
 };
 
-export default AttendanceHandler;
+export default memo(AttendanceHandler);

@@ -1,19 +1,16 @@
-import AttendanceHandler from '@/components/home/AttendanceBottomSheet';
+import AttendanceHandler from '@/components/home/AttendanceHandler';
 import CardInfo from '@/components/home/CardInfo';
 import HistoryAttendance from '@/components/home/HistoryAttendance';
 import useLocation from '@/hooks/useLocation';
 import { useAuthStore } from '@/store/useAuthStore';
 import * as Notifications from 'expo-notifications';
-import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
 export default function Home() {
   const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
 
   const { setToken } = useAuthStore();
-
-  const [reMount, setReMount] = useState<number>(0);
 
   // Schedule a local notification
   async function sendLocalNotification() {
@@ -31,10 +28,10 @@ export default function Home() {
     });
   }
 
-  const handleLogout = () => {
-    setToken('');
-    router.replace('/(screens)/(authScreen)/LoginScreen');
-  };
+  // const handleLogout = () => {
+  //   setToken('');
+  //   router.replace('/(screens)/(authScreen)/LoginScreen');
+  // };
 
   return (
     <View className="flex-1 p-5 bg-white">
@@ -45,17 +42,13 @@ export default function Home() {
         latitude={latitude}
         longitude={longitude}
       />
-      <AttendanceHandler
-        setReMount={setReMount}
-        latitude={latitude}
-        longitude={longitude}
-        address={address}
-      />
-      <HistoryAttendance key={reMount} />
-      <Button title="Send Test Notification" onPress={sendLocalNotification} />
+      <AttendanceHandler latitude={latitude} longitude={longitude} address={address} />
+      <HistoryAttendance />
+
+      {/* <Button title="Send Test Notification" onPress={sendLocalNotification} />
       <Pressable onPress={handleLogout}>
         <Text>login page</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }
