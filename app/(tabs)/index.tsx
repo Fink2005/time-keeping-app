@@ -4,8 +4,10 @@ import HistoryAttendance from '@/components/home/HistoryAttendance';
 import useLocation from '@/hooks/useLocation';
 import { useAuthStore } from '@/store/useAuthStore';
 import * as Notifications from 'expo-notifications';
+import { router } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { Button, Pressable, View } from 'react-native';
+import { Text } from 'react-native-gesture-handler';
 
 export default function Home() {
   const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
@@ -28,10 +30,10 @@ export default function Home() {
     });
   }
 
-  // const handleLogout = () => {
-  //   setToken('');
-  //   router.replace('/(screens)/(authScreen)/LoginScreen');
-  // };
+  const handleLogout = () => {
+    setToken('');
+    router.replace('/(screens)/(authScreen)/LoginScreen');
+  };
 
   return (
     <View className="flex-1 p-5 bg-white">
@@ -45,10 +47,10 @@ export default function Home() {
       <AttendanceHandler latitude={latitude} longitude={longitude} address={address} />
       <HistoryAttendance />
 
-      {/* <Button title="Send Test Notification" onPress={sendLocalNotification} />
+      <Button title="Send Test Notification" onPress={sendLocalNotification} />
       <Pressable onPress={handleLogout}>
         <Text>login page</Text>
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 }

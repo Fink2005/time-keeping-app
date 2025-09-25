@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, Text, TextInput, View } from 'react-nat
 const MapScreen = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [location, setLocation] = useState('');
-  const [radius, setRadius] = useState('');
+  const [radius, setRadius] = useState<number | undefined>();
 
   return (
     <View className="flex-1 bg-white">
@@ -26,8 +26,8 @@ const MapScreen = () => {
           />
           <View className="flex-row items-center gap-2">
             <TextInput
-              value={radius}
-              onChangeText={setRadius}
+              value={radius?.toString()}
+              onChangeText={(text) => setRadius(Number(text))}
               placeholderTextColor="#54585f"
               className="flex-1 h-12 font-medium border border-gray-300 rounded-lg ps-3"
               placeholder="Nhập bán kính"
@@ -43,7 +43,7 @@ const MapScreen = () => {
       <Map
         onSearch={setIsSearching}
         isSearching={isSearching}
-        destination={location}
+        location={location}
         radius={radius}
       />
     </View>

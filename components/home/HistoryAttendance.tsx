@@ -1,8 +1,8 @@
-import { useAttendance } from '@/services/queries/useAttendance';
+import { useTanstackAttendance } from '@/services/queries/useTanstackAttendance';
 import { FlatList, Image, Text, View } from 'react-native';
 
 const HistoryAttendance = () => {
-  const { data, isLoading, isFetchingNextPage, fetchNextPage } = useAttendance();
+  const { data, isLoading, isFetchingNextPage, fetchNextPage } = useTanstackAttendance();
 
   const attendanceRecords = data?.pages.flatMap((page) => page.data) || [];
 
@@ -18,7 +18,7 @@ const HistoryAttendance = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View
-            className={`${item.type === 'CHECK_IN' ? 'border-blue-400' : 'border-orange-500'} flex-row items-center p-4 my-2 border border-gray-200 rounded-lg`}
+            className={`${item.type === 'CHECK_IN' ? 'border-blue-500' : 'border-orange-500'} flex-row items-center p-4 my-2 border border-gray-200 rounded-lg`}
           >
             <View className="gap-1">
               <View className="flex-row items-center justify-between w-full gap-2 mb-1">

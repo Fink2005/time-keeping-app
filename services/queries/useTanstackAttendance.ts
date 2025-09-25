@@ -4,7 +4,7 @@ import { useCommonStore } from '@/store/useCommonStore';
 import { AttendanceRes } from '@/types/Attendance';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-export const useAttendance = (initialPage = 1) => {
+export const useTanstackAttendance = (initialPage = 1) => {
   const setAttendanceType = useCommonStore((state) => state.setAttendanceType);
 
   return useInfiniteQuery<AttendanceRes, Error>({

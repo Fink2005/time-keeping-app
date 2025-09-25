@@ -3,9 +3,8 @@
 import { DEFAULT_DELTA } from '@/constants/global';
 import useDebounce from '@/hooks/useDebounce';
 import useLocation from '@/hooks/useLocation';
-import { getData, storeData } from '@/utils/asyncStorage';
+import { useTanstackLocation } from '@/services/queries/useTanstackLocation';
 import { showAlert } from '@/utils/global';
-import log from '@/utils/logger';
 import Feather from '@expo/vector-icons/Feather';
 import { reverseGeocodeAsync } from 'expo-location';
 import { useRouter } from 'expo-router';
@@ -21,7 +20,6 @@ import {
 } from 'react-native';
 import 'react-native-get-random-values';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
-import { v4 as uuidv4 } from 'uuid';
 
 // Define type for API response
 type Suggestion = {
@@ -38,19 +36,21 @@ type Suggestion = {
 
 type Props = {
   isSearching: boolean;
-  destination: string;
-  radius: string;
+  location: string;
+  radius: number | undefined;
   onSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
+const Map = ({ isSearching, onSearch, location, radius }: Props) => {
   const { isSuccess, latitude, longitude } = useLocation();
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [query, setQuery] = useState<string>('');
-  const debouncedQuery = useDebounce(query, 400);
+  const { mutate: createLocation } = useTanstackLocation();
+
+  const [address, setAddress] = useState<string>('');
+  const debouncedAddress = useDebounce(address, 400);
 
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
 
@@ -108,7 +108,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   const handleReset = (isCancel?: boolean) => {
     !isCancel && onSearch(false);
     setSuggestions([]);
-    setQuery('');
+    setAddress('');
   };
 
   const handleSelectLocation = (item: Suggestion) => {
@@ -117,7 +117,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
 
     setSelectedLocation({ latitude, longitude });
     onSearch(false);
-    setQuery(item.display_name);
+    setAddress(item.display_name);
 
     mapRef.current?.animateToRegion(
       { latitude, longitude, latitudeDelta: DEFAULT_DELTA, longitudeDelta: DEFAULT_DELTA },
@@ -130,37 +130,22 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
     });
-    setQuery(address?.[0]?.name || '');
+    setAddress(address?.[0]?.name || '');
   };
 
   const handleConfirm = async () => {
-    if (!selectedLocation || !radius || !query) {
+    if (!selectedLocation || !radius || !address) {
       showAlert('Error', 'Vui lòng nhập tên địa điểm, bán kính và vị trí');
       return;
     }
-    const myDestinationData = await getData('myDestination');
 
-    const data = [
-      ...(myDestinationData || []),
-      {
-        id: uuidv4(),
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-        address: query,
-        destination,
-        radius,
-        createdAt: new Date().toLocaleString(),
-      },
-    ];
-
-    try {
-      await storeData('myDestination', data);
-      showAlert('Success', 'Lưu địa điểm thành công');
-      router.push('/(tabs)/Location');
-    } catch (error) {
-      showAlert('Error', 'Lưu địa điểm thất bại');
-      log('Error saving location:', error);
-    }
+    createLocation({
+      address,
+      lat: selectedLocation.latitude.toString(),
+      lng: selectedLocation.longitude.toString(),
+      radius,
+      name: location,
+    });
   };
 
   useEffect(() => {
@@ -170,10 +155,10 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
   }, [isSuccess]);
 
   useEffect(() => {
-    if (debouncedQuery) {
-      fetchSuggestions(debouncedQuery);
+    if (debouncedAddress) {
+      fetchSuggestions(debouncedAddress);
     }
-  }, [debouncedQuery]);
+  }, [debouncedAddress]);
 
   if (!selectedLocation) {
     return (
@@ -229,7 +214,7 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
             />
           )}
           <TextInput
-            onChangeText={(text) => setQuery(text)}
+            onChangeText={(text) => setAddress(text)}
             onPressIn={() => onSearch(true)}
             placeholderTextColor="#54585f"
             placeholder="Tìm kiếm"
@@ -237,11 +222,11 @@ const Map = ({ isSearching, onSearch, destination, radius }: Props) => {
               if (suggestions.length > 0) {
                 handleSelectLocation(suggestions[0]);
               } else {
-                fetchNearbySuggestions(query, latitude, longitude);
+                fetchNearbySuggestions(address, latitude, longitude);
               }
             }}
             editable={isSearching}
-            value={query}
+            value={address}
             className="w-full h-12 px-12 font-medium bg-white border border-gray-300 rounded-full"
           />
           {isSearching && (
