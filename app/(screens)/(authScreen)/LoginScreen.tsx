@@ -1,10 +1,13 @@
-/* eslint-disable no-console */
 import AuthForm from '@/components/AuthForm';
 import { icons } from '@/constants/icons';
 import { LoginFormData, loginSchema } from '@/schema/auth';
-import { useUserStore } from '@/store/useAuthStore';
+import authRequest from '@/services/request/auth';
+import { useAuthStore } from '@/store/useAuthStore';
+import { showAlert } from '@/utils/global';
+import { secureStorage } from '@/utils/secureStorage';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { Image, Text, View } from 'react-native';
 
@@ -18,12 +21,24 @@ const LoginScreen = () => {
     defaultValues: { email: '', password: '' },
   });
 
-  const { setToken, setUserId } = useUserStore();
+  const { setToken } = useAuthStore();
 
-  const onSubmit = (data: LoginFormData) => {
-    setToken(data.email); // Example: Use email as token
-    setUserId('user123'); // Example: Set a user ID
-    console.log('Login submitted:', data);
+  const onSubmitLoginOrRegister = async (
+    data: LoginFormData,
+    setLoading: Dispatch<SetStateAction<boolean>>,
+  ) => {
+    setLoading(true);
+    try {
+      const res = await authRequest.login(data);
+      if (res) {
+        setToken(res.accessToken);
+        await secureStorage.setItem('accessToken', res.accessToken);
+        showAlert('Success', 'Login successful!');
+        router.replace('/(tabs)');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,10 +50,12 @@ const LoginScreen = () => {
       <AuthForm
         control={control}
         type="login"
-        handleSubmit={handleSubmit}
         errors={errors}
-        onSubmit={onSubmit}
+        onSubmit={(setLoading) =>
+          handleSubmit((data) => onSubmitLoginOrRegister(data, setLoading))()
+        }
       />
+
       <View className="items-center gap-4">
         <Text className="text-center text-gray-500">Or login with</Text>
         <Image source={icons.google} />

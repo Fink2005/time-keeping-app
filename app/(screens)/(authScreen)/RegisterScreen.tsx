@@ -1,9 +1,11 @@
-/* eslint-disable no-console */
 import AuthForm from '@/components/AuthForm';
 import { images } from '@/constants/images';
 import { RegisterFormData, registerSchema } from '@/schema/auth';
+import authRequest from '@/services/request/auth';
+import { showAlert } from '@/utils/global';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import { router } from 'expo-router';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { Image, Text, View } from 'react-native';
 
@@ -22,8 +24,18 @@ const RegisterScreen = () => {
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log('Register submitted:', data);
+  const onSubmitLoginOrRegister = async (
+    data: RegisterFormData,
+    setIsLoading: Dispatch<SetStateAction<boolean>>,
+  ) => {
+    try {
+      setIsLoading(true);
+      await authRequest.register(data);
+      showAlert('Success', 'Đăng kí thành công! , vui lòng xác nhận qua email.');
+      router.push('/(screens)/(authScreen)/LoginScreen');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,9 +50,10 @@ const RegisterScreen = () => {
       <AuthForm
         control={control}
         type="register"
-        handleSubmit={handleSubmit}
         errors={errors}
-        onSubmit={onSubmit}
+        onSubmit={(setIsLoading: Dispatch<SetStateAction<boolean>>) => {
+          handleSubmit((data) => onSubmitLoginOrRegister(data, setIsLoading))();
+        }}
       />
     </View>
   );

@@ -1,13 +1,14 @@
 import ErrorBoundary from '@/app/(screens)/ErrorBoundaryScreen';
 import ErrorFallback from '@/components/ErrorFallback';
 import Header from '@/components/headers/Header';
+import { useAuthStore } from '@/store/useAuthStore';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import * as Notifications from 'expo-notifications';
-import { Stack } from 'expo-router';
-import React from 'react';
+import { router, Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '../global.css';
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,
@@ -17,7 +18,20 @@ Notifications.setNotificationHandler({
   }),
 });
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
+  const { token } = useAuthStore();
+  useEffect(() => {
+    const prepare = async () => {
+      await SplashScreen.hideAsync();
+      if (!token) {
+        router.replace('/(screens)/(authScreen)/LoginScreen');
+      }
+    };
+    prepare();
+  }, [token]);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>

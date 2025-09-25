@@ -22,3 +22,5 @@ export const dateFormatted = (date: string) => {
 
   return format(parsedDate, 'yyyy-MM-dd');
 };
+
+export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

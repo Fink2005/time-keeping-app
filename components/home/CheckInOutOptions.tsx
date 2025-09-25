@@ -1,11 +1,10 @@
-import { getData, storeData } from '@/utils/asyncStorage';
+import attendanceRequest from '@/services/request/attendance';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 
 const CheckInOutOptions = ({
   title,
@@ -19,14 +18,13 @@ const CheckInOutOptions = ({
   title: string;
   iconName: keyof typeof Entypo.glyphMap;
   description: string;
-  type: 'check-in' | 'check-out';
+  type: 'CHECK_IN' | 'CHECK_OUT';
   locationData?: { latitude: number; longitude: number; address: string | null };
   setReMount?: React.Dispatch<React.SetStateAction<number>>;
-  setAttendanceType?: React.Dispatch<React.SetStateAction<'check-in' | 'check-out'>>;
+  setAttendanceType?: React.Dispatch<React.SetStateAction<'CHECK_IN' | 'CHECK_OUT'>>;
 }) => {
-  const router = useRouter();
   const handleCheckInOut = async () => {
-    if (iconName === 'camera') {
+    if (iconName === 'camera' || !setAttendanceType) {
       router.push('/(screens)/CheckInOutWithImage');
       return;
     }
@@ -35,31 +33,17 @@ const CheckInOutOptions = ({
       return;
     }
     try {
-      const [getAttendanceStorage, getAttendanceType] = await Promise.allSettled([
-        getData('attendanceRecords'),
-        getData('attendanceType'),
-      ]);
-
-      if (getAttendanceType.status === 'fulfilled' && getAttendanceType.value === type) {
-        await storeData('attendanceType', type === 'check-in' ? 'check-out' : 'check-in');
-      }
-
-      const locationStorage =
-        getAttendanceStorage.status === 'fulfilled' ? getAttendanceStorage.value || [] : [];
-      await storeData('attendanceRecords', [
-        ...locationStorage,
-        {
-          id: uuidv4(),
-          ...locationData,
-          type,
-          createdAt: new Date().toLocaleString(),
-        },
-      ]);
-      setAttendanceType && setAttendanceType(type === 'check-in' ? 'check-out' : 'check-in');
-      showAlert('Thành công', `Chấm công ${type === 'check-in' ? 'vào' : 'ra'} thành công`);
+      await attendanceRequest.createAttendance({
+        address: locationData.address,
+        lat: locationData.latitude.toString(),
+        lng: locationData.longitude.toString(),
+        type,
+      });
+      setAttendanceType(type === 'CHECK_IN' ? 'CHECK_OUT' : 'CHECK_IN');
       setReMount && setReMount((prev) => prev + 1);
+      showAlert('Success', `Chấm công ${type === 'CHECK_IN' ? 'vào' : 'ra'} thành công`);
     } catch {
-      showAlert('Lỗi', 'Chấm công thất bại, vui lòng thử lại');
+      showAlert('Error', 'Chấm công thất bại, vui lòng thử lại');
     }
   };
 

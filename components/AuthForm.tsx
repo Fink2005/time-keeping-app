@@ -1,36 +1,37 @@
 import { LoginFormData, RegisterFormData } from '@/schema/auth';
 import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Control, Controller, FieldErrors, UseFormHandleSubmit } from 'react-hook-form';
-import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
+import {
+  ActivityIndicator,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-type Props =
-  | {
-      type: 'login';
-      control: Control<LoginFormData>;
-      handleSubmit: UseFormHandleSubmit<LoginFormData>;
-      errors: FieldErrors<LoginFormData>;
-      onSubmit: (data: LoginFormData) => void;
-    }
-  | {
-      type: 'register';
-      control: Control<RegisterFormData>;
-      handleSubmit: UseFormHandleSubmit<RegisterFormData>;
-      errors: FieldErrors<RegisterFormData>;
-      onSubmit: (data: RegisterFormData) => void;
-    };
+type Props = {
+  type: 'login' | 'register';
+  control: Control<LoginFormData> | Control<RegisterFormData>;
+  onSubmit: (setIsLoading: Dispatch<SetStateAction<boolean>>) => void;
+  errors: FieldErrors<LoginFormData> | FieldErrors<RegisterFormData>;
+};
 
-const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
+const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
   const [password, setPassword] = useState({
     isDisplayPassword: false,
     isDisplayConfirmPassword: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const registerErrors = errors as FieldErrors<RegisterFormData>;
+  const commonControl = control as Control<LoginFormData | RegisterFormData>;
   return (
     <View>
       {/* Name Field */}
       {type === 'register' && (
         <Controller
-          control={control} // No assertion needed; TypeScript infers Control<RegisterFormData>
+          control={control as Control<RegisterFormData>}
           name="name"
           render={({ field: { onChange, value } }) => (
             <View className="gap-2 mb-4">
@@ -44,7 +45,7 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
                 />
                 <TextInput
                   className={`border p-3 ps-10 rounded-md ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
+                    registerErrors.name ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter name"
                   value={value}
@@ -54,8 +55,8 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
                   accessibilityLabel="Name input"
                 />
               </View>
-              {errors.name && (
-                <Text className="mt-1 text-sm text-red-500">{errors.name.message}</Text>
+              {registerErrors.name && (
+                <Text className="mt-1 text-sm text-red-500">{registerErrors.name.message}</Text>
               )}
             </View>
           )}
@@ -64,7 +65,7 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
 
       {/* Email Field */}
       <Controller
-        control={control as Control<LoginFormData | RegisterFormData>} // Type assertion to satisfy both types
+        control={commonControl}
         name="email"
         render={({ field: { onChange, value } }) => (
           <View className="gap-2 mb-4">
@@ -97,7 +98,7 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
 
       {/* Password Field */}
       <Controller
-        control={control as Control<LoginFormData | RegisterFormData>} // Type assertion to satisfy both types
+        control={commonControl} // Type assertion to satisfy both types
         name="password"
         render={({ field: { onChange, value } }) => (
           <View className="gap-2 mb-4">
@@ -143,7 +144,7 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
       {/* Confirm Password Field */}
       {type === 'register' && (
         <Controller
-          control={control} // No assertion needed; TypeScript infers Control<RegisterFormData>
+          control={control as Control<RegisterFormData>}
           name="confirmPassword"
           render={({ field: { onChange, value } }) => (
             <View className="gap-2 mb-4">
@@ -173,7 +174,7 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
 
                 <TextInput
                   className={`border p-3 ps-10 rounded-md ${
-                    errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                    registerErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter confirm Password"
                   value={value}
@@ -182,24 +183,26 @@ const AuthForm = ({ type, control, handleSubmit, errors, onSubmit }: Props) => {
                   accessibilityLabel="Password input"
                 />
               </View>
-              {errors.confirmPassword && (
-                <Text className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</Text>
-              )}
+              <Text className="mt-1 text-sm text-red-500">
+                {registerErrors.confirmPassword?.message}
+              </Text>
             </View>
           )}
         />
       )}
-
       {/* Submit Button */}
-      {type === 'login' ? (
-        <TouchableOpacity className="p-3 bg-blue-500 rounded-md" onPress={handleSubmit(onSubmit)}>
-          <Text className="font-semibold text-center text-white">Đăng nhập</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity className="p-3 bg-blue-500 rounded-md" onPress={handleSubmit(onSubmit)}>
-          <Text className="font-semibold text-center text-white">Đăng ký</Text>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        className="p-3 bg-blue-500 rounded-md"
+        onPress={() => onSubmit(setIsLoading)}
+      >
+        {isLoading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text className="font-semibold text-center text-white">
+            {type === 'login' ? 'Login' : 'Register'}
+          </Text>
+        )}
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,14 +1,17 @@
-import AttendanceBottomSheet from '@/components/home/AttendanceBottomSheet';
+import AttendanceHandler from '@/components/home/AttendanceBottomSheet';
 import CardInfo from '@/components/home/CardInfo';
 import HistoryAttendance from '@/components/home/HistoryAttendance';
 import useLocation from '@/hooks/useLocation';
+import { useAuthStore } from '@/store/useAuthStore';
 import * as Notifications from 'expo-notifications';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Button, View } from 'react-native';
+import { Button, Pressable, Text, View } from 'react-native';
 
-export default function Index() {
+export default function Home() {
   const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
+
+  const { setToken } = useAuthStore();
 
   const [reMount, setReMount] = useState<number>(0);
 
@@ -28,6 +31,11 @@ export default function Index() {
     });
   }
 
+  const handleLogout = () => {
+    setToken('');
+    router.replace('/(screens)/(authScreen)/LoginScreen');
+  };
+
   return (
     <View className="flex-1 p-5 bg-white">
       <CardInfo
@@ -37,7 +45,7 @@ export default function Index() {
         latitude={latitude}
         longitude={longitude}
       />
-      <AttendanceBottomSheet
+      <AttendanceHandler
         setReMount={setReMount}
         latitude={latitude}
         longitude={longitude}
@@ -45,7 +53,9 @@ export default function Index() {
       />
       <HistoryAttendance key={reMount} />
       <Button title="Send Test Notification" onPress={sendLocalNotification} />
-      <Link href="/(screens)/(authScreen)/LoginScreen">login page</Link>
+      <Pressable onPress={handleLogout}>
+        <Text>login page</Text>
+      </Pressable>
     </View>
   );
 }

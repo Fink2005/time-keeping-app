@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import { showAlert } from '@/utils/global';
+import log from '@/utils/logger';
 import { secureStorage } from '@/utils/secureStorage';
 import axios, {
   AxiosError,
@@ -20,7 +22,7 @@ export class ApiException extends Error {
 // Create axios instance
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
-    baseURL: process.env.API_BASE_URL,
+    baseURL: process.env.EXPO_PUBLIC_API_URLL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
@@ -31,7 +33,8 @@ const createApiClient = (): AxiosInstance => {
   client.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
       try {
-        const accessToken = secureStorage.getItem('accessToken');
+        const accessToken = await secureStorage.getItem('accessToken');
+        console.log(accessToken);
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -55,30 +58,31 @@ const createApiClient = (): AxiosInstance => {
 
       if (error.response?.status === 401) {
         // Handle unauthorized - logout user
-        try {
-          // Try to call logout endpoint
-          await client.post(
-            '/auth/logout',
-            {},
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
-        } catch (logoutError) {
-          console.error('Logout request failed:', logoutError);
-        } finally {
-          // Clear all auth data
-          // await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
+        console.log(123);
+        // try {
+        //   secureStorage.removeItem('accessToken');
+        //   router.replace('/(screens)/(authScreen)/LoginScreen');
+        // } catch (logoutError) {
+        //   console.error('Logout request failed:', logoutError);
+        // } finally {
+        //   // Clear all auth data
+        //   // await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
 
-          // You might want to dispatch a logout action or navigate to login screen
-          // This depends on your navigation/state management setup
-          console.log('User logged out due to 401 error');
-        }
-      } else if (error.response?.status === 400 || error.response?.status === 403) {
+        //   // You might want to dispatch a logout action or navigate to login screen
+        //   // This depends on your navigation/state management setup
+        //   console.log('User logged out due to 401 error');
+        // }
+      } else if (
+        error.response?.status === 400 ||
+        error.response?.status === 403 ||
+        error.response?.status === 404 ||
+        error.response?.status === 422
+      ) {
+        console.log('day ne ', error.response.data);
         const errorMessage =
-          (error.response.data as any)?.message || `Error ${error.response.status}`;
+          (error.response.data as any)?.message[0].message ||
+          (error.response.data as any)?.message ||
+          `Error ${error.response.status}`;
         console.warn(errorMessage, error.response.status);
         throw new ApiException(errorMessage, error.response.status);
       } else {
@@ -109,11 +113,14 @@ export const http = {
   },
 
   post: async <T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T | null> => {
+    log(apiClient.defaults.baseURL + endpoint, data);
     try {
       const response = await apiClient.post<T>(endpoint, data, config);
       return response.data;
     } catch (error) {
-      console.error('POST request failed:', error);
+      if (error instanceof ApiException) {
+        showAlert('Error', error.message);
+      }
       throw error;
     }
   },
@@ -127,7 +134,9 @@ export const http = {
       const response = await apiClient.patch<T>(endpoint, data, config);
       return response.data;
     } catch (error) {
-      console.error('PATCH request failed:', error);
+      if (error instanceof ApiException) {
+        showAlert('Error', error.message);
+      }
       throw error;
     }
   },
@@ -144,7 +153,9 @@ export const http = {
       });
       return response.data;
     } catch (error) {
-      console.error('DELETE request failed:', error);
+      if (error instanceof ApiException) {
+        showAlert('Error', error.message);
+      }
       throw error;
     }
   },

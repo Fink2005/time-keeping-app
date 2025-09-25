@@ -1,13 +1,26 @@
-export type AttendanceBase = {
-  id: string;
-  latitude: string;
-  longitude: string;
+export type AttendanceReq = {
+  lat: string;
+  lng: string;
   address: string;
-  destination: string;
-  radius: number;
-  createdAt: string;
-  type?: 'check-in' | 'check-out';
+  location?: {
+    name: string;
+  };
+  radius?: number;
+  locationId?: string;
+  type?: 'CHECK_IN' | 'CHECK_OUT';
   imageUri?: string;
 };
 
-export type AttendanceRecord = Omit<AttendanceBase, 'location' | 'radius'>;
+export type AttendanceRes = {
+  data: AttendanceReq[] &
+    {
+      id: string;
+      userId: number;
+    }[];
+  totalItems: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type AttendanceRecord = Omit<AttendanceReq, 'location' | 'radius'>;

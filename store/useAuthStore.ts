@@ -11,12 +11,12 @@ type UserState = {
   logout: () => void;
 };
 
-export const useUserStore = create<UserState>()(
+export const useAuthStore = create<UserState>()(
   persist(
     (set, get) => ({
       token: null,
       userId: null,
-      setToken: (token: string) => set({ token }),
+      setToken: (token: string) => set({ token: token }),
       setUserId: (id: string) => set({ userId: id }),
       logout: () => set({ token: null, userId: null }),
     }),

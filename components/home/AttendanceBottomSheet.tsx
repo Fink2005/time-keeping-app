@@ -12,10 +12,10 @@ type Props = {
   address: string | null;
   setReMount: React.Dispatch<React.SetStateAction<number>>;
 };
-const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Props) => {
+const AttendanceHandler = ({ setReMount, latitude, longitude, address }: Props) => {
   const isFocused = useIsFocused();
   const [isEnabled, setIsEnabled] = useState(false);
-  const [attendanceType, setAttendanceType] = useState<'check-in' | 'check-out'>('check-in');
+  const [attendanceType, setAttendanceType] = useState<'CHECK_IN' | 'CHECK_OUT'>('CHECK_IN');
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -27,7 +27,7 @@ const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Pro
   }, [isFocused]);
   useEffect(() => {
     getData('attendanceType').then((data) => {
-      setAttendanceType(data || 'check-in');
+      setAttendanceType(data || 'CHECK_IN');
     });
   }, []);
 
@@ -44,12 +44,12 @@ const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Pro
       />
 
       <TouchableHighlight
-        className={`${attendanceType === 'check-in' ? 'bg-blue-500' : 'bg-orange-500'} flex-1  rounded-lg ms-4`}
+        className={`${attendanceType === 'CHECK_IN' ? 'bg-blue-500' : 'bg-orange-500'} flex-1  rounded-lg ms-4`}
         underlayColor="#4b5563"
         onPress={() => bottomSheetRef.current?.present()}
       >
         <Text className="p-3 font-semibold text-center text-white">
-          {attendanceType === 'check-in' ? 'Chấm công vào' : 'Chấm công ra'}
+          {attendanceType === 'CHECK_IN' ? 'Chấm công vào' : 'Chấm công ra'}
         </Text>
       </TouchableHighlight>
 
@@ -92,4 +92,4 @@ const AttendanceBottomSheet = ({ setReMount, latitude, longitude, address }: Pro
   );
 };
 
-export default AttendanceBottomSheet;
+export default AttendanceHandler;
