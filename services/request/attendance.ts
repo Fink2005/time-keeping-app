@@ -1,6 +1,6 @@
 import { ATTENDACE_HISTORY_LIMIT } from '@/constants/global';
 import { http } from '@/services/apiRequest';
-import { AttendanceReq, AttendanceRes } from '@/types/Attendance';
+import { AttendanceDetailRes, AttendanceReq, AttendanceRes } from '@/types/Attendance';
 
 const attendanceRequest = {
   createAttendance: async (data: AttendanceReq) => {
@@ -8,7 +8,12 @@ const attendanceRequest = {
   },
   getAttendance: async (page: number): Promise<AttendanceRes | null> => {
     return await http.get<AttendanceRes | null>(
-      `/attendance/attendances?page=${page}&limit=${ATTENDACE_HISTORY_LIMIT}`,
+      `/attendance/list?page=${page}&limit=${ATTENDACE_HISTORY_LIMIT}`,
+    );
+  },
+  getAttendanceDetail: async (page: number, date: string) => {
+    return await http.get<AttendanceDetailRes | null>(
+      `/attendance/${date}?page=${page}&limit=${ATTENDACE_HISTORY_LIMIT}`,
     );
   },
 };

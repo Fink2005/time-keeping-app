@@ -1,9 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable react-native/no-color-literals */
-import { AttendanceBase } from '@/types/Attendance';
-import { getData } from '@/utils/asyncStorage';
-import { dateFormatted } from '@/utils/global';
-import log from '@/utils/logger';
-import React, { useEffect, useState } from 'react';
+import { AttendanceDetailRes } from '@/types/Attendance';
+import React from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 // =========================
@@ -44,53 +42,13 @@ LocaleConfig.locales['vi'] = {
 };
 LocaleConfig.defaultLocale = 'vi';
 
-type MarkedDate = {
-  selected: boolean;
-  marked: boolean;
-  dots: { key: string; color: string }[];
-};
-
-const CalendarCustom = () => {
-  const [markedDays, setMarkedDays] = useState<Record<string, MarkedDate>>({});
-
-  useEffect(() => {
-    const fetchAttendance = async () => {
-      const data: AttendanceBase[] = await getData('attendanceRecords');
-
-      const formattedData = data.reduce<Record<string, MarkedDate>>((acc, record) => {
-        const formattedDate = dateFormatted(record.createdAt);
-
-        if (!acc[formattedDate]) {
-          acc[formattedDate] = {
-            selected: true,
-            marked: true,
-            dots: [],
-          };
-        }
-
-        // let color;
-
-        // if (record.type === 'check-out') {
-        //   color = 'orange';
-        // } else {
-        //   color = 'green';
-        // }
-
-        // acc[formattedDate].dots.push({
-        //   key: `${record.type}-${record.id}`,
-        //   color,
-        // });
-
-        return acc;
-      }, {});
-
-      log(formattedData);
-      setMarkedDays(formattedData);
-    };
-
-    fetchAttendance();
-  }, []);
-
+const CalendarCustom = ({
+  initialDate,
+  markedDates,
+}: {
+  initialDate: string;
+  markedDates: AttendanceDetailRes['dataCalendarAttendace'];
+}) => {
   return (
     <Calendar
       style={{
@@ -99,11 +57,15 @@ const CalendarCustom = () => {
         borderWidth: 0.3,
         padding: 10,
       }}
+      initialDate={initialDate}
       hideExtraDays
+      onDayPress={(day) => {
+        console.log('selected day', day);
+      }}
       firstDay={1}
       markingType="custom"
       markedDates={{
-        ...markedDays,
+        ...markedDates,
       }}
     />
   );

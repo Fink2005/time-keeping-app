@@ -1,10 +1,10 @@
 import { AttendanceType } from '@/enum/Attendance';
 import attendanceRequest from '@/services/request/attendance';
 import { useCommonStore } from '@/store/useCommonStore';
-import { AttendanceRes } from '@/types/Attendance';
+import { AttendanceDetailRes, AttendanceRes } from '@/types/Attendance';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-export const useTanstackAttendance = (initialPage = 1) => {
+export const useGetAttendance = (initialPage = 1) => {
   const setAttendanceType = useCommonStore((state) => state.setAttendanceType);
 
   return useInfiniteQuery<AttendanceRes, Error>({
@@ -33,6 +33,36 @@ export const useTanstackAttendance = (initialPage = 1) => {
     //   return false;
     // },
     getNextPageParam: (lastPage: AttendanceRes) => {
+      const currentPage = lastPage.page;
+      const totalPages = lastPage.totalPages;
+      if (currentPage < totalPages) {
+        return currentPage + 1;
+      }
+      return undefined;
+    },
+  });
+};
+
+export const useGetAttendanceDetail = (initialPage = 1, date: string) => {
+  return useInfiniteQuery<AttendanceDetailRes, Error>({
+    queryKey: ['attendance-detail-history'],
+    queryFn: async ({ pageParam = initialPage }): Promise<AttendanceDetailRes> => {
+      const response = await attendanceRequest.getAttendanceDetail(pageParam as number, date);
+
+      // log(response);
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      if (!response) {
+        throw new Error('Response is null');
+      }
+      return response;
+    },
+    initialPageParam: initialPage,
+
+    getNextPageParam: (lastPage: AttendanceDetailRes) => {
       const currentPage = lastPage.page;
       const totalPages = lastPage.totalPages;
       if (currentPage < totalPages) {

@@ -3,7 +3,7 @@
 import { DEFAULT_DELTA } from '@/constants/global';
 import useDebounce from '@/hooks/useDebounce';
 import useLocation from '@/hooks/useLocation';
-import { useTanstackLocation } from '@/services/queries/useTanstackLocation';
+import { useCreateLocation } from '@/services/queries/useLocation';
 import { showAlert } from '@/utils/global';
 import Feather from '@expo/vector-icons/Feather';
 import { reverseGeocodeAsync } from 'expo-location';
@@ -47,7 +47,7 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const { mutate: createLocation } = useTanstackLocation();
+  const { mutate: createLocation } = useCreateLocation();
 
   const [address, setAddress] = useState<string>('');
   const debouncedAddress = useDebounce(address, 400);

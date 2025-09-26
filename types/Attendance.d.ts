@@ -13,12 +13,33 @@ export type AttendanceReq = {
   imageUri?: string;
 };
 
+type AttendanceCalendar = {
+  [date: string]: {
+    selected: boolean;
+    marked: boolean;
+    selectedColor: string;
+  };
+};
+
 export type AttendanceRes = {
   data: (AttendanceReq & {
     id: string;
     userId: number;
     createdAt: string;
   })[];
+  totalItems: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type AttendanceDetailRes = {
+  data: (AttendanceReq & {
+    id: string;
+    userId: number;
+    createdAt: string;
+  })[];
+  dataCalendarAttendace: AttendanceCalendar;
   totalItems: number;
   page: number;
   limit: number;

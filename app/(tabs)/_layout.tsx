@@ -1,4 +1,5 @@
 import Header from '@/components/headers/Header';
+import HistoryHeader from '@/components/headers/HistoryHeader';
 import Feather from '@expo/vector-icons/Feather';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -16,8 +17,8 @@ const _Layout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          header: () => <Header title="Vị trí hiện tại" />,
           title: 'Trang chủ',
+          header: () => <Header title="Vị trí hiện tại" />,
           tabBarIcon: ({ focused }) => (
             <Feather name="home" size={20} color={focused ? 'black' : 'gray'} />
           ),
@@ -37,7 +38,7 @@ const _Layout = () => {
         name="History"
         options={{
           title: 'Lịch sử',
-          header: () => <Header isDisplayYear />,
+          header: () => <HistoryHeader minYear={2020} maxYear={2025} initialYear={2025} />,
           tabBarIcon: ({ focused }) => (
             <MaterialIcons name="history" size={24} color={focused ? 'black' : 'gray'} />
           ),

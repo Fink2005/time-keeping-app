@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
-import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
-import { AttendanceBase } from '@/types/Attendance';
-import { getData } from '@/utils/asyncStorage';
+// import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
+// import { getData } from '@/utils/asyncStorage';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 
@@ -65,26 +64,26 @@ const useLocation = () => {
     };
   }, [isRefresh]);
 
-  useEffect(() => {
-    (async () => {
-      await Location.requestBackgroundPermissionsAsync();
-      const myDestination: AttendanceBase[] | null = (await getData('myDestination')) || null;
-      console.log('myDestination for geofencing:', myDestination);
-      if (!myDestination || myDestination.length === 0) return;
-      const regions = myDestination.map(({ destination, latitude, longitude, radius }) => {
-        return {
-          identifier: destination,
-          latitude,
-          longitude,
-          radius: +radius,
-          notifyOnEnter: true,
-          notifyOnExit: true,
-        };
-      });
+  // useEffect(() => {
+  //   (async () => {
+  //     await Location.requestBackgroundPermissionsAsync();
+  //     const myDestination: AttendanceBase[] | null = (await getData('myDestination')) || null;
+  //     console.log('myDestination for geofencing:', myDestination);
+  //     if (!myDestination || myDestination.length === 0) return;
+  //     const regions = myDestination.map(({ destination, latitude, longitude, radius }) => {
+  //       return {
+  //         identifier: destination,
+  //         latitude,
+  //         longitude,
+  //         radius: +radius,
+  //         notifyOnEnter: true,
+  //         notifyOnExit: true,
+  //       };
+  //     });
 
-      await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
-    })();
-  }, [isRefresh]);
+  //     await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
+  //   })();
+  // }, [isRefresh]);
 
   return {
     latitude: locationInfo.latitude,
