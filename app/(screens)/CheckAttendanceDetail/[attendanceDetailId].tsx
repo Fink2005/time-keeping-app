@@ -1,38 +1,50 @@
 import CalendarCustom from '@/components/CalendarCustom';
 import HistoryAttendance from '@/components/home/HistoryAttendance';
-import { useGetAttendanceDetail } from '@/services/queries/useAttendance';
+import { useGetInfiniteAttendanceDetail } from '@/services/queries/useAttendance';
 import { AttendanceDetailRes } from '@/types/Attendance';
 import { dateFormatted, formatDate } from '@/utils/global';
 import log from '@/utils/logger';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 const AttendanceDetailScreen = () => {
   const queryClient = useQueryClient();
   const isFocused = useIsFocused();
   const { attendanceDetailId } = useLocalSearchParams();
-  const { data, isLoading, isFetchingNextPage, refetch, fetchNextPage } = useGetAttendanceDetail(
-    1,
-    attendanceDetailId as string,
-  );
-  log(attendanceDetailId);
+  const [attendanceDate, setAttendanceDate] = useState(attendanceDetailId as string);
+  const { data, isLoading, isRefetching, isFetchingNextPage, refetch, fetchNextPage } =
+    useGetInfiniteAttendanceDetail(1, attendanceDate);
+
   const attendanceDates = data?.pages.flatMap((page) => page.data) || [];
   const attendanceCalendar =
     data?.pages[0].dataCalendarAttendace || ({} as AttendanceDetailRes['dataCalendarAttendace']);
 
+  const handleRefetch = (date?: string) => {
+    queryClient.removeQueries({ queryKey: ['attendance-detail-history'] });
+    if (date) {
+      setAttendanceDate(date);
+    } else {
+      refetch();
+    }
+  };
+
   const date = attendanceDates[0]?.createdAt;
   useEffect(() => {
     if (isFocused) {
-      queryClient.removeQueries({ queryKey: ['attendance-detail-history'] });
-      refetch();
+      handleRefetch();
     }
   }, [isFocused, refetch, queryClient]);
+  log(attendanceCalendar);
   return (
     <View className="flex-1 p-5 bg-white">
-      <CalendarCustom initialDate={attendanceDetailId as string} markedDates={attendanceCalendar} />
+      <CalendarCustom
+        onRefetch={handleRefetch}
+        initialDate={attendanceDetailId as string}
+        markedDates={attendanceCalendar}
+      />
       {date && (
         <Text className="mt-5 text-xl font-semibold">
           Chấm công ngày {formatDate(date, 'weekly')} {dateFormatted(date, 'SLASH')}
@@ -42,6 +54,7 @@ const AttendanceDetailScreen = () => {
         data={attendanceDates}
         fetchNextPage={fetchNextPage}
         isLoading={isLoading}
+        isRefetching={isRefetching}
         isFetchingNextPage={isFetchingNextPage}
         type="variant2"
       />

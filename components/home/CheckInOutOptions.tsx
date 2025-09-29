@@ -1,8 +1,7 @@
 import { AttendanceType } from '@/enum/Attendance';
-import attendanceRequest from '@/services/request/attendance';
+import { useCreateAttendance } from '@/services/queries/useAttendance';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
-import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
@@ -23,7 +22,7 @@ const CheckInOutOptions = ({
   locationData?: { latitude: number; longitude: number; address: string | null };
   setAttendanceType?: (type: AttendanceType | undefined) => void;
 }) => {
-  const queryClient = useQueryClient();
+  const { mutate: createAttendance } = useCreateAttendance();
 
   const handleCheckInOut = async () => {
     if (iconName === 'camera' || !setAttendanceType) {
@@ -34,25 +33,15 @@ const CheckInOutOptions = ({
       showAlert('Lỗi', 'Vui lòng bật định vị để chấm công');
       return;
     }
-    try {
-      await attendanceRequest.createAttendance({
-        address: locationData.address,
-        lat: locationData.latitude.toString(),
-        lng: locationData.longitude.toString(),
-        type,
-      });
-      setAttendanceType(
-        type === AttendanceType.CHECK_IN ? AttendanceType.CHECK_OUT : AttendanceType.CHECK_IN,
-      );
-      queryClient.invalidateQueries({ queryKey: ['attendance-history'] });
-
-      showAlert(
-        'Success',
-        `Chấm công ${type === AttendanceType.CHECK_IN ? 'vào' : 'ra'} thành công`,
-      );
-    } catch {
-      showAlert('Error', 'Chấm công thất bại, vui lòng thử lại');
-    }
+    createAttendance({
+      address: locationData.address,
+      lat: locationData.latitude.toString(),
+      lng: locationData.longitude.toString(),
+      type,
+    });
+    setAttendanceType(
+      type === AttendanceType.CHECK_IN ? AttendanceType.CHECK_OUT : AttendanceType.CHECK_IN,
+    );
   };
 
   return (

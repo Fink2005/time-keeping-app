@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/store/useAuthStore';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -12,6 +13,7 @@ type Props = {
 };
 const Header = ({ title, isDisplayUserInfo, isDisplayYear, isDisplayPrevious }: Props) => {
   const router = useRouter();
+  const { userInfo } = useAuthStore();
   return (
     <>
       <SafeAreaView edges={['top']} className="px-4 bg-white">
@@ -28,10 +30,9 @@ const Header = ({ title, isDisplayUserInfo, isDisplayYear, isDisplayPrevious }: 
             {title}
           </Text>
           <View className={'flex-row items-center gap-4 ' + (isDisplayUserInfo ? '' : 'opacity-0')}>
-            <Feather name="bell" size={24} color="black" />
             <Image
               source={{
-                uri: 'https://ui-avatars.com/api/?name=Sy&background=random&color=0098F0',
+                uri: `https://ui-avatars.com/api/?name=${userInfo?.name}&background=random&color=0098F0`,
               }}
               className="size-[32px] rounded-[15px]"
             />

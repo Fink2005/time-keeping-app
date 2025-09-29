@@ -1,13 +1,14 @@
 // store.ts
+import { User } from '@/types/user';
 import { secureStorage } from '@/utils/secureStorage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type UserState = {
   token: string | null;
-  userId: string | null;
+  userInfo: User | null;
   setToken: (token: string) => void;
-  setUserId: (id: string) => void;
+  setUserInfo: (data: User) => void;
   logout: () => void;
 };
 
@@ -15,15 +16,15 @@ export const useAuthStore = create<UserState>()(
   persist(
     (set, get) => ({
       token: null,
-      userId: null,
+      userInfo: null,
       setToken: (token: string) => set({ token: token }),
-      setUserId: (id: string) => set({ userId: id }),
-      logout: () => set({ token: null, userId: null }),
+      setUserInfo: (data: User) => set({ userInfo: data }),
+      logout: () => set({ token: null, userInfo: null }),
     }),
     {
-      name: 'user-storage', // Unique key for SecureStore
+      name: 'user-storage',
       storage: createJSONStorage(() => secureStorage), // Use your custom adapter
-      partialize: (state) => ({ token: state.token, userId: state.userId }), // Only persist sensitive fields
+      partialize: (state) => ({ token: state.token, userInfo: state.userInfo }), // Only persist sensitive fields
     },
   ),
 );

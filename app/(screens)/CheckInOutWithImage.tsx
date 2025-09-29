@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-import { getData, storeData } from '@/utils/asyncStorage';
-import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
@@ -14,9 +12,10 @@ import {
   View,
 } from 'react-native';
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 
 import useLocation from '@/hooks/useLocation';
+import { useCreateAttendance } from '@/services/queries/useAttendance';
+import attendanceRequest from '@/services/request/attendance';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useRouter } from 'expo-router';
@@ -68,58 +67,32 @@ export default function CheckInOutWithImage() {
       setPhoto(result.uri);
     }
   };
+  const { mutate: createAttendance } = useCreateAttendance();
 
   const confirmToSavePhoto = async () => {
     if (!photo) return; // prevent crash
 
-    try {
-      // Save to gallery
-      const asset = await MediaLibrary.createAssetAsync(photo);
-      let album = await MediaLibrary.getAlbumAsync('Tira');
-      if (!album) {
-        await MediaLibrary.createAlbumAsync('Tira', asset, false);
-      } else {
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-      }
-
-      // Attendance logic
-      const [getAttendanceStorage, getAttendanceType] = await Promise.allSettled([
-        getData('attendanceRecords'),
-        getData('attendanceType'),
-      ]);
-
-      if (getAttendanceType.status === 'fulfilled') {
-        const nextType = getAttendanceType.value === 'check-in' ? 'check-out' : 'check-in';
-        await storeData('attendanceType', nextType);
-
-        const locationStorage =
-          getAttendanceStorage.status === 'fulfilled' ? getAttendanceStorage.value || [] : [];
-
-        await storeData('attendanceRecords', [
-          ...locationStorage,
-          {
-            id: uuidv4(),
-            latitude,
-            longitude,
-            address: address || '',
-            imageUri: photo,
-            type: nextType,
-            createdAt: new Date().toLocaleString(),
-          },
-        ]);
-
-        showAlert(
-          'Thành công',
-          `Chấm công ${getAttendanceType.value === 'check-in' ? 'ra' : 'vào'} thành công`,
-        );
-      }
-
-      setPhoto(null);
-      router.back();
-    } catch (err) {
-      console.error('confirmToSavePhoto error:', err);
-      showAlert('Lỗi', 'Không thể lưu ảnh hoặc ghi dữ liệu');
+    // Save to gallery
+    const asset = await MediaLibrary.createAssetAsync(photo);
+    let album = await MediaLibrary.getAlbumAsync('Tira');
+    if (!album) {
+      await MediaLibrary.createAlbumAsync('Tira', asset, false);
+    } else {
+      await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
     }
+
+    const attendanceLastedStatus = await attendanceRequest.getAttendanceLastedStatus();
+
+    createAttendance({
+      address: address || 'Không xác định',
+      lat: latitude?.toString() || '0',
+      lng: longitude?.toString() || '0',
+      type: attendanceLastedStatus?.type === 'CHECK_IN' ? 'CHECK_OUT' : 'CHECK_IN',
+      imageUri: asset.uri,
+    });
+
+    setPhoto(null);
+    router.back();
   };
 
   // Handle permissions

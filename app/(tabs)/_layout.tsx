@@ -38,7 +38,7 @@ const _Layout = () => {
         name="History"
         options={{
           title: 'Lịch sử',
-          header: () => <HistoryHeader minYear={2020} maxYear={2025} initialYear={2025} />,
+          header: () => <HistoryHeader />,
           tabBarIcon: ({ focused }) => (
             <MaterialIcons name="history" size={24} color={focused ? 'black' : 'gray'} />
           ),
@@ -48,7 +48,7 @@ const _Layout = () => {
         name="Profile"
         options={{
           title: 'Hồ sơ',
-          headerShown: false,
+          header: () => <Header title="Quản lý tài khoản" isDisplayUserInfo />,
           tabBarIcon: ({ focused }) => (
             <Feather name="user" size={20} color={focused ? 'black' : 'gray'} />
           ),

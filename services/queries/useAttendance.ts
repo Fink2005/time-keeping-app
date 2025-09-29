@@ -1,10 +1,16 @@
 import { AttendanceType } from '@/enum/Attendance';
 import attendanceRequest from '@/services/request/attendance';
 import { useCommonStore } from '@/store/useCommonStore';
-import { AttendanceDetailRes, AttendanceRes } from '@/types/Attendance';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+  AttendanceByYearRes,
+  AttendanceDetailRes,
+  AttendanceReq,
+  AttendanceRes,
+} from '@/types/Attendance';
+import { showAlert } from '@/utils/global';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const useGetAttendance = (initialPage = 1) => {
+export const useGetInfiniteAttendance = (initialPage = 1) => {
   const setAttendanceType = useCommonStore((state) => state.setAttendanceType);
 
   return useInfiniteQuery<AttendanceRes, Error>({
@@ -43,7 +49,24 @@ export const useGetAttendance = (initialPage = 1) => {
   });
 };
 
-export const useGetAttendanceDetail = (initialPage = 1, date: string) => {
+export const useGetAttendanceByYear = (year: number) => {
+  return useQuery<AttendanceByYearRes, Error>({
+    queryKey: ['attendance', year],
+    queryFn: async (): Promise<AttendanceByYearRes> => {
+      const response = await attendanceRequest.getAttendanceByYear(year);
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      if (!response) {
+        throw new Error('Response is null');
+      }
+      return response;
+    },
+  });
+};
+
+export const useGetInfiniteAttendanceDetail = (initialPage = 1, date: string) => {
   return useInfiniteQuery<AttendanceDetailRes, Error>({
     queryKey: ['attendance-detail-history'],
     queryFn: async ({ pageParam = initialPage }): Promise<AttendanceDetailRes> => {
@@ -60,6 +83,7 @@ export const useGetAttendanceDetail = (initialPage = 1, date: string) => {
       }
       return response;
     },
+    staleTime: 0,
     initialPageParam: initialPage,
 
     getNextPageParam: (lastPage: AttendanceDetailRes) => {
@@ -69,6 +93,28 @@ export const useGetAttendanceDetail = (initialPage = 1, date: string) => {
         return currentPage + 1;
       }
       return undefined;
+    },
+  });
+};
+
+export const useCreateAttendance = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AttendanceRes, Error, AttendanceReq>({
+    mutationKey: ['create-attendance'],
+    mutationFn: async (data: AttendanceReq): Promise<AttendanceRes> => {
+      const res = await attendanceRequest.createAttendance(data);
+      if (!res) {
+        throw new Error('Failed to create attendance');
+      }
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['attendance-history'] });
+      showAlert('Success', 'Chấm công thành công');
+    },
+
+    onError: () => {
+      showAlert('Error', 'Chấm công thất bại, vui lòng thử lại');
     },
   });
 };

@@ -3,6 +3,7 @@ import { images } from '@/constants/images';
 import { RegisterFormData, registerSchema } from '@/schema/auth';
 import authRequest from '@/services/request/auth';
 import { showAlert } from '@/utils/global';
+import { mmkvStorage } from '@/utils/mmkvStorage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React, { Dispatch, SetStateAction } from 'react';
@@ -30,7 +31,8 @@ const RegisterScreen = () => {
   ) => {
     try {
       setIsLoading(true);
-      await authRequest.register(data);
+      mmkvStorage.setItem('name', data.name);
+      await authRequest.register({ ...data, key: 'YFtUnSRwEc4Dy6pjBVr8' });
       showAlert('Success', 'Đăng kí thành công! , vui lòng xác nhận qua email.');
       router.push('/(screens)/(authScreen)/LoginScreen');
     } finally {

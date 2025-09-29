@@ -38,7 +38,8 @@ const AttendanceHandler = ({ latitude, longitude, address }: Props) => {
         activeTrackColor="#22c55e"
         renderActiveThumbIcon={() => <Text className="text-xs font-medium">on</Text>}
         renderInactiveThumbIcon={() => <Text className="text-xs font-medium">off</Text>}
-        renderOffIndicator={() => <Text style={{ fontSize: 13, color: 'white' }}>auto</Text>}
+        renderOnIndicator={() => <Text style={{ fontSize: 12, color: 'white' }}>auto</Text>}
+        renderOffIndicator={() => <Text style={{ fontSize: 12, color: 'white' }}>auto</Text>}
       />
 
       <TouchableHighlight

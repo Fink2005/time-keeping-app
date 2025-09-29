@@ -1,64 +1,56 @@
-import { Feather } from '@expo/vector-icons';
+import { useGetAttendanceByYear } from '@/services/queries/useAttendance';
+import { useCommonStore } from '@/store/useCommonStore';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 import { Link } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 
 export default function History() {
-  const currentDay = String(new Date().getDate()).padStart(2, '0');
-  const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
+  const year = useCommonStore((state) => state.year);
 
-  const data = [
-    { month: 'Tháng 1', count: 20, value: `2025-01-${currentMonth === '01' ? currentDay : '01'}` },
-    {
-      month: 'Tháng 2',
-      count: 19,
-      value: `2025-02-${currentMonth === '02' ? currentDay : '01'}`,
-    },
-    {
-      month: 'Tháng 3',
-      count: 17,
-      value: `2025-03-${currentMonth === '03' ? currentDay : '01'}`,
-    },
-    { month: 'Tháng 4', count: 5, value: `2025-04-${currentMonth === '04' ? currentDay : '01'}` },
-    { month: 'Tháng 5', count: 5, value: `2025-05-${currentMonth === '05' ? currentDay : '01'}` },
-    { month: 'Tháng 6', count: 5, value: `2025-06-${currentMonth === '06' ? currentDay : '01'}` },
-    { month: 'Tháng 7', count: 5, value: `2025-07-${currentMonth === '07' ? currentDay : '01'}` },
-    { month: 'Tháng 8', count: 5, value: `2025-08-${currentMonth === '08' ? currentDay : '01'}` },
-    { month: 'Tháng 9', count: 5, value: `2025-09-${currentMonth === '09' ? currentDay : '01'}` },
-    {
-      month: 'Tháng 10',
-      count: 5,
-      value: `2025-10-${currentMonth === '10' ? currentDay : '01'}`,
-    },
-    {
-      month: 'Tháng 11',
-      count: 5,
-      value: `2025-11-${currentMonth === '11' ? currentDay : '01'}`,
-    },
-    {
-      month: 'Tháng 12',
-      count: 5,
-      value: `2025-12-${currentMonth === '12' ? currentDay : '01'}`,
-    },
-  ];
+  const { data: attendanceData, isLoading, refetch } = useGetAttendanceByYear(year);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      refetch();
+    }
+  }, [isFocused, year, refetch]);
+
   return (
     <View className="justify-center flex-1 bg-white">
       <FlatList
-        data={data}
+        data={attendanceData?.data || []}
         keyExtractor={(item) => item.month.toString()}
         numColumns={2}
         contentContainerStyle={{ padding: 5 }}
         renderItem={({ item }) => (
-          <Link href={`/(screens)/CheckAttendanceDetail/${item.value}`} asChild>
+          <Link href={`/(screens)/CheckAttendanceDetail/${year}-${item.initialDate}`} asChild>
             <Pressable className="flex-1 p-5 m-2 bg-white border border-gray-100 shadow-sm rounded-xl">
-              <Text className="text-lg font-bold">{item.month}</Text>
+              <Text className="text-lg font-bold">Tháng {item.month}</Text>
               <View className="flex-row items-center gap-2 mt-2">
                 <Feather name="check-circle" size={15} color="#286BD7" />
-                <Text className="text-xs">Số lần checkin {item.count} lần</Text>
+                <Text className="text-xs">Số lần check-in: {item.checkIn} lần</Text>
+              </View>
+              <View className="flex-row items-center gap-2 mt-2">
+                <Feather name="check-circle" size={15} color="#f97316" />
+                <Text className="text-xs">Số lần check-out: {item.checkOut} lần</Text>
+              </View>
+              <View className="flex-row items-center gap-2 mt-2">
+                <Ionicons name="checkmark-done" size={15} color="#22c55e" />
+                <Text className="text-xs">Tổng: {item.pairs} lần</Text>
               </View>
             </Pressable>
           </Link>
         )}
+        refreshing={isLoading && isFocused}
+        ListEmptyComponent={() => (
+          <View className="items-center justify-center flex-1 mt-10">
+            <Text>Không có dữ liệu</Text>
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

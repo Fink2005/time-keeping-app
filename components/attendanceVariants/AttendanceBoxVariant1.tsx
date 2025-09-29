@@ -14,9 +14,16 @@ type Props = {
     options?: FetchNextPageOptions | undefined,
   ) => Promise<InfiniteQueryObserverResult<InfiniteData<AttendanceRes, unknown>, Error>>;
   isLoading: boolean;
+  isRefetching?: boolean;
   isFetchingNextPage: boolean;
 };
-const AttendanceBoxVariant1 = ({ data, fetchNextPage, isLoading, isFetchingNextPage }: Props) => {
+const AttendanceBoxVariant1 = ({
+  data,
+  fetchNextPage,
+  isLoading,
+  isRefetching,
+  isFetchingNextPage,
+}: Props) => {
   const isFocused = useIsFocused();
 
   return (
@@ -49,7 +56,7 @@ const AttendanceBoxVariant1 = ({ data, fetchNextPage, isLoading, isFetchingNextP
             </View>
           </View>
         )}
-        refreshing={isLoading && isFocused}
+        refreshing={(isLoading && isFocused) || isRefetching}
         ListEmptyComponent={
           <View className="items-center justify-center flex-1 mt-10">
             <Text>Không có dữ liệu</Text>

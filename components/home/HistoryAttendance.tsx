@@ -13,9 +13,17 @@ type Props = {
     options?: FetchNextPageOptions | undefined,
   ) => Promise<InfiniteQueryObserverResult<InfiniteData<AttendanceRes, unknown>, Error>>;
   isLoading: boolean;
+  isRefetching?: boolean;
   isFetchingNextPage: boolean;
 };
-const HistoryAttendance = ({ data, fetchNextPage, isLoading, isFetchingNextPage, type }: Props) => {
+const HistoryAttendance = ({
+  data,
+  fetchNextPage,
+  isLoading,
+  isFetchingNextPage,
+  isRefetching,
+  type,
+}: Props) => {
   switch (type) {
     case 'variant1':
       return (
@@ -32,6 +40,7 @@ const HistoryAttendance = ({ data, fetchNextPage, isLoading, isFetchingNextPage,
           data={data}
           fetchNextPage={fetchNextPage}
           isLoading={isLoading}
+          isRefetching={isRefetching}
           isFetchingNextPage={isFetchingNextPage}
         />
       );
@@ -41,6 +50,7 @@ const HistoryAttendance = ({ data, fetchNextPage, isLoading, isFetchingNextPage,
           data={data}
           fetchNextPage={fetchNextPage}
           isLoading={isLoading}
+          isRefetching={isRefetching}
           isFetchingNextPage={isFetchingNextPage}
         />
       );

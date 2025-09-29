@@ -2,14 +2,7 @@ import { LoginFormData, RegisterFormData } from '@/schema/auth';
 import { Feather } from '@expo/vector-icons';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import {
-  ActivityIndicator,
-  Pressable,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 
 type Props = {
   type: 'login' | 'register';
@@ -191,10 +184,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
         />
       )}
       {/* Submit Button */}
-      <TouchableOpacity
-        className="p-3 bg-blue-500 rounded-md"
-        onPress={() => onSubmit(setIsLoading)}
-      >
+      <Pressable className="p-3 bg-blue-500 rounded-md" onPress={() => onSubmit(setIsLoading)}>
         {isLoading ? (
           <ActivityIndicator color="white" />
         ) : (
@@ -202,7 +192,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
             {type === 'login' ? 'Login' : 'Register'}
           </Text>
         )}
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

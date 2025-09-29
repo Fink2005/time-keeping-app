@@ -4,6 +4,8 @@ import { LoginFormData, loginSchema } from '@/schema/auth';
 import authRequest from '@/services/request/auth';
 import { useAuthStore } from '@/store/useAuthStore';
 import { showAlert } from '@/utils/global';
+import log from '@/utils/logger';
+import { mmkvStorage } from '@/utils/mmkvStorage';
 import { secureStorage } from '@/utils/secureStorage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
@@ -21,7 +23,7 @@ const LoginScreen = () => {
     defaultValues: { email: '', password: '' },
   });
 
-  const { setToken } = useAuthStore();
+  const { setToken, setUserInfo } = useAuthStore();
 
   const onSubmitLoginOrRegister = async (
     data: LoginFormData,
@@ -29,10 +31,26 @@ const LoginScreen = () => {
   ) => {
     setLoading(true);
     try {
-      const res = await authRequest.login(data);
-      if (res) {
-        setToken(res.accessToken);
-        await secureStorage.setItem('accessToken', res.accessToken);
+      const accountCenterRes = await authRequest.loginByAccountCenter({
+        ...data,
+        key: 'YFtUnSRwEc4Dy6pjBVr8',
+      });
+
+      if (accountCenterRes) {
+        const name = (await mmkvStorage.getItem('name')) || '';
+        const res = await authRequest.login({
+          token: accountCenterRes.data.accessToken,
+          name: accountCenterRes.data.accessToken,
+          ...(name && { name }),
+        });
+        if (!res) {
+          showAlert('Error', 'Login failed, please try again.');
+          return;
+        }
+        log(res.user);
+        setToken(res?.tokens.accessToken || '');
+        setUserInfo(res.user);
+        await secureStorage.setItem('accessToken', res?.tokens.accessToken || '');
         showAlert('Success', 'Login successful!');
         router.replace('/(tabs)');
       }

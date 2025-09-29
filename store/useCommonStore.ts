@@ -7,6 +7,8 @@ type AppState = {
   setIsLoading: (isLoading: boolean) => void;
   attendanceType: AttendanceType | undefined;
   setAttendanceType: (type: AttendanceType | undefined) => void;
+  year: number;
+  setYear: (year: number) => void;
 };
 
 export const useCommonStore = create<AppState>()((set) => ({
@@ -14,4 +16,6 @@ export const useCommonStore = create<AppState>()((set) => ({
   setIsLoading: (isLoading) => set({ isLoading }),
   attendanceType: AttendanceType.CHECK_IN,
   setAttendanceType: (attendanceType) => set({ attendanceType }),
+  year: new Date().getFullYear(),
+  setYear: (year) => set({ year }),
 }));

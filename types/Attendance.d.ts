@@ -33,6 +33,18 @@ export type AttendanceRes = {
   totalPages: number;
 };
 
+export type AttendanceLastedStatusReq = Omit<AttendanceReq, 'location' | 'radius'>;
+
+export type AttendanceByYearRes = {
+  data: {
+    month: number;
+    checkIn: number;
+    checkOut: number;
+    pairs: number;
+    initialDate: string;
+  }[];
+};
+
 export type AttendanceDetailRes = {
   data: (AttendanceReq & {
     id: string;

@@ -1,42 +1,37 @@
+import { useAuthStore } from '@/store/useAuthStore';
+import { useCommonStore } from '@/store/useCommonStore';
 import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface HistoryHeaderProps {
-  onYearChange?: (year: number) => void;
-  initialYear?: number;
-  minYear?: number;
-  maxYear?: number;
-}
+const HistoryHeader = () => {
+  const { userInfo } = useAuthStore();
 
-const HistoryHeader: React.FC<HistoryHeaderProps> = ({
-  onYearChange,
-  initialYear = new Date().getFullYear(),
-  minYear = 2020,
-  maxYear = new Date().getFullYear(),
-}) => {
-  const [currentYear, setCurrentYear] = useState(initialYear);
+  const createdYear = userInfo
+    ? new Date(userInfo.createdAt).getFullYear()
+    : new Date().getFullYear();
+  const year = useCommonStore((state) => state.year);
+  const setYear = useCommonStore((state) => state.setYear);
 
   const handleYearChange = (newYear: number) => {
-    setCurrentYear(newYear);
-    onYearChange?.(newYear);
+    setYear(newYear);
   };
 
   const goToPreviousYear = () => {
-    if (currentYear > minYear) {
-      handleYearChange(currentYear - 1);
+    if (year > createdYear) {
+      handleYearChange(year - 1);
     }
   };
 
   const goToNextYear = () => {
-    if (currentYear < maxYear) {
-      handleYearChange(currentYear + 1);
+    if (year < new Date().getFullYear()) {
+      handleYearChange(year + 1);
     }
   };
 
-  const isPreviousDisabled = currentYear <= minYear;
-  const isNextDisabled = currentYear >= maxYear;
+  const isPreviousDisabled = year <= createdYear;
+  const isNextDisabled = year >= new Date().getFullYear();
 
   return (
     <>
@@ -59,7 +54,7 @@ const HistoryHeader: React.FC<HistoryHeaderProps> = ({
             />
           </Pressable>
 
-          <Text className="text-2xl font-bold min-w-[80px] text-center">{currentYear}</Text>
+          <Text className="text-2xl font-bold min-w-[80px] text-center">{year}</Text>
 
           <Pressable
             onPress={goToNextYear}

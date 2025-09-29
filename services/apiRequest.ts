@@ -9,6 +9,15 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
+type MutationMethod = {
+  endpoint: string;
+  data?: any;
+  isAccountCenterApi?: boolean;
+  config?: AxiosRequestConfig;
+};
+
+type QueryMethod = Omit<MutationMethod, 'data'>;
+
 // Custom exception class
 export class ApiException extends Error {
   status: number;
@@ -20,9 +29,11 @@ export class ApiException extends Error {
 }
 
 // Create axios instance
-const createApiClient = (): AxiosInstance => {
+const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
   const client = axios.create({
-    baseURL: process.env.EXPO_PUBLIC_API_URLL,
+    baseURL: isAccountCenterApi
+      ? process.env.EXPO_PUBLIC_API_ACCOUNT_CENTER_URL
+      : process.env.EXPO_PUBLIC_API_URL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +45,6 @@ const createApiClient = (): AxiosInstance => {
     async (config: InternalAxiosRequestConfig) => {
       try {
         const accessToken = await secureStorage.getItem('accessToken');
-        console.log(accessToken);
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -58,7 +68,6 @@ const createApiClient = (): AxiosInstance => {
 
       if (error.response?.status === 401) {
         // Handle unauthorized - logout user
-        console.log(123);
         // try {
         //   secureStorage.removeItem('accessToken');
         //   router.replace('/(screens)/(authScreen)/LoginScreen');
@@ -67,7 +76,6 @@ const createApiClient = (): AxiosInstance => {
         // } finally {
         //   // Clear all auth data
         //   // await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
-
         //   // You might want to dispatch a logout action or navigate to login screen
         //   // This depends on your navigation/state management setup
         //   console.log('User logged out due to 401 error');
@@ -98,13 +106,21 @@ const createApiClient = (): AxiosInstance => {
 };
 
 // Create the API client instance
-const apiClient = createApiClient();
+const apiClient = createApiClient(false);
+const apiAccountCenterClient = createApiClient(true);
 
 // HTTP methods wrapper
 export const http = {
-  get: async <T>(endpoint: string, config?: AxiosRequestConfig): Promise<T | null> => {
+  get: async <T>({
+    endpoint,
+    isAccountCenterApi = false,
+    config,
+  }: QueryMethod): Promise<T | null> => {
     try {
-      const response = await apiClient.get<T>(endpoint, config);
+      const response = await (isAccountCenterApi ? apiAccountCenterClient : apiClient).get<T>(
+        endpoint,
+        config,
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiException) {
@@ -114,10 +130,19 @@ export const http = {
     }
   },
 
-  post: async <T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T | null> => {
+  post: async <T>({
+    endpoint,
+    data,
+    isAccountCenterApi = false,
+    config,
+  }: MutationMethod): Promise<T | null> => {
     log(apiClient.defaults.baseURL + endpoint, data);
     try {
-      const response = await apiClient.post<T>(endpoint, data, config);
+      const response = await (isAccountCenterApi ? apiAccountCenterClient : apiClient).post<T>(
+        endpoint,
+        data,
+        config,
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiException) {
@@ -127,13 +152,18 @@ export const http = {
     }
   },
 
-  patch: async <T>(
-    endpoint: string,
-    data?: any,
-    config?: AxiosRequestConfig,
-  ): Promise<T | null> => {
+  patch: async <T>({
+    endpoint,
+    data,
+    isAccountCenterApi = false,
+    config,
+  }: MutationMethod): Promise<T | null> => {
     try {
-      const response = await apiClient.patch<T>(endpoint, data, config);
+      const response = await (isAccountCenterApi ? apiAccountCenterClient : apiClient).patch<T>(
+        endpoint,
+        data,
+        config,
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiException) {
@@ -143,16 +173,20 @@ export const http = {
     }
   },
 
-  delete: async <T>(
-    endpoint: string,
-    data?: any,
-    config?: AxiosRequestConfig,
-  ): Promise<T | null> => {
+  delete: async <T>({
+    endpoint,
+    data,
+    isAccountCenterApi = false,
+    config,
+  }: MutationMethod): Promise<T | null> => {
     try {
-      const response = await apiClient.delete<T>(endpoint, {
-        ...config,
-        data, // For DELETE requests with body
-      });
+      const response = await (isAccountCenterApi ? apiAccountCenterClient : apiClient).delete<T>(
+        endpoint,
+        {
+          ...config,
+          data, // For DELETE requests with body
+        },
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiException) {
@@ -167,23 +201,23 @@ export const http = {
 export { apiClient };
 
 // Upload files method (for multipart/form-data)
-export const uploadFile = async <T>(
-  endpoint: string,
-  formData: FormData,
-  onUploadProgress?: (progressEvent: any) => void,
-): Promise<T | null> => {
-  try {
-    const response = await apiClient.post<T>(endpoint, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      onUploadProgress,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('File upload failed:', error);
-    throw error;
-  }
-};
+// export const uploadFile = async <T>(
+//   endpoint: string,
+//   formData: FormData,
+//   onUploadProgress?: (progressEvent: any) => void,
+// ): Promise<T | null> => {
+//   try {
+//     const response = await apiClient.post<T>(endpoint, formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//       onUploadProgress,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('File upload failed:', error);
+//     throw error;
+//   }
+// };
 
 export default apiClient;

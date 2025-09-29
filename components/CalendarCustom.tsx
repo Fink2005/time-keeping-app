@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
 /* eslint-disable react-native/no-color-literals */
 import { AttendanceDetailRes } from '@/types/Attendance';
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 // =========================
@@ -43,12 +42,19 @@ LocaleConfig.locales['vi'] = {
 LocaleConfig.defaultLocale = 'vi';
 
 const CalendarCustom = ({
+  onRefetch,
   initialDate,
   markedDates,
 }: {
+  onRefetch: (date: string) => void;
   initialDate: string;
   markedDates: AttendanceDetailRes['dataCalendarAttendace'];
 }) => {
+  const [selectedDay, setSelectedDay] = useState<string>(initialDate);
+  const handleSelectedDay = (day: string) => {
+    setSelectedDay(day);
+    onRefetch(day);
+  };
   return (
     <Calendar
       style={{
@@ -60,12 +66,17 @@ const CalendarCustom = ({
       initialDate={initialDate}
       hideExtraDays
       onDayPress={(day) => {
-        console.log('selected day', day);
+        handleSelectedDay(day.dateString);
       }}
       firstDay={1}
       markingType="custom"
       markedDates={{
         ...markedDates,
+        [selectedDay]: {
+          selected: true,
+          activeOpacity: 1,
+          selectedColor: '#286BD7',
+        },
       }}
     />
   );
