@@ -18,13 +18,13 @@ import { useCreateAttendance } from '@/services/queries/useAttendance';
 import attendanceRequest from '@/services/request/attendance';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function CheckInOutWithImage() {
+export default function CheckInOutImageScreen() {
   const cameraRef = useRef<CameraView>(null);
-
+  const { checkInOutImageNoteId: noteValue } = useLocalSearchParams();
   const [permission, requestPermission] = useCameraPermissions();
   const [hasMediaPermission, setHasMediaPermission] = useState<boolean | null>(null);
 
@@ -89,6 +89,7 @@ export default function CheckInOutWithImage() {
       lng: longitude?.toString() || '0',
       type: attendanceLastedStatus?.type === 'CHECK_IN' ? 'CHECK_OUT' : 'CHECK_IN',
       imageUri: asset.uri,
+      note: noteValue === 'default' ? '' : (noteValue as string),
     });
 
     setPhoto(null);

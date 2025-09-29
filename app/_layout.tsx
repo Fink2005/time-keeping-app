@@ -72,7 +72,7 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
-                name="(screens)/CheckInOutWithImage"
+                name="(screens)/CheckInOutImage/[checkInOutImageNoteId]"
                 options={{
                   header: () => <Header isDisplayPrevious title="Chấm công với camera" />,
                 }}

@@ -45,6 +45,7 @@ const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
     async (config: InternalAxiosRequestConfig) => {
       try {
         const accessToken = await secureStorage.getItem('accessToken');
+        console.log('Adding auth token to request:', accessToken);
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -67,6 +68,13 @@ const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
       // const originalRequest = error.config;
 
       if (error.response?.status === 401) {
+        console.warn(error);
+        const errorMessage =
+          (error.response.data as any)?.message[0].message ||
+          (error.response.data as any)?.message ||
+          'Unauthorized access - please log in again.';
+        throw new ApiException(errorMessage, error.response.status);
+
         // Handle unauthorized - logout user
         // try {
         //   secureStorage.removeItem('accessToken');
@@ -86,7 +94,6 @@ const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
         error.response?.status === 404 ||
         error.response?.status === 422
       ) {
-        console.log('day ne ', error.response.data);
         const errorMessage =
           (error.response.data as any)?.message[0].message ||
           (error.response.data as any)?.message ||
@@ -136,13 +143,11 @@ export const http = {
     isAccountCenterApi = false,
     config,
   }: MutationMethod): Promise<T | null> => {
-    log(apiClient.defaults.baseURL + endpoint, data);
     try {
-      const response = await (isAccountCenterApi ? apiAccountCenterClient : apiClient).post<T>(
-        endpoint,
-        data,
-        config,
-      );
+      const api = isAccountCenterApi ? apiAccountCenterClient : apiClient;
+      log(`POST Request to ${api.defaults.baseURL}${endpoint} with data:`, data);
+      const response = await api.post<T>(endpoint, data, config);
+
       return response.data;
     } catch (error) {
       if (error instanceof ApiException) {

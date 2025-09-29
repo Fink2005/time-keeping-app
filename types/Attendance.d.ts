@@ -4,11 +4,12 @@ export type AttendanceReq = {
   lat: string;
   lng: string;
   address: string;
-  location?: {
+  note?: string;
+  Location?: {
     name: string;
   };
   radius?: number;
-  locationId?: string;
+  locationId?: number;
   type?: AttendanceType;
   imageUri?: string;
 };

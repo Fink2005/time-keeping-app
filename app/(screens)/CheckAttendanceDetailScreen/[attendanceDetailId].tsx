@@ -3,7 +3,6 @@ import HistoryAttendance from '@/components/home/HistoryAttendance';
 import { useGetInfiniteAttendanceDetail } from '@/services/queries/useAttendance';
 import { AttendanceDetailRes } from '@/types/Attendance';
 import { dateFormatted, formatDate } from '@/utils/global';
-import log from '@/utils/logger';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
@@ -37,7 +36,6 @@ const AttendanceDetailScreen = () => {
       handleRefetch();
     }
   }, [isFocused, refetch, queryClient]);
-  log(attendanceCalendar);
   return (
     <View className="flex-1 p-5 bg-white">
       <CalendarCustom

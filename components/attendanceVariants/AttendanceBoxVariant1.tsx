@@ -25,7 +25,6 @@ const AttendanceBoxVariant1 = ({
   isFetchingNextPage,
 }: Props) => {
   const isFocused = useIsFocused();
-
   return (
     <>
       <FlatList
@@ -33,27 +32,33 @@ const AttendanceBoxVariant1 = ({
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View className="flex-row items-center p-4 my-2 border border-gray-200 rounded-lg">
-            <View className="gap-1">
-              <View className="flex-row items-center justify-between w-full gap-2 mb-1">
-                <Text
-                  className={`w-24 px-2 py-1 text-center text-white rounded-full ${item.type === 'CHECK_OUT' ? 'bg-orange-500' : 'bg-blue-500'}`}
-                >
-                  {item.type === 'CHECK_IN' ? 'Check-in' : 'Check-out'}
-                </Text>
-                <Text className="text-base font-medium text-gray-500">
-                  {new Date(item.createdAt).toLocaleString()}
-                </Text>
+          <View className="items-center p-4 my-2 border border-blue-300 rounded-xl bg-blue-100/30">
+            <View className="flex-row items-center justify-between w-full gap-2 pb-3 mb-1 border-b border-gray-200">
+              <Text
+                className={`w-24 px-2 py-1 text-center text-white rounded-full ${item.type === 'CHECK_OUT' ? 'bg-orange-500' : 'bg-blue-500'}`}
+              >
+                {item.type === 'CHECK_IN' ? 'Check-in' : 'Check-out'}
+              </Text>
+              <Text className="text-base font-medium text-center text-red-500">
+                {item.Location?.name}
+              </Text>
+            </View>
+            <View className="flex-row w-full py-3">
+              <View className="gap-1">
+                <Text>Kinh độ: {item.lng}</Text>
+                <Text>Vĩ độ: {item.lat}</Text>
+                {item.note && <Text numberOfLines={1}>Ghi chú: {item.note}</Text>}
+                <Text numberOfLines={2}>Địa chỉ: {item.address}</Text>
               </View>
-              <Text>Kinh độ: {item.lng}</Text>
-              <Text>Vĩ độ: {item.lat}</Text>
-              <Text numberOfLines={2}>Địa chỉ: {item.address}</Text>
+              <View className="items-end justify-center flex-1 ">
+                {item.imageUri && (
+                  <Image source={{ uri: item.imageUri }} className="rounded-lg size-10" />
+                )}
+              </View>
             </View>
-            <View className="items-end flex-1">
-              {item.imageUri && (
-                <Image source={{ uri: item.imageUri }} className="rounded-lg size-10" />
-              )}
-            </View>
+            <Text className="w-full pt-2 mt-2 text-base font-medium text-center text-blue-500 border-t border-gray-200">
+              {new Date(item.createdAt).toLocaleString()}
+            </Text>
           </View>
         )}
         refreshing={(isLoading && isFocused) || isRefetching}

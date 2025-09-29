@@ -4,7 +4,6 @@ import { LoginFormData, loginSchema } from '@/schema/auth';
 import authRequest from '@/services/request/auth';
 import { useAuthStore } from '@/store/useAuthStore';
 import { showAlert } from '@/utils/global';
-import log from '@/utils/logger';
 import { mmkvStorage } from '@/utils/mmkvStorage';
 import { secureStorage } from '@/utils/secureStorage';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,19 +34,23 @@ const LoginScreen = () => {
         ...data,
         key: 'YFtUnSRwEc4Dy6pjBVr8',
       });
-
       if (accountCenterRes) {
         const name = (await mmkvStorage.getItem('name')) || '';
+
+        setToken(accountCenterRes.data.accessToken || '');
+        await secureStorage.setItem('accessToken', accountCenterRes.data.accessToken || '');
+
         const res = await authRequest.login({
           token: accountCenterRes.data.accessToken,
-          name: accountCenterRes.data.accessToken,
           ...(name && { name }),
         });
+        if (name) {
+          mmkvStorage.removeItem('name');
+        }
         if (!res) {
           showAlert('Error', 'Login failed, please try again.');
           return;
         }
-        log(res.user);
         setToken(res?.tokens.accessToken || '');
         setUserInfo(res.user);
         await secureStorage.setItem('accessToken', res?.tokens.accessToken || '');

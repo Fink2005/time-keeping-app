@@ -6,7 +6,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from 'expo-router';
 import { Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
-const CardInfo = ({
+const LocationInfo = ({
   address,
   latitude,
   longitude,
@@ -33,8 +33,8 @@ const CardInfo = ({
         <View className="flex-row items-center gap-2">
           <Feather name="map-pin" size={18} />
           {address && (
-            <Text className="font-semibold">
-              {`${address}`} ({latitude.toFixed(2)}, {longitude.toFixed(2)})
+            <Text numberOfLines={1} className="font-semibold">
+              {`${address}`}
             </Text>
           )}
         </View>
@@ -58,4 +58,4 @@ const CardInfo = ({
   );
 };
 
-export default CardInfo;
+export default LocationInfo;

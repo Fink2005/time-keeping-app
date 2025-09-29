@@ -26,7 +26,7 @@ export default function History() {
         numColumns={2}
         contentContainerStyle={{ padding: 5 }}
         renderItem={({ item }) => (
-          <Link href={`/(screens)/CheckAttendanceDetail/${year}-${item.initialDate}`} asChild>
+          <Link href={`/(screens)/CheckAttendanceDetailScreen/${year}-${item.initialDate}`} asChild>
             <Pressable className="flex-1 p-5 m-2 bg-white border border-gray-100 shadow-sm rounded-xl">
               <Text className="text-lg font-bold">Tháng {item.month}</Text>
               <View className="flex-row items-center gap-2 mt-2">

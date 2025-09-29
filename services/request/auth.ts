@@ -6,7 +6,7 @@ import {
   LoginRes,
   RegisterAccountCenterReq,
   RegisterRes,
-} from '@/types/auth';
+} from '@/types/Auth';
 
 const authRequest = {
   async register(data: RegisterAccountCenterReq): Promise<RegisterRes | null> {

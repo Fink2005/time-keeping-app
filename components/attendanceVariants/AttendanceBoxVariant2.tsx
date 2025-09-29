@@ -1,6 +1,6 @@
 import { AttendanceRes } from '@/types/Attendance';
 import { formatDate } from '@/utils/global';
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import {
   FetchNextPageOptions,
@@ -37,7 +37,7 @@ const AttendanceBoxVariant2 = ({
         renderItem={({ item }) => (
           <View className="flex-row items-center p-4 my-2 border border-gray-200 rounded-lg">
             <View className="gap-2">
-              <View className="flex-row items-center justify-between w-full mb-1">
+              <View className="flex-row items-center justify-between w-full pb-2 mb-1 border-b border-gray-200">
                 <View className="flex-row items-center gap-2">
                   <Feather name="clock" size={22} color="#3b82f6" />
                   <Text className="text-xl font-semibold">
@@ -50,15 +50,23 @@ const AttendanceBoxVariant2 = ({
                   {item.type === 'CHECK_IN' ? 'Check-in' : 'Check-out'}
                 </Text>
               </View>
-              <View className="flex-row items-center gap-2">
-                <Feather name="map-pin" size={16} color="#3b82f6" />
-                <Text numberOfLines={2}>{item.address}</Text>
+              <View className="flex-row items-center justify-between">
+                <View className="gap-2">
+                  <View className="flex-row items-center gap-2">
+                    <Feather name="map-pin" size={16} color="#3b82f6" />
+                    <Text numberOfLines={2}>{item.address}</Text>
+                  </View>
+                  {item.note && (
+                    <View className="flex-row items-center w-2/3 gap-2">
+                      <FontAwesome5 name="pen" size={14} color="#22c55e" />
+                      <Text numberOfLines={1}>{item.note}</Text>
+                    </View>
+                  )}
+                </View>
+                {item.imageUri && (
+                  <Image source={{ uri: item.imageUri }} className="rounded-lg size-10" />
+                )}
               </View>
-            </View>
-            <View className="items-end flex-1">
-              {item.imageUri && (
-                <Image source={{ uri: item.imageUri }} className="rounded-lg size-10" />
-              )}
             </View>
           </View>
         )}

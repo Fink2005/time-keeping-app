@@ -1,43 +1,68 @@
 import { AttendanceType } from '@/enum/Attendance';
 import { useCreateAttendance } from '@/services/queries/useAttendance';
+import { useGetLocation } from '@/services/queries/useLocation';
+import { LocationRes } from '@/types/Location';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
 import { router } from 'expo-router';
+import { isPointWithinRadius } from 'geolib';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import 'react-native-get-random-values';
-
-const CheckInOutOptions = ({
-  title,
-  iconName,
-  description,
-  locationData,
-  type,
-  setAttendanceType,
-}: {
+type Props = {
   title: string;
   iconName: keyof typeof Entypo.glyphMap;
   description: string;
   type: AttendanceType | undefined;
   locationData?: { latitude: number; longitude: number; address: string | null };
   setAttendanceType?: (type: AttendanceType | undefined) => void;
-}) => {
+  noteValue?: string;
+};
+const CheckInOutOptions = ({
+  title,
+  iconName,
+  description,
+  locationData,
+  type,
+  noteValue,
+  setAttendanceType,
+}: Props) => {
   const { mutate: createAttendance } = useCreateAttendance();
+  const { data } = useGetLocation();
 
+  const offices = data?.pages.flatMap((page: LocationRes) => page.data) || [];
   const handleCheckInOut = async () => {
     if (iconName === 'camera' || !setAttendanceType) {
-      router.push('/(screens)/CheckInOutWithImage');
+      router.push(`/(screens)/CheckInOutImageScreen/${noteValue || 'default'}`);
       return;
     }
     if (!locationData || !locationData.address) {
       showAlert('Lỗi', 'Vui lòng bật định vị để chấm công');
       return;
     }
+
+    const matchedOffice = offices?.find((office) =>
+      isPointWithinRadius(
+        {
+          latitude: locationData.latitude,
+          longitude: locationData.longitude,
+        },
+        {
+          latitude: office.lat,
+          longitude: office.lng,
+        },
+        office.radius,
+      ),
+    );
+    const locationId = matchedOffice?.id ? matchedOffice.id : undefined;
+
     createAttendance({
       address: locationData.address,
       lat: locationData.latitude.toString(),
       lng: locationData.longitude.toString(),
       type,
+      ...(noteValue && { note: noteValue }),
+      ...(locationId && { locationId }),
     });
     setAttendanceType(
       type === AttendanceType.CHECK_IN ? AttendanceType.CHECK_OUT : AttendanceType.CHECK_IN,
@@ -51,8 +76,10 @@ const CheckInOutOptions = ({
       onPress={handleCheckInOut}
     >
       <View className="flex-row items-center gap-4">
-        <View className="p-2 bg-gray-200 rounded-full">
-          <Entypo name={iconName} size={24} color="black" />
+        <View
+          className={`p-3 ${iconName === 'camera' ? 'bg-blue-500' : 'bg-yellow-500'} rounded-full`}
+        >
+          <Entypo name={iconName} size={24} color="white" />
         </View>
         <View>
           <Text className="text-lg font-bold">{title}</Text>

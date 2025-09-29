@@ -72,8 +72,6 @@ export const useGetInfiniteAttendanceDetail = (initialPage = 1, date: string) =>
     queryFn: async ({ pageParam = initialPage }): Promise<AttendanceDetailRes> => {
       const response = await attendanceRequest.getAttendanceDetail(pageParam as number, date);
 
-      // log(response);
-
       if (response instanceof Error) {
         throw response;
       }

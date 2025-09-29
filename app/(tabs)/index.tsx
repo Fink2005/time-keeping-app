@@ -1,6 +1,6 @@
 import AttendanceHandler from '@/components/home/AttendanceHandler';
-import CardInfo from '@/components/home/CardInfo';
 import HistoryAttendance from '@/components/home/HistoryAttendance';
+import LocationInfo from '@/components/home/LocationInfo';
 import useLocation from '@/hooks/useLocation';
 import { useGetInfiniteAttendance } from '@/services/queries/useAttendance';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <View className="flex-1 p-5 bg-white">
-      <CardInfo
+      <LocationInfo
         address={address}
         isRefresh={isRefresh}
         setIsRefresh={setIsRefresh}
@@ -58,6 +58,7 @@ export default function Home() {
         longitude={longitude}
       />
       <AttendanceHandler latitude={latitude} longitude={longitude} address={address} />
+      <Text className="mt-5 mb-2 text-lg font-bold">Lịch sử chấm công</Text>
       <HistoryAttendance
         data={attendanceData}
         fetchNextPage={fetchNextPage}
