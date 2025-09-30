@@ -1,5 +1,5 @@
-import { ATTENDACE_HISTORY_LIMIT } from '@/constants/global';
-import { http } from '@/services/apiRequest';
+import { ATTENDACE_HISTORY_LIMIT } from '@/src/constants/global';
+import { http } from '@/src/services/apiRequest';
 import {
   AttendanceByYearRes,
   AttendanceDetailRes,

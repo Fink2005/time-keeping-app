@@ -17,10 +17,12 @@
   "resolutions": {
     "react-native-safe-area-context": "5.6.1"
   },
-  "lint-staged": {
-  "*.ts": "eslint --fix",
-  "*.tsx": "eslint --fix"
-  },
+"lint-staged": {
+  "app/**/*.{ts,tsx,js,jsx}": [
+    "eslint --cache --fix",
+    "prettier --write"
+  ]
+},
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

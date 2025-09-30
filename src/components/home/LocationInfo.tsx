@@ -1,5 +1,5 @@
-import CircleRotation from '@/components/CircleRotation';
-import Time from '@/components/Time';
+import CircleRotation from '@/src/components/CircleRotation';
+import Time from '@/src/components/Time';
 import { copy } from '@/utils/global';
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
