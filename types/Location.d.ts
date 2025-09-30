@@ -1,3 +1,4 @@
+//
 export type LocationReq = {
   name: string;
   lat: string;

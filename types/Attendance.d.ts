@@ -1,5 +1,5 @@
 export type AttendanceType = 'CHECK_IN' | 'CHECK_OUT';
-
+//
 export type AttendanceReq = {
   lat: string;
   lng: string;
