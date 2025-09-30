@@ -55,7 +55,7 @@ const LoginScreen = () => {
         setUserInfo(res.user);
         await secureStorage.setItem('accessToken', res?.tokens.accessToken || '');
         showAlert('Success', 'Login successful!');
-        router.replace('/(tabs)');
+        router.replace('/(tabs)/home');
       }
     } finally {
       setLoading(false);

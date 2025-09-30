@@ -38,3 +38,12 @@ yarn-error.*
 
 app-example
 keys
+ios/build/
+ios/Pods/
+android/app/build/
+android/.gradle/
+
+
+.expo/
+.expo-shared/
+*.log

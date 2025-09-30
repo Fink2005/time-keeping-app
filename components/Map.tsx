@@ -146,6 +146,7 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
       radius,
       name: location,
     });
+    router.push('/(tabs)/location');
   };
 
   useEffect(() => {

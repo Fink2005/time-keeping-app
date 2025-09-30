@@ -18,10 +18,8 @@
     "react-native-safe-area-context": "5.6.1"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+  "*.ts": "eslint --fix",
+  "*.tsx": "eslint --fix"
   },
   "config": {
     "commitizen": {

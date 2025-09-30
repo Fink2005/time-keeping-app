@@ -45,7 +45,7 @@ const LocationInfo = ({
       </TouchableWithoutFeedback>
       <View className="flex-row items-center gap-2">
         <MaterialIcons name="gps-fixed" size={18} />
-        <Text className="bg-gray-700 w-28 p-2 rounded-full text-white text-[12px] text-center">
+        <Text className="bg-blue-500 w-28 p-2 rounded-full text-white text-[12px] text-center">
           chính xác 10m
         </Text>
       </View>

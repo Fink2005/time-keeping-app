@@ -5,7 +5,6 @@ import {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
-import React from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 
 type Props = {
@@ -67,6 +66,7 @@ const AttendanceBoxVariant1 = ({
             <Text>Không có dữ liệu</Text>
           </View>
         }
+        ListFooterComponentStyle={{ marginBottom: 70 }}
         onEndReached={async () => await fetchNextPage()}
         onEndReachedThreshold={0.2}
         ListFooterComponent={() => (
