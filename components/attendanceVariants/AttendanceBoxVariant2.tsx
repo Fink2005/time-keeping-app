@@ -1,4 +1,4 @@
-import { AttendanceRes } from '@/types/attendance';
+import { AttendanceRes } from '@/types/Attendance';
 import { formatDate } from '@/utils/global';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';

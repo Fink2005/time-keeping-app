@@ -1,6 +1,6 @@
 import AttendanceBoxVariant1 from '@/components/attendanceVariants/AttendanceBoxVariant1';
 import AttendanceBoxVariant2 from '@/components/attendanceVariants/AttendanceBoxVariant2';
-import { AttendanceRes } from '@/types/attendance';
+import { AttendanceRes } from '@/types/Attendance';
 import {
   FetchNextPageOptions,
   InfiniteData,
