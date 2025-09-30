@@ -5,7 +5,7 @@ import {
   LocationReq,
   LocationRes,
   LocationUpdateDetailReq,
-} from '@/types/Location';
+} from '@/types/location';
 
 const locationRequest = {
   createLocation: async (data: LocationReq) => {

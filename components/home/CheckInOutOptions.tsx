@@ -1,7 +1,7 @@
 import { AttendanceType } from '@/enum/Attendance';
 import { useCreateAttendance } from '@/services/queries/useAttendance';
 import { useGetLocation } from '@/services/queries/useLocation';
-import { LocationRes } from '@/types/Location';
+import { LocationRes } from '@/types/location';
 import { showAlert } from '@/utils/global';
 import Entypo from '@expo/vector-icons/Entypo';
 import { router } from 'expo-router';

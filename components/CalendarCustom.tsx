@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import { AttendanceDetailRes } from '@/types/Attendance';
+import { AttendanceDetailRes } from '@/types/attendance';
 import React, { useState } from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 

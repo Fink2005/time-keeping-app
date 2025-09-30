@@ -4,7 +4,7 @@ import {
   LocationReq,
   LocationRes,
   LocationUpdateDetailReq,
-} from '@/types/Location';
+} from '@/types/location';
 import { showAlert } from '@/utils/global';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
