@@ -3,38 +3,29 @@ import HistoryAttendance from '@/components/home/HistoryAttendance';
 import LocationInfo from '@/components/home/LocationInfo';
 import useLocation from '@/hooks/useLocation';
 import { useGetInfiniteAttendance } from '@/services/queries/useAttendance';
-import { useAuthStore } from '@/store/useAuthStore';
 import { AttendanceRes } from '@/types/attendance';
 import { useIsFocused } from '@react-navigation/native';
-import * as Notifications from 'expo-notifications';
-import { router } from 'expo-router';
+// import * as Notifications from 'expo-notifications';
 import React, { useEffect } from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
-export default function Home() {
+import { Text, View } from 'react-native';
+export default function HomeScreen() {
   const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
 
-  const { setToken } = useAuthStore();
-
   // Schedule a local notification
-  async function sendLocalNotification() {
-    const { status } = await Notifications.requestPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission for notifications not granted!');
-    }
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Hello 👋',
-        body: 'This is a test notification',
-        sound: true,
-      },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 2 }, // show after 2 seconds
-    });
-  }
-
-  const handleLogout = () => {
-    setToken('');
-    router.replace('/(screens)/(authScreen)/LoginScreen');
-  };
+  // async function sendLocalNotification() {
+  //   const { status } = await Notifications.requestPermissionsAsync();
+  //   if (status !== 'granted') {
+  //     alert('Permission for notifications not granted!');
+  //   }
+  //   await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: 'Hello 👋',
+  //       body: 'This is a test notification',
+  //       sound: true,
+  //     },
+  //     trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 2 }, // show after 2 seconds
+  //   });
+  // }
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, refetch } =
     useGetInfiniteAttendance();
@@ -66,11 +57,6 @@ export default function Home() {
         isFetchingNextPage={isFetchingNextPage}
         type="variant1"
       />
-
-      <Button title="Send Test Notification" onPress={sendLocalNotification} />
-      <Pressable onPress={handleLogout}>
-        <Text>login page</Text>
-      </Pressable>
     </View>
   );
 }

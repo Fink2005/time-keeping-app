@@ -32,7 +32,7 @@ const AttendanceBoxVariant1 = ({
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View className="items-center p-4 my-2 border border-blue-300 rounded-xl bg-blue-100/30">
+          <View className="items-center p-4 my-2 border border-gray-200 rounded-xl ">
             <View className="flex-row items-center justify-between w-full gap-2 pb-3 mb-1 border-b border-gray-200">
               <Text
                 className={`w-24 px-2 py-1 text-center text-white rounded-full ${item.type === 'CHECK_OUT' ? 'bg-orange-500' : 'bg-blue-500'}`}

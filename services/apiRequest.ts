@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { showAlert } from '@/utils/global';
 import log from '@/utils/logger';
+import { mmkvStorage } from '@/utils/mmkvStorage';
 import { secureStorage } from '@/utils/secureStorage';
 import axios, {
   AxiosError,
@@ -8,6 +9,7 @@ import axios, {
   type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import { router } from 'expo-router';
 
 type MutationMethod = {
   endpoint: string;
@@ -45,7 +47,6 @@ const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
     async (config: InternalAxiosRequestConfig) => {
       try {
         const accessToken = await secureStorage.getItem('accessToken');
-        console.log('Adding auth token to request:', accessToken);
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -69,25 +70,13 @@ const createApiClient = (isAccountCenterApi = false): AxiosInstance => {
 
       if (error.response?.status === 401) {
         console.warn(error);
-        const errorMessage =
-          (error.response.data as any)?.message[0].message ||
-          (error.response.data as any)?.message ||
-          'Unauthorized access - please log in again.';
-        throw new ApiException(errorMessage, error.response.status);
-
-        // Handle unauthorized - logout user
-        // try {
-        //   secureStorage.removeItem('accessToken');
-        //   router.replace('/(screens)/(authScreen)/LoginScreen');
-        // } catch (logoutError) {
-        //   console.error('Logout request failed:', logoutError);
-        // } finally {
-        //   // Clear all auth data
-        //   // await storage.multiRemove(['accessTokenTK', 'refreshToken9x9', 'authData']);
-        //   // You might want to dispatch a logout action or navigate to login screen
-        //   // This depends on your navigation/state management setup
-        //   console.log('User logged out due to 401 error');
-        // }
+        // const errorMessage =
+        //   (error.response.data as any)?.message[0].message ||
+        //   (error.response.data as any)?.message ||
+        //   'Unauthorized access - please log in again.';
+        // throw new ApiException(errorMessage, error.response.status);
+        await mmkvStorage.removeItem('accessToken');
+        router.replace('/(screens)/(authScreen)/LoginScreen');
       } else if (
         error.response?.status === 400 ||
         error.response?.status === 403 ||

@@ -2,7 +2,15 @@ import { LoginFormData, RegisterFormData } from '@/schema/auth';
 import { Feather } from '@expo/vector-icons';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 type Props = {
   type: 'login' | 'register';
@@ -20,7 +28,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
   const registerErrors = errors as FieldErrors<RegisterFormData>;
   const commonControl = control as Control<LoginFormData | RegisterFormData>;
   return (
-    <View>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       {/* Name Field */}
       {type === 'register' && (
         <Controller
@@ -42,6 +50,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
                   }`}
                   placeholder="Enter name"
                   value={value}
+                  placeholderTextColor="#54585f"
                   onChangeText={onChange}
                   keyboardType="default"
                   autoCapitalize="words"
@@ -75,6 +84,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter email"
+                placeholderTextColor="#54585f"
                 value={value}
                 onChangeText={onChange}
                 keyboardType="email-address"
@@ -121,6 +131,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
                   errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter password"
+                placeholderTextColor="#54585f"
                 value={value}
                 onChangeText={onChange}
                 secureTextEntry={!password.isDisplayPassword}
@@ -169,6 +180,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
                   className={`border p-3 ps-10 rounded-md ${
                     registerErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                   }`}
+                  placeholderTextColor="#54585f"
                   placeholder="Enter confirm Password"
                   value={value}
                   onChangeText={onChange}
@@ -193,7 +205,7 @@ const AuthForm = ({ type, control, onSubmit, errors }: Props) => {
           </Text>
         )}
       </Pressable>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

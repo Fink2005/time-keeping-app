@@ -53,13 +53,7 @@
           "locationAlwaysAndWhenInUsePermission": "Allow Timekeeping to use your location."
         }
       ],
-      "expo-secure-store",
-      "react-native-bottom-tabs",
-      ["expo-build-properties", {
-        "ios": {
-          "useFrameworks": "static"
-        }
-      }]
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

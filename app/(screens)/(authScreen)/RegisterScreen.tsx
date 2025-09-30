@@ -41,7 +41,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View className="justify-center flex-1 gap-10 p-8 -translate-y-10 bg-white">
+    <View className="justify-center flex-1 gap-10 p-8 bg-white">
       <View className="items-center">
         <Image source={images.logo} className="h-24 w-44" />
         <View className="items-center gap-1 -translate-y-4">

@@ -64,7 +64,7 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
-                name="(screens)/CheckAttendanceDetail/[attendanceDetailId]"
+                name="(screens)/CheckAttendanceDetailScreen/[attendanceDetailId]"
                 options={{
                   header: () => (
                     <Header isDisplayPrevious isDisplayUserInfo title="Chi tiết chấm công" />
@@ -72,7 +72,7 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
-                name="(screens)/CheckInOutImage/[checkInOutImageNoteId]"
+                name="(screens)/CheckInOutImageScreen/[checkInOutImageNoteId]"
                 options={{
                   header: () => <Header isDisplayPrevious title="Chấm công với camera" />,
                 }}

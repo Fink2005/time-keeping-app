@@ -48,3 +48,8 @@ export const formatDate = (dateStr: string, type: 'weekly' | 'daily') => {
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+export const formatName = (name: string) => {
+  const nameSplit = name.split(' ');
+  return nameSplit[nameSplit.length - 1];
+};

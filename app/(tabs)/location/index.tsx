@@ -65,7 +65,7 @@ const Location = () => {
         )}
       />
       <TouchableWithoutFeedback onPress={() => router.push('/(screens)/MapScreen')}>
-        <View className="absolute p-4 bg-gray-700 rounded-full bottom-5 right-5">
+        <View className="absolute p-4 bg-gray-700 rounded-full bottom-28 right-10">
           <Feather name="plus" size={24} color="white" />
         </View>
       </TouchableWithoutFeedback>

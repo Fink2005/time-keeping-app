@@ -1,57 +1,56 @@
-import Header from '@/components/headers/Header';
-import HistoryHeader from '@/components/headers/HistoryHeader';
-import Feather from '@expo/vector-icons/Feather';
-
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Tabs } from 'expo-router';
 import React from 'react';
+
+import {
+  createNativeBottomTabNavigator,
+  NativeBottomTabNavigationEventMap,
+  NativeBottomTabNavigationOptions,
+} from '@bottom-tabs/react-navigation';
+import { ParamListBase, TabNavigationState } from '@react-navigation/native';
+import { withLayoutContext } from 'expo-router';
+
+const BottomTabNavigator = createNativeBottomTabNavigator().Navigator;
+
+const Tabs = withLayoutContext<
+  NativeBottomTabNavigationOptions,
+  typeof BottomTabNavigator,
+  TabNavigationState<ParamListBase>,
+  NativeBottomTabNavigationEventMap
+>(BottomTabNavigator);
+
 const _Layout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
-        headerStyle: { backgroundColor: 'white' },
-        headerTitleStyle: { color: 'black', fontWeight: 'bold' },
+        tabBarActiveTintColor: '#3b82f6',
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Trang chủ',
-          header: () => <Header title="Vị trí hiện tại" />,
-          tabBarIcon: ({ focused }) => (
-            <Feather name="home" size={20} color={focused ? 'black' : 'gray'} />
-          ),
+          tabBarIcon: () => require('@/assets/icons/home.svg'),
         }}
       />
       <Tabs.Screen
-        name="Location"
+        name="location"
         options={{
           title: 'Địa điểm',
-          header: () => <Header title="Địa điểm đã lưu" />,
-          tabBarIcon: ({ focused }) => (
-            <Feather name="map-pin" size={20} color={focused ? 'black' : 'gray'} />
-          ),
+          tabBarIcon: () => require('@/assets/icons/map-pin.svg'),
         }}
       />
       <Tabs.Screen
-        name="History"
+        name="history"
         options={{
           title: 'Lịch sử',
-          header: () => <HistoryHeader />,
-          tabBarIcon: ({ focused }) => (
-            <MaterialIcons name="history" size={24} color={focused ? 'black' : 'gray'} />
-          ),
+          tabBarIcon: () => require('@/assets/icons/history.svg'),
         }}
       />
       <Tabs.Screen
-        name="Profile"
+        name="profile"
         options={{
           title: 'Hồ sơ',
-          header: () => <Header title="Quản lý tài khoản" isDisplayUserInfo />,
-          tabBarIcon: ({ focused }) => (
-            <Feather name="user" size={20} color={focused ? 'black' : 'gray'} />
-          ),
+          // header: () => <Header title="Quản lý tài khoản" isDisplayUserInfo />,
+          tabBarIcon: () => require('@/assets/icons/user.svg'),
         }}
       />
     </Tabs>

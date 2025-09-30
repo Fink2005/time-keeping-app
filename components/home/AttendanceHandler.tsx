@@ -36,6 +36,7 @@ const AttendanceHandler = ({ latitude, longitude, address }: Props) => {
       <TextInput
         className="p-3 border border-gray-300 rounded-lg"
         placeholder="Thêm ghi chú"
+        placeholderTextColor="#54585f"
         onChangeText={setNoteValue}
         value={noteValue}
       />
