@@ -30,11 +30,15 @@ const LocationInfo = ({
                Kinh độ: ${longitude}`)
         }
       >
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center flex-shrink gap-2">
           <Feather name="map-pin" size={18} />
           {address && (
-            <Text numberOfLines={1} className="font-semibold">
-              {`${address}`}
+            <Text
+              numberOfLines={1}
+              className="flex-shrink font-semibold text-ellipsis"
+              ellipsizeMode="tail"
+            >
+              {address}
             </Text>
           )}
         </View>

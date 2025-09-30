@@ -16,14 +16,14 @@ TaskManager.defineTask(CHECK_IN_OUT_TASK, async ({ data, error }) => {
   if (eventType === Location.GeofencingEventType.Enter) {
     await Notifications.scheduleNotificationAsync({
       content: { title: 'Chấm công', body: `Bạn đã chấm công vào! ${region.identifier}` },
-      trigger: null,
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 2 },
     });
     console.log(`Bạn đã chấm công vào! ${region.identifier} - ${new Date().toLocaleString()}`);
   }
   if (eventType === Location.GeofencingEventType.Exit) {
     await Notifications.scheduleNotificationAsync({
       content: { title: 'Chấm công', body: `Bạn đã chấm công ra! ${region.identifier}` },
-      trigger: null,
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 2 },
     });
     console.log(`Bạn đã chấm công ra! ${region.identifier} - ${new Date().toLocaleString()}`);
   }

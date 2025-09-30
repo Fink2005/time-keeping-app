@@ -31,7 +31,7 @@ const Header = ({ title, isDisplayUserInfo, isDisplayPrevious }: Props) => {
           {/* Right: User info */}
           <View
             className={
-              'flex-row items-center justify-center gap-4 size-[32px] bg-[#03897B] rounded-[15px]' +
+              'flex-row items-center justify-center gap-4 size-[32px] bg-[#03897B] rounded-full' +
               (isDisplayUserInfo ? '' : ' opacity-0')
             }
           >

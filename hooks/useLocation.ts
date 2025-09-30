@@ -3,8 +3,8 @@
 // import { getData } from '@/utils/asyncStorage';
 import locationRequest from '@/services/request/location';
 import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
-import log from '@/utils/logger';
 import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
 import { useEffect, useRef, useState } from 'react';
 
 const useLocation = () => {
@@ -24,8 +24,12 @@ const useLocation = () => {
 
     (async () => {
       if (!isAllowed.current) {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
+        let { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
+        const { status: notificationStatus } = await Notifications.requestPermissionsAsync();
+        if (notificationStatus !== 'granted') {
+          alert('Permission for notifications not granted!');
+        }
+        if (locationStatus !== 'granted') {
           console.log('Permission to access location was denied');
           return;
         }
@@ -83,8 +87,6 @@ const useLocation = () => {
           notifyOnExit: true,
         };
       });
-
-      log(regions);
 
       if (!regions.length) {
         return;

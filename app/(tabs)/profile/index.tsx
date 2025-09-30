@@ -1,9 +1,10 @@
 import { useGetMe } from '@/services/queries/useUser';
+import { formatName } from '@/utils/global';
 import { mmkvStorage } from '@/utils/mmkvStorage';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, Pressable, Switch, Text, View } from 'react-native';
+import { Pressable, Switch, Text, View } from 'react-native';
 
 type ProfileCardProps = {
   title?: string;
@@ -56,12 +57,13 @@ const Profile = () => {
   return (
     <View className="flex-1 p-5 bg-white">
       <View className="flex-row items-center w-full gap-4 p-4 border border-gray-200 rounded-xl ">
-        <Image
-          source={{
-            uri: `https://ui-avatars.com/api/?name=${data?.name}&background=random&color=gray`,
-          }}
-          className="rounded-full size-16"
-        />
+        <View
+          className={'flex-row items-center justify-center gap-4 size-16 bg-[#03897B] rounded-full'}
+        >
+          {data && data.name && (
+            <Text className="text-2xl font-medium text-white">{formatName(data.name)}</Text>
+          )}
+        </View>
         <View>
           <Text className="text-lg font-semibold">{data?.name}</Text>
           <Text className="text-sm text-gray-500">{data?.email}</Text>

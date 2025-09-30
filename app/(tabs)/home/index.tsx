@@ -71,6 +71,7 @@ export default function HomeScreen() {
         isFetchingNextPage={isFetchingNextPage}
         type="variant1"
       />
+      {/* <Button title="Send Notification" onPress={sendLocalNotification} /> */}
     </View>
   );
 }
