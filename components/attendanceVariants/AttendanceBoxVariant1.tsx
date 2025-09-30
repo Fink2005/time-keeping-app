@@ -1,4 +1,4 @@
-import { AttendanceRes } from '@/types/Attendance';
+import { AttendanceRes } from '@/types/attendance';
 import { useIsFocused } from '@react-navigation/native';
 import {
   FetchNextPageOptions,

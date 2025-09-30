@@ -6,7 +6,7 @@ import {
   AttendanceDetailRes,
   AttendanceReq,
   AttendanceRes,
-} from '@/types/Attendance';
+} from '@/types/attendance';
 import { showAlert } from '@/utils/global';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

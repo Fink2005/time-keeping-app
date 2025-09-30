@@ -6,7 +6,7 @@ import {
   AttendanceLastedStatusReq,
   AttendanceReq,
   AttendanceRes,
-} from '@/types/Attendance';
+} from '@/types/attendance';
 
 const attendanceRequest = {
   createAttendance: async (data: AttendanceReq): Promise<AttendanceRes | null> => {

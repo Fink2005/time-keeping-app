@@ -4,7 +4,7 @@ import LocationInfo from '@/components/home/LocationInfo';
 import useLocation from '@/hooks/useLocation';
 import { useGetInfiniteAttendance } from '@/services/queries/useAttendance';
 import { useAuthStore } from '@/store/useAuthStore';
-import { AttendanceRes } from '@/types/Attendance';
+import { AttendanceRes } from '@/types/attendance';
 import { useIsFocused } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
