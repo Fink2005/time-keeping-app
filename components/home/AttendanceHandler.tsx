@@ -5,21 +5,29 @@ import { useCommonStore } from '@/store/useCommonStore';
 
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useIsFocused } from '@react-navigation/native';
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Dispatch, memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Switch from 'react-native-switch-toggles';
 type Props = {
   latitude: number;
   longitude: number;
   address: string | null;
+  setIsEnabledAutoCheckInOut: Dispatch<React.SetStateAction<boolean>>;
+  isEnabledAutoCheckInOut: boolean;
 };
-const AttendanceHandler = ({ latitude, longitude, address }: Props) => {
+const AttendanceHandler = ({
+  latitude,
+  longitude,
+  address,
+  setIsEnabledAutoCheckInOut,
+  isEnabledAutoCheckInOut,
+}: Props) => {
   const isFocused = useIsFocused();
-  const [isEnabled, setIsEnabled] = useState(false);
 
   const [noteValue, setNoteValue] = useState('');
 
   const attendanceType = useCommonStore((state) => state.attendanceType);
+
   const setAttendanceType = useCommonStore((state) => state.setAttendanceType);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -43,8 +51,8 @@ const AttendanceHandler = ({ latitude, longitude, address }: Props) => {
       <View className="flex-row items-center justify-between ">
         <Switch
           size={40}
-          value={isEnabled}
-          onChange={(value) => setIsEnabled(value)}
+          value={isEnabledAutoCheckInOut}
+          onChange={(value) => setIsEnabledAutoCheckInOut(value)}
           activeTrackColor="#22c55e"
           renderActiveThumbIcon={() => <Text className="text-xs font-medium">on</Text>}
           renderInactiveThumbIcon={() => <Text className="text-xs font-medium">off</Text>}

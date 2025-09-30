@@ -9,7 +9,15 @@ import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 export default function HomeScreen() {
-  const { latitude, longitude, address, isRefresh, setIsRefresh } = useLocation();
+  const {
+    latitude,
+    longitude,
+    address,
+    isRefresh,
+    setIsRefresh,
+    isEnabledAutoCheckInOut,
+    setIsEnabledAutoCheckInOut,
+  } = useLocation();
 
   // Schedule a local notification
   // async function sendLocalNotification() {
@@ -48,7 +56,13 @@ export default function HomeScreen() {
         latitude={latitude}
         longitude={longitude}
       />
-      <AttendanceHandler latitude={latitude} longitude={longitude} address={address} />
+      <AttendanceHandler
+        latitude={latitude}
+        longitude={longitude}
+        address={address}
+        setIsEnabledAutoCheckInOut={setIsEnabledAutoCheckInOut}
+        isEnabledAutoCheckInOut={isEnabledAutoCheckInOut}
+      />
       <Text className="mt-5 mb-2 text-lg font-bold">Lịch sử chấm công</Text>
       <HistoryAttendance
         data={attendanceData}

@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 // import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
 // import { getData } from '@/utils/asyncStorage';
+import locationRequest from '@/services/request/location';
+import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
+import log from '@/utils/logger';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState } from 'react';
 
 const useLocation = () => {
   const [isRefresh, setIsRefresh] = useState(false);
-
+  const [isEnabledAutoCheckInOut, setIsEnabledAutoCheckInOut] = useState(false);
   const isAllowed = useRef(false);
   const [address, setAddress] = useState<string | null>(null);
 
@@ -64,26 +67,32 @@ const useLocation = () => {
     };
   }, [isRefresh]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await Location.requestBackgroundPermissionsAsync();
-  //     const myDestination: AttendanceBase[] | null = (await getData('myDestination')) || null;
-  //     console.log('myDestination for geofencing:', myDestination);
-  //     if (!myDestination || myDestination.length === 0) return;
-  //     const regions = myDestination.map(({ destination, latitude, longitude, radius }) => {
-  //       return {
-  //         identifier: destination,
-  //         latitude,
-  //         longitude,
-  //         radius: +radius,
-  //         notifyOnEnter: true,
-  //         notifyOnExit: true,
-  //       };
-  //     });
+  useEffect(() => {
+    (async () => {
+      if (!isEnabledAutoCheckInOut) return;
+      await Location.requestBackgroundPermissionsAsync();
 
-  //     await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
-  //   })();
-  // }, [isRefresh]);
+      const myDestination = await locationRequest.getLocation(1);
+      const regions = myDestination!.data.map(({ name, lat, lng, radius }) => {
+        return {
+          identifier: name,
+          latitude: +lat,
+          longitude: +lng,
+          radius: +radius,
+          notifyOnEnter: true,
+          notifyOnExit: true,
+        };
+      });
+
+      log(regions);
+
+      if (!regions.length) {
+        return;
+      }
+
+      await Location.startGeofencingAsync(CHECK_IN_OUT_TASK, regions);
+    })();
+  }, [isEnabledAutoCheckInOut]);
 
   return {
     latitude: locationInfo.latitude,
@@ -91,6 +100,8 @@ const useLocation = () => {
     address,
     isRefresh,
     setIsRefresh,
+    setIsEnabledAutoCheckInOut,
+    isEnabledAutoCheckInOut,
     isSuccess: locationInfo.isSuccess,
   };
 };

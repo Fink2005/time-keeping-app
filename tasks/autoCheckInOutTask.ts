@@ -13,7 +13,7 @@ TaskManager.defineTask(CHECK_IN_OUT_TASK, async ({ data, error }) => {
     region: Location.LocationRegion;
   };
 
-  if (true) {
+  if (eventType === Location.GeofencingEventType.Enter) {
     await Notifications.scheduleNotificationAsync({
       content: { title: 'Chấm công', body: `Bạn đã chấm công vào! ${region.identifier}` },
       trigger: null,

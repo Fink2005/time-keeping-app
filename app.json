@@ -11,7 +11,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "PHPhotoLibraryPreventAutomaticLimitedAccessAlert ": true,
+        "UIBackgroundModes": ["location", "fetch"],
+        "PHPhotoLibraryPreventAutomaticLimitedAccessAlert": true,
         "NSLocationWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí để chấm công.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Ứng dụng cần quyền truy cập vị trí trong nền để tự động chấm công khi bạn ra/vào khu vực.",
         "ITSAppUsesNonExemptEncryption": false
