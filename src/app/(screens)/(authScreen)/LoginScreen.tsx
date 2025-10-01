@@ -1,7 +1,7 @@
-import AuthForm from '@/src/components/AuthForm';
-import { icons } from '@/src/constants/icons';
-import { LoginFormData, loginSchema } from '@/src/schema/auth';
-import authRequest from '@/src/services/request/auth';
+import AuthForm from '@/components/AuthForm';
+import { icons } from '@/constants/icons';
+import { LoginFormData, loginSchema } from '@/schema/auth';
+import authRequest from '@/services/request/auth';
 import { useAuthStore } from '@/store/useAuthStore';
 import { showAlert } from '@/utils/global';
 import { mmkvStorage } from '@/utils/mmkvStorage';

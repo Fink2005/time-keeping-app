@@ -1,7 +1,8 @@
-import ErrorBoundary from '@/src/app/(screens)/ErrorBoundaryScreen';
-import ErrorFallback from '@/src/components/ErrorFallback';
-import Header from '@/src/components/headers/Header';
-import TanstackProviders from '@/src/components/TanstackProvider';
+import ErrorBoundary from '@/app/(screens)/ErrorBoundaryScreen';
+import ErrorFallback from '@/components/ErrorFallback';
+import Header from '@/components/headers/Header';
+import TanstackProviders from '@/components/TanstackProvider';
+import '@/global.css';
 import { useAuthStore } from '@/store/useAuthStore';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import * as Notifications from 'expo-notifications';
@@ -9,7 +10,6 @@ import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import '../../global.css';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,

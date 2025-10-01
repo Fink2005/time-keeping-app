@@ -1,5 +1,5 @@
-import CircleRotation from '@/src/components/CircleRotation';
-import { useGetLocation } from '@/src/services/queries/useLocation';
+import CircleRotation from '@/components/CircleRotation';
+import { useGetLocation } from '@/services/queries/useLocation';
 import { LocationRes } from '@/types/location';
 import Feather from '@expo/vector-icons/Feather';
 import { useIsFocused } from '@react-navigation/native';

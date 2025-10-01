@@ -1,5 +1,5 @@
-import CircleRotation from '@/src/components/CircleRotation';
-import Time from '@/src/components/Time';
+import CircleRotation from '@/components/CircleRotation';
+import Time from '@/components/Time';
 import { copy } from '@/utils/global';
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -23,7 +23,7 @@ const LocationInfo = ({
   return (
     <View className="gap-2 overflow-hidden border border-gray-300 rounded-2xl">
       <Time />
-      <View className="px-4 gap-2 mt-2">
+      <View className="gap-2 px-4 mt-2">
         <Pressable
           className="p-3 bg-[#F8F9FA] rounded-lg"
           onPress={() =>

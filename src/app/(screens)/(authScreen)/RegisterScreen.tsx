@@ -1,7 +1,7 @@
-import AuthForm from '@/src/components/AuthForm';
-import { images } from '@/src/constants/images';
-import { RegisterFormData, registerSchema } from '@/src/schema/auth';
-import authRequest from '@/src/services/request/auth';
+import AuthForm from '@/components/AuthForm';
+import { images } from '@/constants/images';
+import { RegisterFormData, registerSchema } from '@/schema/auth';
+import authRequest from '@/services/request/auth';
 import { showAlert } from '@/utils/global';
 import { mmkvStorage } from '@/utils/mmkvStorage';
 import { zodResolver } from '@hookform/resolvers/zod';

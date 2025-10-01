@@ -1,4 +1,4 @@
-import locationRequest from '@/src/services/request/location';
+import locationRequest from '@/services/request/location';
 import {
   LocationDetailRes,
   LocationReq,

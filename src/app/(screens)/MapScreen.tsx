@@ -1,4 +1,4 @@
-import Map from '@/src/components/Map';
+import Map from '@/components/Map';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, View } from 'react-native';
 

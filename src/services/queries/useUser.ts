@@ -1,4 +1,4 @@
-import userRequest from '@/src/services/request/user';
+import userRequest from '@/services/request/user';
 import { User } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 

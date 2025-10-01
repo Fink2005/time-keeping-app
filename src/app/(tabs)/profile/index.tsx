@@ -1,4 +1,4 @@
-import { useGetMe } from '@/src/services/queries/useUser';
+import { useGetMe } from '@/services/queries/useUser';
 import { formatName } from '@/utils/global';
 import { mmkvStorage } from '@/utils/mmkvStorage';
 import { Feather } from '@expo/vector-icons';

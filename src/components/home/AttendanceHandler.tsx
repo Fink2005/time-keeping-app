@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-color-literals */
-import CheckInOutOptions from '@/src/components/home/CheckInOutOptions';
-import { AttendanceType } from '@/src/enum/Attendance';
+import CheckInOutOptions from '@/components/home/CheckInOutOptions';
+import { AttendanceType } from '@/enum/Attendance';
 import { useCommonStore } from '@/store/useCommonStore';
 
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';

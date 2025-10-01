@@ -2,20 +2,20 @@
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
-    Alert,
-    Button,
-    Image,
-    Linking,
-    Pressable,
-    Text,
-    TouchableHighlight,
-    View,
+  Alert,
+  Button,
+  Image,
+  Linking,
+  Pressable,
+  Text,
+  TouchableHighlight,
+  View,
 } from 'react-native';
 import 'react-native-get-random-values';
 
-import useLocation from '@/src/hooks/useLocation';
-import { useCreateAttendance } from '@/src/services/queries/useAttendance';
-import attendanceRequest from '@/src/services/request/attendance';
+import useLocation from '@/hooks/useLocation';
+import { useCreateAttendance } from '@/services/queries/useAttendance';
+import attendanceRequest from '@/services/request/attendance';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useLocalSearchParams, useRouter } from 'expo-router';

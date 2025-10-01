@@ -1,5 +1,5 @@
-import { LOCATION_LIMIT } from '@/src/constants/global';
-import { http } from '@/src/services/apiRequest';
+import { LOCATION_LIMIT } from '@/constants/global';
+import { http } from '@/services/apiRequest';
 import {
   LocationDetailRes,
   LocationReq,

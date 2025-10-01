@@ -1,4 +1,4 @@
-import HistoryHeader from '@/src/components/headers/HistoryHeader';
+import HistoryHeader from '@/components/headers/HistoryHeader';
 import { Stack } from 'expo-router';
 
 const Layout = () => {

@@ -1,4 +1,4 @@
-import { useGetAttendanceByYear } from '@/src/services/queries/useAttendance';
+import { useGetAttendanceByYear } from '@/services/queries/useAttendance';
 import { useCommonStore } from '@/store/useCommonStore';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';

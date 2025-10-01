@@ -1,4 +1,4 @@
-import { useDeleteDetailLocation } from '@/src/services/queries/useLocation';
+import { useDeleteDetailLocation } from '@/services/queries/useLocation';
 import { Feather } from '@expo/vector-icons';
 import React, { Dispatch, SetStateAction } from 'react';
 import { ActivityIndicator, Alert, Text, TouchableHighlight, View } from 'react-native';

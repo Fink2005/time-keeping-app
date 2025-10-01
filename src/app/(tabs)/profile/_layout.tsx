@@ -1,4 +1,4 @@
-import Header from '@/src/components/headers/Header';
+import Header from '@/components/headers/Header';
 import { Stack } from 'expo-router';
 
 const Layout = () => {

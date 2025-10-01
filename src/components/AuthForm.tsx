@@ -1,15 +1,15 @@
-import { LoginFormData, RegisterFormData } from '@/src/schema/auth';
+import { LoginFormData, RegisterFormData } from '@/schema/auth';
 import { Feather } from '@expo/vector-icons';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import {
-    ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 type Props = {

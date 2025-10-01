@@ -1,8 +1,8 @@
-import AttendanceHandler from '@/src/components/home/AttendanceHandler';
-import HistoryAttendance from '@/src/components/home/HistoryAttendance';
-import LocationInfo from '@/src/components/home/LocationInfo';
-import useLocation from '@/src/hooks/useLocation';
-import { useGetInfiniteAttendance } from '@/src/services/queries/useAttendance';
+import AttendanceHandler from '@/components/home/AttendanceHandler';
+import HistoryAttendance from '@/components/home/HistoryAttendance';
+import LocationInfo from '@/components/home/LocationInfo';
+import useLocation from '@/hooks/useLocation';
+import { useGetInfiniteAttendance } from '@/services/queries/useAttendance';
 import { AttendanceRes } from '@/types/attendance';
 import { useIsFocused } from '@react-navigation/native';
 // import * as Notifications from 'expo-notifications';

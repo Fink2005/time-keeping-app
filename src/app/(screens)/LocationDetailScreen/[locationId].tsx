@@ -1,6 +1,6 @@
-import EditMode from '@/src/components/locationDetail/EditMode';
-import ViewMode from '@/src/components/locationDetail/ViewMode';
-import { useGetDetailLocation } from '@/src/services/queries/useLocation';
+import EditMode from '@/components/locationDetail/EditMode';
+import ViewMode from '@/components/locationDetail/ViewMode';
+import { useGetDetailLocation } from '@/services/queries/useLocation';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';

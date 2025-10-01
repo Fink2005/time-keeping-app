@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 // import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
 // import { getData } from '@/utils/asyncStorage';
-import locationRequest from '@/src/services/request/location';
+import locationRequest from '@/services/request/location';
 import { CHECK_IN_OUT_TASK } from '@/tasks/autoCheckInOutTask';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';

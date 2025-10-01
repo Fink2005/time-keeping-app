@@ -1,4 +1,4 @@
-import { http } from '@/src/services/apiRequest';
+import { http } from '@/services/apiRequest';
 import { User } from '@/types/user';
 
 const userRequest = {

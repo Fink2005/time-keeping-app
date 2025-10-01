@@ -1,4 +1,4 @@
-import { http } from '@/src/services/apiRequest';
+import { http } from '@/services/apiRequest';
 import {
   LoginAccountCenterReq,
   LoginAccountCenterRes,

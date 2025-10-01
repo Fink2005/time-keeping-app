@@ -1,5 +1,5 @@
 // store/useAppStore.ts
-import { AttendanceType } from '@/enum/Attendance 2';
+import { AttendanceType } from '@/enum/Attendance';
 import { create } from 'zustand';
 
 type AppState = {

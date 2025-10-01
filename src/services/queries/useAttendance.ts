@@ -1,5 +1,5 @@
-import { AttendanceType } from '@/src/enum/Attendance';
-import attendanceRequest from '@/src/services/request/attendance';
+import { AttendanceType } from '@/enum/Attendance';
+import attendanceRequest from '@/services/request/attendance';
 import { useCommonStore } from '@/store/useCommonStore';
 import {
   AttendanceByYearRes,

@@ -1,6 +1,6 @@
-import CalendarCustom from '@/src/components/CalendarCustom';
-import HistoryAttendance from '@/src/components/home/HistoryAttendance';
-import { useGetInfiniteAttendanceDetail } from '@/src/services/queries/useAttendance';
+import CalendarCustom from '@/components/CalendarCustom';
+import HistoryAttendance from '@/components/home/HistoryAttendance';
+import { useGetInfiniteAttendanceDetail } from '@/services/queries/useAttendance';
 import { AttendanceDetailRes } from '@/types/attendance';
 import { dateFormatted, formatDate } from '@/utils/global';
 import { useIsFocused } from '@react-navigation/native';

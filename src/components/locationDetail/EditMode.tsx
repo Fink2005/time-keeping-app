@@ -1,4 +1,4 @@
-import { useUpdateDetailLocation } from '@/src/services/queries/useLocation';
+import { useUpdateDetailLocation } from '@/services/queries/useLocation';
 import { showAlert } from '@/utils/global';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { Dispatch, SetStateAction, useState } from 'react';
