@@ -162,7 +162,7 @@ const Map = ({ isSearching, onSearch, location, radius }: Props) => {
     }
   }, [debouncedAddress]);
 
-  if (!selectedLocation) {
+  if (!selectedLocation || !selectedLocation.latitude || !selectedLocation.longitude) {
     return (
       <View className="items-center justify-center flex-1">
         <Text>Đang tải bản đồ...</Text>

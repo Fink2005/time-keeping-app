@@ -2379,7 +2379,7 @@ PODS:
   - SDWebImage (5.21.2):
     - SDWebImage/Core (= 5.21.2)
   - SDWebImage/Core (5.21.2)
-  - SDWebImageAVIFCoder (0.11.0):
+  - SDWebImageAVIFCoder (0.11.1):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
   - SDWebImageSVGCoder (1.7.0):
@@ -2509,8 +2509,6 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNWorklets (from `../node_modules/react-native-worklets`)
-  - SDWebImage
-  - SDWebImageSVGCoder
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -2871,7 +2869,7 @@ SPEC CHECKSUMS:
   RNSVG: ee4f4e223bce5f5d47ecff2e9ad4c8c9b3be984a
   RNWorklets: 76fce72926e28e304afb44f0da23b2d24f2c1fa0
   SDWebImage: 9f177d83116802728e122410fb25ad88f5c7608a
-  SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
+  SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
@@ -2879,6 +2877,6 @@ SPEC CHECKSUMS:
   Yoga: 2c1f55d9d91a1cec2fb8cc6dd27da33199ffdb52
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
-PODFILE CHECKSUM: a9f89ec09746d503a02ee5050d7e059758cc2ea5
+PODFILE CHECKSUM: 9d8eb998f6b8950f4b30b8a1c5e5d7912c137ecc
 
 COCOAPODS: 1.16.2

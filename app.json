@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "slug": "tira",
     "orientation": "portrait",
-    "icon": "./assets/images/logoTira.png",
+    "icon": "./src/assets/images/logoTira.png",
     "scheme": "tira",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -21,20 +21,21 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logoTira.png",
+        "foregroundImage": "./src/assets/images/logoTira.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": [
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
-      ],
+     "permissions": [
+      "ACCESS_FINE_LOCATION",
+      "ACCESS_COARSE_LOCATION",
+      "ACCESS_BACKGROUND_LOCATION"
+            ],
       "package": "com.fink.Timekeepingmobile"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logoTira.png"
+      "favicon": "./src/assets/images/logoTira.png"
     },
     "jsEngine": "hermes",
     "plugins": [
@@ -42,7 +43,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logoTira.png",
+          "image": "./src/assets/images/logoTira.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

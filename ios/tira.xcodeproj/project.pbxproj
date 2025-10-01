@@ -9,27 +9,27 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		87102EC965124CD899D5FA40 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B67D2ACA7E196075E3571792 /* PrivacyInfo.xcprivacy */; };
-		B7A4750ABEA2244D61EE5851 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922BDAB9766FB360DB9B132 /* ExpoModulesProvider.swift */; };
+		A31498819278B8C599B139CA /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0CC775847260362940358217 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E5F9B21773B3F002BD10599F /* Pods_tira.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE89CDC60529B2B665A83423 /* Pods_tira.framework */; };
+		CCF46D1B26FED125D83B2B49 /* Pods_tira.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E74D37C517D46FA1AE12B /* Pods_tira.framework */; };
+		CEEDB3F443635755E3A830BA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F501A0515DEA4BED9465 /* ExpoModulesProvider.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CC775847260362940358217 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = tira/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* tira.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tira.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = tira/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tira/Info.plist; sourceTree = "<group>"; };
-		1922BDAB9766FB360DB9B132 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-tira/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		263E4CBB657D71ADF597A849 /* Pods-tira.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tira.release.xcconfig"; path = "Target Support Files/Pods-tira/Pods-tira.release.xcconfig"; sourceTree = "<group>"; };
-		73F2059AB3D117B83CA0EF69 /* Pods-tira.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tira.debug.xcconfig"; path = "Target Support Files/Pods-tira/Pods-tira.debug.xcconfig"; sourceTree = "<group>"; };
+		63A6F501A0515DEA4BED9465 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-tira/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		7052EFAD57901BB8F4C6E3D1 /* Pods-tira.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tira.release.xcconfig"; path = "Target Support Files/Pods-tira/Pods-tira.release.xcconfig"; sourceTree = "<group>"; };
+		8F2316796AFAEB72C8D13D14 /* Pods-tira.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tira.debug.xcconfig"; path = "Target Support Files/Pods-tira/Pods-tira.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = tira/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B67D2ACA7E196075E3571792 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = tira/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = tira/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* tira-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "tira-Bridging-Header.h"; path = "tira/tira-Bridging-Header.h"; sourceTree = "<group>"; };
-		FE89CDC60529B2B665A83423 /* Pods_tira.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tira.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F41E74D37C517D46FA1AE12B /* Pods_tira.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tira.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,13 +37,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5F9B21773B3F002BD10599F /* Pods_tira.framework in Frameworks */,
+				CCF46D1B26FED125D83B2B49 /* Pods_tira.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0354CE9C661D447B62ADFB36 /* tira */ = {
+			isa = PBXGroup;
+			children = (
+				63A6F501A0515DEA4BED9465 /* ExpoModulesProvider.swift */,
+			);
+			name = tira;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* tira */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,7 +61,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				B67D2ACA7E196075E3571792 /* PrivacyInfo.xcprivacy */,
+				0CC775847260362940358217 /* PrivacyInfo.xcprivacy */,
 			);
 			name = tira;
 			sourceTree = "<group>";
@@ -62,26 +70,19 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				FE89CDC60529B2B665A83423 /* Pods_tira.framework */,
+				F41E74D37C517D46FA1AE12B /* Pods_tira.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		76F46131371D81823C64BDB6 /* Pods */ = {
+		57F0E828262F16D9901E296D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				73F2059AB3D117B83CA0EF69 /* Pods-tira.debug.xcconfig */,
-				263E4CBB657D71ADF597A849 /* Pods-tira.release.xcconfig */,
+				8F2316796AFAEB72C8D13D14 /* Pods-tira.debug.xcconfig */,
+				7052EFAD57901BB8F4C6E3D1 /* Pods-tira.release.xcconfig */,
 			);
+			name = Pods;
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		7D7DB72DF8550A7250C234B9 /* tira */ = {
-			isa = PBXGroup;
-			children = (
-				1922BDAB9766FB360DB9B132 /* ExpoModulesProvider.swift */,
-			);
-			name = tira;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -98,8 +99,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				76F46131371D81823C64BDB6 /* Pods */,
-				FB879F3609F411E4795E0CAA /* ExpoModulesProviders */,
+				57F0E828262F16D9901E296D /* Pods */,
+				8B02DB57B1DA1DF064A3C57B /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -114,6 +115,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8B02DB57B1DA1DF064A3C57B /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				0354CE9C661D447B62ADFB36 /* tira */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,14 +130,6 @@
 			);
 			name = Supporting;
 			path = tira/Supporting;
-			sourceTree = "<group>";
-		};
-		FB879F3609F411E4795E0CAA /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				7D7DB72DF8550A7250C234B9 /* tira */,
-			);
-			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "tira" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				D325A45F1834C382494A6A5B /* [Expo] Configure project */,
+				F005132FB66BC724798A3FB7 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				A74D6D16150E6FAB3C2784DD /* [CP] Embed Pods Frameworks */,
+				6F44D95953AAE63BE2B9F36F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -195,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				87102EC965124CD899D5FA40 /* PrivacyInfo.xcprivacy in Resources */,
+				A31498819278B8C599B139CA /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +240,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F44D95953AAE63BE2B9F36F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tira/Pods-tira-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tira/Pods-tira-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -289,29 +312,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tira/Pods-tira-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A74D6D16150E6FAB3C2784DD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tira/Pods-tira-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tira/Pods-tira-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D325A45F1834C382494A6A5B /* [Expo] Configure project */ = {
+		F005132FB66BC724798A3FB7 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -343,7 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				B7A4750ABEA2244D61EE5851 /* ExpoModulesProvider.swift in Sources */,
+				CEEDB3F443635755E3A830BA /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,13 +353,12 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73F2059AB3D117B83CA0EF69 /* Pods-tira.debug.xcconfig */;
+			baseConfigurationReference = 8F2316796AFAEB72C8D13D14 /* Pods-tira.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = tira/tira.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9ZH73Q6P7R;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -389,13 +389,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 263E4CBB657D71ADF597A849 /* Pods-tira.release.xcconfig */;
+			baseConfigurationReference = 7052EFAD57901BB8F4C6E3D1 /* Pods-tira.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = tira/tira.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9ZH73Q6P7R;
 				INFOPLIST_FILE = tira/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (

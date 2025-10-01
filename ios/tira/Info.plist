@@ -73,14 +73,14 @@
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
-    <key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert </key>
+    <key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
     <true/>
     <key>RCTNewArchEnabled</key>
     <true/>
     <key>UIBackgroundModes</key>
     <array>
+      <string>location</string>
       <string>fetch</string>
-       <string>location</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>

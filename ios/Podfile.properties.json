@@ -4,6 +4,5 @@
   "newArchEnabled": "true",
   "ios.useFrameworks": "static",
   "ios.forceStaticLinking": "[]",
-  "apple.privacyManifestAggregationEnabled": "true",
-  "apple.extraPods": "[{\"name\":\"SDWebImage\",\"modular_headers\":true},{\"name\":\"SDWebImageSVGCoder\",\"modular_headers\":true}]"
+  "apple.privacyManifestAggregationEnabled": "true"
 }

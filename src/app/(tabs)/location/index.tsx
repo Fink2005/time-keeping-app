@@ -6,7 +6,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, Text, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
-
 const Location = () => {
   const [isRefresh, setIsRefresh] = useState(false);
   const router = useRouter();
